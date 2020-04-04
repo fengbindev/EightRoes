@@ -1,0 +1,12 @@
+[App]
+#应用代码
+code=eight-roes
+#应用名称
+name=八玫瑰快速开发框架
+#应用版本
+version=1.0
+#是否打印请求日志
+printfRequestLog=true
+
+
+

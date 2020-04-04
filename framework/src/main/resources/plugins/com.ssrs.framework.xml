@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<id>com.ssrs.framework.FrameworkPlugin</id>
+	<name>framework</name>
+	<class>com.ssrs.framework.FrameworkPlugin</class>
+	<author>ssrs</author>
+	<provider>ssrs</provider>
+	<version>1.0</version>
+	<description>FrameworkPlugin</description>
+	<extendo-point>
+		<id>com.ssrs.framework.point.AfterAllPluginStartedAction</id>
+		<class>com.ssrs.framework.point.AfterAllPluginStartedAction</class>
+		<description>所有插件加载完成后扩展点</description>
+	</extendo-point>
+	<extend-point>
+		<id>com.ssrs.framework.point.AddUserPermissionsPoint</id>
+		<class>com.ssrs.framework.point.AddUserPermissionsPoint</class>
+		<description>添加用户权限项扩展点</description>
+	</extend-point>
+	<extend-point>
+		<id>com.ssrs.framework.point.AddUserRolesPoint</id>
+		<class>com.ssrs.framework.point.AddUserRolesPoint</class>
+		<description>添加用户角色扩展点</description>
+	</extend-point>
+	<extend-service>
+		<id>com.ssrs.framework.cache.CacheService</id>
+		<class>com.ssrs.framework.cache.CacheService</class>
+		<description>缓存扩展服务</description>
+		<item-class>com.ssrs.framework.cache.CacheDataProvider</item-class>
+	</extend-service>
+	<extend-service>
+		<id>com.ssrs.framework.schedule.SystemTaskService</id>
+		<class>com.ssrs.framework.schedule.SystemTaskService</class>
+		<description>定时任务扩展服务</description>
+		<item-class>com.ssrs.framework.schedule.SystemTask</item-class>
+	</extend-service>
+	<extend-item>
+		<id>com.ssrs.framework.schedule.SystemTaskCache</id>
+		<class>com.ssrs.framework.schedule.SystemTaskCache</class>
+		<description>定时任务缓存扩展项</description>
+		<extend-service>com.ssrs.framework.cache.CacheService</extend-service>
+	</extend-item>
+</plugin>
