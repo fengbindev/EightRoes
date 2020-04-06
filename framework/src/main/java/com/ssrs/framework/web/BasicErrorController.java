@@ -1,5 +1,6 @@
 package com.ssrs.framework.web;
 
+import com.ssrs.framework.web.util.RequestUtils;
 import com.ssrs.framework.web.util.ResponseUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,7 @@ public class BasicErrorController implements ErrorController {
     @RequestMapping
     public void error(HttpServletRequest request,
                       HttpServletResponse response) {
+        request = new RequestWrapper(request);
         ErrorCodeEnum errorCode;
         switch (response.getStatus()) {
             case HttpServletResponse.SC_BAD_REQUEST:

@@ -29,6 +29,9 @@ public class LogRecordAspect {
 
     @Before("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) ")
     public void requestLimit(final JoinPoint joinPoint) {
+        if (joinPoint.getTarget() instanceof BasicErrorController){
+            return;
+        }
         try {
             String pkg = joinPoint.getTarget().getClass().getPackage().getName();
             if (pkg.startsWith("org.springframework")) {
@@ -91,6 +94,9 @@ public class LogRecordAspect {
 
     @AfterReturning(returning = "ret", pointcut = "pointCut()")
     public void doAfterReturning(JoinPoint joinPoint, Object ret) {
+        if (joinPoint.getTarget() instanceof BasicErrorController){
+            return;
+        }
         String pkg = joinPoint.getTarget().getClass().getPackage().getName();
         if (pkg.startsWith("org.springframework")) {
             return;
