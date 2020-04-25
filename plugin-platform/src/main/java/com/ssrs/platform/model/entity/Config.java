@@ -1,8 +1,7 @@
 package com.ssrs.platform.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -28,6 +27,7 @@ public class Config implements Serializable {
     /**
      * 配置项代码
      */
+    @TableId(type = IdType.INPUT)
     private String code;
 
     /**

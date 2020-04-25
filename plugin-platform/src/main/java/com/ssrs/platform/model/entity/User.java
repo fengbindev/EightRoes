@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author ssrs
- * @since 2020-02-27
+ * @since 2020-04-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -62,10 +62,28 @@ public class User implements Serializable {
      */
     private String avatar;
 
+    private String branchInnercode;
+
+    private String branchAdmin;
+
+    private String lastLoginIp;
+
     /**
      * 状态 0：禁用 1：正常
      */
     private Integer status;
+
+    private LocalDateTime lastLoginTime;
+
+    private LocalDateTime loginErrorTime;
+
+    private Integer loginErrorCount;
+
+    private String modifyPassStatus;
+
+    private LocalDateTime forbiddenLoginTime;
+
+    private LocalDateTime lastModifyPassTime;
 
     /**
      * 创建者
@@ -91,11 +109,6 @@ public class User implements Serializable {
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    /**
-     * 最后登录IP地址
-     */
-    private String ip;
-
 
     public static final String ID = "id";
 
@@ -113,7 +126,25 @@ public class User implements Serializable {
 
     public static final String AVATAR = "avatar";
 
+    public static final String BRANCH_INNERCODE = "branch_innercode";
+
+    public static final String BRANCH_ADMIN = "branch_admin";
+
+    public static final String LAST_LOGIN_IP = "last_login_ip";
+
     public static final String STATUS = "status";
+
+    public static final String LAST_LOGIN_TIME = "last_login_time";
+
+    public static final String LOGIN_ERROR_TIME = "login_error_time";
+
+    public static final String LOGIN_ERROR_COUNT = "login_error_count";
+
+    public static final String MODIFY_PASS_STATUS = "modify_pass_status";
+
+    public static final String FORBIDDEN_LOGIN_TIME = "forbidden_login_time";
+
+    public static final String LAST_MODIFY_PASS_TIME = "last_modify_pass_time";
 
     public static final String CREATE_USER = "create_user";
 
@@ -122,7 +153,5 @@ public class User implements Serializable {
     public static final String UPDATE_USER = "update_user";
 
     public static final String UPDATE_TIME = "update_time";
-
-    public static final String IP = "ip";
 
 }

@@ -1,5 +1,6 @@
 package com.ssrs.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.mapper.UserMapper;
 import com.ssrs.platform.service.IUserService;
@@ -12,9 +13,14 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author ssrs
- * @since 2020-02-27
+ * @since 2020-04-18
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    @Override
+    public User getOneByUserName(String userName) {
+        User user = baseMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, userName));
+        return user;
+    }
 }

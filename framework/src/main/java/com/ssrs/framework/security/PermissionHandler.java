@@ -1,7 +1,10 @@
 package com.ssrs.framework.security;
 
+import cn.hutool.core.convert.Convert;
 import com.ssrs.framework.security.annotation.Priv;
+import com.ssrs.framework.util.JWTTokenUtils;
 import com.ssrs.framework.util.SpringUtil;
+import com.ssrs.framework.web.ApiException;
 import com.ssrs.framework.web.ErrorCodeEnum;
 import com.ssrs.framework.web.util.ApplicationUtils;
 import com.ssrs.framework.web.util.ResponseUtils;
@@ -35,11 +38,15 @@ public class PermissionHandler extends AuthorizingAnnotationHandler {
             if (!annotation.login()) {
                 return;
             }
+            String token = Convert.toStr(subject.getPrincipal());
+            if (JWTTokenUtils.isExpired(token)) {
+                throw new ApiException(ErrorCodeEnum.UNAUTHORIZED);
+            }
             // 只需要登录
-            if (annotation.login() && perms.length == 0 ) {
-                if (subject.isAuthenticated()){
+            if (annotation.login() && perms.length == 0) {
+                if (subject.isAuthenticated()) {
                     return;
-                }else {
+                } else {
                     throw new ShiroException("No Authenticated!");
                 }
             }

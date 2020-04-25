@@ -72,21 +72,6 @@ public class User {
     }
 
     /**
-     * 获取当前用户的用户类型
-     */
-    public static String getType() {
-        UserData ud = getCurrent();
-        return ud == null ? null : ud.getType();
-    }
-
-    /**
-     * 设置当前用户的用户类型
-     */
-    public static void setType(String type) {
-        getCurrent(true).setType(type);
-    }
-
-    /**
      * 按key获取指定数据项
      */
     public static Object getValue(Object key) {
@@ -146,30 +131,24 @@ public class User {
     }
 
 
-//
-//    /**
-//     * 获得当前用户的权限集合
-//     */
-//    public static Privilege getPrivilege() {
-//        UserData ud = getCurrent();
-//        return ud == null ? null : ud.getPrivilege();
-//    }
-//
-//    /**
-//     * 设置当前用户的权限集合
-//     */
-//    public static void setPrivilege(Privilege priv) {
-//        getCurrent(true).setPrivilege(priv);
-//    }
+    /**
+     * 获得当前用户的权限集合
+     */
+    public static PrivilegeModel getPrivilege() {
+        UserData ud = getCurrent();
+        return ud == null ? null : ud.getPrivilegeModel();
+    }
+
+    /**
+     * 设置当前用户的权限集合
+     */
+    public static void setPrivilegeModel(PrivilegeModel priv) {
+        getCurrent(true).setPrivilegeModel(priv);
+    }
 
 
     public static class UserData extends HashMap<String, Object> implements Serializable {
         private static final long serialVersionUID = 1L;
-
-        /**
-         * 用户类型
-         */
-        private String type;
 
         /**
          * 用户状态
@@ -207,24 +186,9 @@ public class User {
         private String sessionID;
 
         /**
-         * 数据是否需要缓存
+         * 当前用户权限
          */
-        private boolean needCache = false;
-
-
-        /**
-         * 权限
-         */
-//        private Privilege priv = new Privilege();
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-            needCache = true;
-        }
+        private PrivilegeModel priv;
 
         public String getStatus() {
             return status;
@@ -232,7 +196,7 @@ public class User {
 
         public void setStatus(String status) {
             this.status = status;
-            needCache = true;
+
         }
 
         public String getUserName() {
@@ -241,7 +205,7 @@ public class User {
 
         public void setUserName(String userName) {
             this.userName = userName;
-            needCache = true;
+
         }
 
         public String getRealName() {
@@ -250,7 +214,7 @@ public class User {
 
         public void setRealName(String realName) {
             this.realName = realName;
-            needCache = true;
+
         }
 
         public String getBranchInnerCode() {
@@ -259,7 +223,7 @@ public class User {
 
         public void setBranchInnerCode(String branchInnerCode) {
             this.branchInnerCode = branchInnerCode;
-            needCache = true;
+
         }
 
         public boolean isBranchAdministrator() {
@@ -268,7 +232,7 @@ public class User {
 
         public void setBranchAdministrator(boolean flag) {
             this.branchAdminFlag = flag;
-            needCache = true;
+
         }
 
         public boolean isLogin() {
@@ -277,17 +241,16 @@ public class User {
 
         public void setLogin(boolean isLogin) {
             this.isLogin = isLogin;
-            needCache = true;
+
+        }
+
+        public PrivilegeModel getPrivilegeModel() {
+            return null;
         }
 
 
-//        public Privilege getPrivilege() {
-//            return priv;
-//        }
-//
-//        public void setPrivilege(Privilege priv) {
-//            this.priv = priv;
-//            needCache = true;
-//        }
+        public void setPrivilegeModel(PrivilegeModel priv) {
+            this.priv = priv;
+        }
     }
 }

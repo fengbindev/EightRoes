@@ -1,9 +1,13 @@
 package com.ssrs.framework.web;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.ssrs.framework.Current;
+import com.ssrs.framework.User;
+import com.ssrs.framework.security.filter.JWTFilter;
+import com.ssrs.framework.util.JWTTokenUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
@@ -53,7 +57,30 @@ public class FrameworkInterceptor implements HandlerInterceptor {
             request.setAttribute(APICons.API_REQURL, request.getRequestURI());
         }
         Current.prepare(request, response);
+        restoreCurrentUserData(request);
         return true;
+    }
+
+    /**
+     * 准备当前请求线程用户信息
+     * @param request
+     */
+    private void restoreCurrentUserData(HttpServletRequest request) {
+        // TODO 后续改为从缓存中获取用户信息，不要放在请求头，防止请求头过大
+        //从header中获取token
+        String token = request.getHeader(JWTTokenUtils.TOKEN_HEADER);
+        if (StrUtil.isBlank(token)){
+            return;
+        }
+        token =  token.replaceFirst("Bearer ", "");
+        if (JWTTokenUtils.isExpired(token)){
+            return;
+        }
+        // TODO 这里目前有问题，token数据直接存到了map里，没有存到属性上，后续改为从缓存种获取时修复。
+        User.UserData userData = JWTTokenUtils.getUserDate(token);
+        userData.setUserName(userData.get("userName").toString());
+        userData.setBranchInnerCode(userData.get("branchInnerCode").toString());
+        Current.setUser(userData);
     }
 
     @Override

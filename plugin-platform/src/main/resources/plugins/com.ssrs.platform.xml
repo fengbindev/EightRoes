@@ -40,13 +40,13 @@
     <extend-item>
         <id>com.ssrs.platform.code.ControlType</id>
         <class>com.ssrs.platform.code.ControlType</class>
-        <description>配置项控件类型</description>
+        <description>配置项控件类型代码项</description>
         <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.platform.code.DataType</id>
         <class>com.ssrs.platform.code.DataType</class>
-        <description>配置项数据类型</description>
+        <description>配置项数据类型代码项</description>
         <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
     </extend-item>
     <extend-item>
@@ -54,5 +54,35 @@
         <class>com.ssrs.platform.config.AdminUserName</class>
         <description>系统管理员的用户名配置项</description>
         <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.code.YesOrNo</id>
+        <class>com.ssrs.platform.code.YesOrNo</class>
+        <description>是或否代码项</description>
+        <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.util.PlatformCache</id>
+        <class>com.ssrs.platform.util.PlatformCache</class>
+        <description>平台缓存</description>
+        <extend-service>com.ssrs.framework.cache.CacheService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.SystemManagerPriv</id>
+        <class>com.ssrs.platform.priv.SystemManagerPriv</class>
+        <description>系统管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.BranchManagerPriv</id>
+        <class>com.ssrs.platform.priv.BranchManagerPriv</class>
+        <description>机构管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.UserManagerPriv</id>
+        <class>com.ssrs.platform.priv.UserManagerPriv</class>
+        <description>用户管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
 </plugin>

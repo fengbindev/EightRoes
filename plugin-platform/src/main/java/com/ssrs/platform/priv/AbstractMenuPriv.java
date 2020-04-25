@@ -5,12 +5,15 @@ import com.ssrs.framework.extend.IExtendItem;
 
 public abstract class AbstractMenuPriv implements IExtendItem {
     private String menuId;
-    private Dict privItems = Dict.create();
+    private String name;
     private String memo;
+    private Dict privItems = Dict.create();
 
-    public AbstractMenuPriv(String menuId, String memo) {
+
+    public AbstractMenuPriv(String menuId, String name, String memo) {
         this.memo = memo;
         this.menuId = menuId;
+        this.name = name;
     }
 
     @Override
@@ -29,10 +32,18 @@ public abstract class AbstractMenuPriv implements IExtendItem {
     @Override
     public String getExtendItemName() {
 //        return MenuManager.getMenu(menuId).getName();
-        return null;
+        return name;
     }
 
     public String getMemo() {
         return memo;
+    }
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -1,5 +1,6 @@
 package com.ssrs.framework.data;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.ssrs.framework.User;
 import org.apache.ibatis.reflection.MetaObject;
@@ -38,21 +39,24 @@ public class CommonMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         String userName = currentUserName();
         setInsertFieldValByName(createTime, LocalDateTime.now(), metaObject);
-        setInsertFieldValByName(createUser, userName == null ? "admin" : userName, metaObject);
+        setInsertFieldValByName(createUser, userName, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         String userName = currentUserName();
         setUpdateFieldValByName(updateTime, LocalDateTime.now(), metaObject);
-        setUpdateFieldValByName(updateUser, userName == null ? "admin" : userName, metaObject);
+        setUpdateFieldValByName(updateUser, userName, metaObject);
     }
 
     /**
      * 获取当前用户
      */
     private String currentUserName() {
-        return User.getUserName();
+        if (StrUtil.isNotEmpty(User.getUserName())) {
+            return User.getUserName();
+        }
+        return "unknow";
     }
 
 }

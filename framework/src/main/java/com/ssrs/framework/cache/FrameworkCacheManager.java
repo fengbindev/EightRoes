@@ -1,6 +1,7 @@
 package com.ssrs.framework.cache;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.ssrs.framework.Config;
@@ -40,7 +41,7 @@ public class FrameworkCacheManager {
         boolean notFoundFlag = cp.OnNotFound;
         cp.OnNotFound = true;
         try {
-            cp.onKeyNotFound(type, key);
+            cp.onKeyNotFound(StrUtil.removePrefix(type, cachePrefix), StrUtil.removePrefix(key, cachePrefix));
         } finally {
             cp.OnNotFound = notFoundFlag;
         }
@@ -77,7 +78,11 @@ public class FrameworkCacheManager {
                 if (warnOrThrow) {
                     log.warn("Get cache data failed: Provider=" + providerID + ",Type=" + type + ",Key=" + sKey);
                 }
-                return null;
+                valueWrapper = cache.get(sKey);
+                if (valueWrapper == null){
+                    return null;
+                }
+                return  valueWrapper.get();
             } finally {
                 cp.lock.unlock();
             }
@@ -198,7 +203,6 @@ public class FrameworkCacheManager {
      * @return
      */
     public static List<String> getTypeKeys(String providerID, String type) {
-        type = cachePrefix + type;
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isEmpty(keyList)) {
@@ -215,8 +219,6 @@ public class FrameworkCacheManager {
      * @param key
      */
     public static void putTypeKeys(String providerID, String type, String key) {
-        type = cachePrefix + type;
-        key = cachePrefix + key;
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isEmpty(keyList)) {
@@ -234,8 +236,6 @@ public class FrameworkCacheManager {
      * @param key
      */
     public static void removeTypeKeys(String providerID, String type, String key) {
-        type = cachePrefix + type;
-        key = cachePrefix + key;
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isNotEmpty(keyList)) {

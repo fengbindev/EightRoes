@@ -1,5 +1,6 @@
 package com.ssrs.platform.extend;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
@@ -20,7 +21,7 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
     }
 
     /**
-     *  将各插件注册的Code持久化到数据库中 可变代码如果数据库中以存在则不持久化
+     *  将各插件注册的Code持久化到数据库中 代码项如果数据库中以存在则不持久化
      */
     public static void init() {
         ArrayList<String> tmpList = new ArrayList<String>();
@@ -57,15 +58,15 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
                     codeChild.setCodeName(item.getName());
                     codeChild.setCodeOrder(System.currentTimeMillis());
                     codeChild.setMemo(item.getMemo());
-                    codeChild.setIcon(item.getIcon());
                     saveCodeList.add(codeChild);
                 }
             }
         }
-
-        boolean b = codeService.saveBatch(saveCodeList);
-        if (!b) {
-            log.error("代码项code初始化失败！");
+        if (ObjectUtil.isNotEmpty(saveCodeList)){
+            boolean b = codeService.saveBatch(saveCodeList);
+            if (!b) {
+                log.error("代码项code初始化失败！");
+            }
         }
     }
 }

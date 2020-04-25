@@ -9,8 +9,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author ssrs
- * @since 2020-02-27
+ * @since 2020-04-18
  */
 public interface IUserService extends IService<User> {
 
+    User getOneByUserName(String key);
 }

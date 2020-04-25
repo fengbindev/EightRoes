@@ -69,8 +69,12 @@ public class BaseController {
      * @param parameter
      * @return
      */
-    protected String[] getParameterSafeValues(String parameter) {
-        return AntiSQLFilter.getSafeValues(request.getParameterValues(parameter));
+    protected String[] getParameterSafeValues(String[] parameter) {
+        return AntiSQLFilter.getSafeValues(parameter);
+    }
+
+    protected String getParameterSafeValue(String parameter) {
+        return AntiSQLFilter.getSafeValue(parameter);
     }
 
 }

@@ -49,7 +49,7 @@ public class MysqlGenerator {
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
                 // 全局配置
                 new GlobalConfig()
-                        .setOutputDir("D:\\workspace\\ssrs-sso\\plugin-platform\\src\\main\\java")//输出目录
+                        .setOutputDir("D:\\workspace\\EightRoes\\plugin-platform\\src\\main\\java")//输出目录
                         .setFileOverride(true)// 是否覆盖文件
                         .setActiveRecord(false)// 开启 activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
@@ -127,7 +127,7 @@ public class MysqlGenerator {
                     // 自定义输出文件目录
                     @Override
                     public String outputFile(TableInfo tableInfo) {
-                        return "D:\\workspace\\ssrs-sso\\plugin-platform\\src\\main\\resources\\mapper\\" + tableInfo.getEntityName() + "Mapper.xml";
+                        return "D:\\workspace\\EightRoes\\plugin-platform\\src\\main\\resources\\mapper\\" + tableInfo.getEntityName() + "Mapper.xml";
                     }
                 }))
         ).setPackageInfo(

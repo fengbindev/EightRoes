@@ -46,12 +46,9 @@ public class FixedCodeType implements IExtendItem {
         return fixedItems;
     }
 
-    public void addFixedItem(String itemValue, String itemName, String icon) {
-        addFixedItem(itemValue, itemName, icon, null);
-    }
 
-    public void addFixedItem(String itemValue, String itemName, String icon, String memo) {
-        fixedItems.add(new FixedCodeItem(itemValue, itemName, icon, memo));
+    public void addFixedItem(String itemValue, String itemName, String memo) {
+        fixedItems.add(new FixedCodeItem(itemValue, itemName, memo));
     }
 
     public boolean allowAddItem() {
@@ -74,22 +71,12 @@ public class FixedCodeType implements IExtendItem {
     public static class FixedCodeItem {
         private String value;// CodeValue
         private String name;// CodeName
-        private String icon;
         private String memo;
 
-        public FixedCodeItem(String value, String name, String icon, String memo) {
+        public FixedCodeItem(String value, String name, String memo) {
             this.value = value;
             this.name = name;
-            this.icon = icon;
             this.memo = memo;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public void setIcon(String icon) {
-            this.icon = icon;
         }
 
         public String getName() {
