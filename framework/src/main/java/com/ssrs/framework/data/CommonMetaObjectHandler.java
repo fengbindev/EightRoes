@@ -38,15 +38,15 @@ public class CommonMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         String userName = currentUserName();
-        setInsertFieldValByName(createTime, LocalDateTime.now(), metaObject);
-        setInsertFieldValByName(createUser, userName, metaObject);
+        this.strictInsertFill(metaObject, createTime, LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, createUser, String.class, userName);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         String userName = currentUserName();
-        setUpdateFieldValByName(updateTime, LocalDateTime.now(), metaObject);
-        setUpdateFieldValByName(updateUser, userName, metaObject);
+        this.strictUpdateFill(metaObject, updateTime, LocalDateTime.class, LocalDateTime.now());
+        this.strictUpdateFill(metaObject, updateUser, String.class, userName);
     }
 
     /**

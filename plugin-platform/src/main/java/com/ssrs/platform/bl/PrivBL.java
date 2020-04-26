@@ -392,10 +392,7 @@ public class PrivBL {
                 }
             }
             privilege.setPrivs(p.toString());
-            privilegeService.update(Wrappers.<Privilege>lambdaUpdate()
-                    .set(Privilege::getPrivs, privilege.getPrivs())
-                    .set(Privilege::getUpdateTime, LocalDateTime.now())
-                    .set(Privilege::getUpdateUser, Current.getUser().getUserName())
+            privilegeService.update(privilege, Wrappers.<Privilege>lambdaUpdate()
                     .eq(Privilege::getOwnerType, type)
                     .eq(Privilege::getOwner, id));
             if (PrivilegeModel.OwnerType_Role.equals(privilege.getOwnerType())) {
@@ -423,10 +420,7 @@ public class PrivBL {
                         priv.remove(unCheckKey);
                     }
                     child.setPrivs(priv.toString());
-                    privilegeService.update(Wrappers.<Privilege>lambdaUpdate()
-                            .set(Privilege::getPrivs, child.getPrivs())
-                            .set(Privilege::getUpdateTime, LocalDateTime.now())
-                            .set(Privilege::getUpdateUser, Current.getUser().getUserName())
+                    privilegeService.update(child, Wrappers.<Privilege>lambdaUpdate()
                             .eq(Privilege::getOwnerType, child.getOwnerType())
                             .eq(Privilege::getOwner, child.getOwner()));
                     if (PrivilegeModel.OwnerType_Role.equals(child.getOwnerType())) {
@@ -446,11 +440,6 @@ public class PrivBL {
             privilege.setOwnerType(type);
             privilege.setPrivs(p.toString());
             privilegeService.save(privilege);
-            if (PrivilegeModel.OwnerType_Role.equals(privilege.getOwnerType())) {
-                FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_RolePriv, privilege.getOwner());
-            } else if (PrivilegeModel.OwnerType_Branch.equals(privilege.getOwnerType())) {
-                FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_BranchPriv, privilege.getOwner());
-            }
         }
     }
 }

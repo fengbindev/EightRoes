@@ -53,8 +53,8 @@ public abstract class JWTTokenUtils {
         try {
             String access_token = Jwts.builder().signWith(SignatureAlgorithm.HS512, SECRET).setIssuer(ISS).setSubject(subject).setClaims(claims)
                     .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + expiration)).setIssuedAt(new Date()).compact();
-            jo.put(Access_Token, TOKEN_PREFIX + access_token);
-            jo.put(Expires_In, expiration);
+            jo.set(Access_Token, TOKEN_PREFIX + access_token);
+            jo.set(Expires_In, expiration);
         } catch (Exception e) {
             e.printStackTrace();
         }

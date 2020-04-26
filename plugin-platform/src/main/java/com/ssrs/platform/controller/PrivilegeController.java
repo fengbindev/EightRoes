@@ -73,21 +73,21 @@ public class PrivilegeController extends BaseController {
             if (ap == null) {
                 continue;
             }
-            jo.put("id", menuID);
-            jo.put("parentId", menu.getParentId());
-            jo.put("name", menu.getName());
+            jo.set("id", menuID);
+            jo.set("parentId", menu.getParentId());
+            jo.set("name", menu.getName());
             // 如果满足条件则是选中状态
             if (p.hasPriv(menuID) || fullPrivFlag || uncheckablePriv.hasPriv(menuID)) {
                 values.add(menuID);
             }
             // 如果满足条件则是禁用状态
             if (fullPrivFlag || uncheckablePriv.hasPriv(menuID) || fullDisabled) {
-                jo.put("disabled", true);
+                jo.set("disabled", true);
             } else {
-                jo.put("disabled", false);
+                jo.set("disabled", false);
             }
             JSONArray jaItem = new JSONArray();
-            jo.put("items", jaItem);
+            jo.set("items", jaItem);
             ja.add(jo);
             map.put(menuID, jo);
             Dict items = ap.getPrivItems();
@@ -96,22 +96,22 @@ public class PrivilegeController extends BaseController {
                     continue;
                 }
                 JSONObject joItem = new JSONObject();
-                joItem.put("id", item);
-                joItem.put("parentId", menuID);
-                joItem.put("name", items.get(item));
+                joItem.set("id", item);
+                joItem.set("parentId", menuID);
+                joItem.set("name", items.get(item));
                 if (p.hasPriv(item) || fullPrivFlag || uncheckablePriv.hasPriv(item)) {
                     values.add(item);
                 }
                 if (fullPrivFlag || uncheckablePriv.hasPriv(item) || fullDisabled) {
-                    joItem.put("disabled", true);
+                    joItem.set("disabled", true);
                 } else {
-                    joItem.put("disabled", false);
+                    joItem.set("disabled", false);
                 }
                 jaItem.add(joItem);
             }
         }
-        ret.put("value", values);
-        ret.put("tree", ja);
+        ret.set("value", values);
+        ret.set("tree", ja);
         return ret;
     }
 

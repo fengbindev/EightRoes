@@ -89,7 +89,7 @@ public class ResponseData extends JSONObject implements IResponseBodyData {
      */
     public void setStatus(int status) {
         this.status = status;
-        put("status", status);
+        set("status", status);
     }
 
     /**
@@ -100,9 +100,9 @@ public class ResponseData extends JSONObject implements IResponseBodyData {
      */
     public void setStatusAndMessage(int status, String message) {
         this.status = status;
-        put("status", status);
+        set("status", status);
         this.message = message;
-        put("message", message);
+        set("message", message);
     }
 
     @Deprecated
