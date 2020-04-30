@@ -65,9 +65,9 @@ public class UserController extends BaseController {
             branchInnercode = Current.getUser().getBranchInnerCode();
         }
         IPage<User> ipage = userService.page(new Query<User>().getPage(params), Wrappers.<User>lambdaQuery()
-                .select(User::getId, User::getUsername, User::getRealname, User::getBranchInnercode, User::getLastModifyPassTime, User::getStatus, User::getEmail, User::getMobile)
-                .likeRight(StrUtil.isNotEmpty(username), User::getUsername, username)
-                .likeRight(StrUtil.isNotEmpty(realname), User::getRealname, realname)
+                .select(User::getId, User::getUserName, User::getRealName, User::getBranchInnercode, User::getLastModifyPassTime, User::getStatus, User::getEmail, User::getMobile)
+                .likeRight(StrUtil.isNotEmpty(username), User::getUserName, username)
+                .likeRight(StrUtil.isNotEmpty(realname), User::getRealName, realname)
                 .eq(StrUtil.isNotEmpty(status), User::getStatus, status)
                 .likeRight(StrUtil.isNotEmpty(branchInnercode), User::getBranchInnercode, branchInnercode)
         );
@@ -80,7 +80,7 @@ public class UserController extends BaseController {
             if (branch != null) {
                 userQuery.setBranchName(branch.getName());
             }
-            List<String> roles = PlatformUtil.getRoleCodesByUserName(userQuery.getUsername());
+            List<String> roles = PlatformUtil.getRoleCodesByUserName(userQuery.getUserName());
             if (roles != null) {
                 JSONArray rolesJa = new JSONArray();
                 for (String rolecode : roles) {

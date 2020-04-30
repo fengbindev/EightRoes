@@ -263,7 +263,7 @@ public class PrivBL {
             return null;
         }
         PrivilegeModel p = new PrivilegeModel();
-        if (AdminUserName.getValue().equals(user.getUsername())) {
+        if (AdminUserName.getValue().equals(user.getUserName())) {
             for (AbstractMenuPriv priv : MenuPrivService.getInstance().getAll()) {
                 p.put(PrivilegeModel.Flag_Allow, priv.getExtendItemID());
                 for (String privID : priv.getPrivItems().keySet()) {
@@ -281,7 +281,7 @@ public class PrivBL {
             if (!getFullPrivFlag(PrivilegeModel.OwnerType_Branch, user.getBranchInnercode())) {
                 p.intersect(bp);
             }
-            String roleCodes = PlatformCache.getUserRole(user.getUsername());
+            String roleCodes = PlatformCache.getUserRole(user.getUserName());
             for (String roleCode : StrUtil.split(roleCodes, ",")) {
                 if (ObjectUtil.isEmpty(roleCode)) {
                     continue;

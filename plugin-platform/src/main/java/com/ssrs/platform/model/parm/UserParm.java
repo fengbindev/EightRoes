@@ -11,8 +11,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class UserParm extends Convert {
     @NotBlank(message = "用户名不能为空")
-    private String username;
-    private String realname;
+    private String userName;
+    private String realName;
     @NotBlank(groups = {UserParm.Update.class}, message = "密码不能为空")
     private String password;
     @Email(message="邮箱格式错误")

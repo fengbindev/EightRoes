@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author ssrs
- * @since 2020-04-18
+ * @since 2020-04-30
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Override
     public User getOneByUserName(String userName) {
-        User user = baseMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, userName));
+        User user = baseMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, userName));
         return user;
     }
 }

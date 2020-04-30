@@ -55,7 +55,7 @@ public class UserBL {
 
     public static OperateReport addUser(UserParm userParm) {
         OperateReport operateReport = new OperateReport(true);
-        String userName = userParm.getUsername();
+        String userName = userParm.getUserName();
         if (!UserPattern.matcher(userName).matches()) {
             operateReport.setSuccess(false);
             operateReport.setMessage("最大长度20，仅允许字母/数字/下划线/点/@符号");
@@ -93,7 +93,7 @@ public class UserBL {
         // 添加一条权限记录
         Privilege priv = new Privilege();
         priv.setOwnerType(PrivilegeModel.OwnerType_User);
-        priv.setOwner(user.getUsername());
+        priv.setOwner(user.getUserName());
         privilegeService.save(priv);
         // 添加角色
         String roleCodes = userParm.getRoles();
@@ -102,15 +102,15 @@ public class UserBL {
             return operateReport;
         }
         String[] RoleCodes = roleCodes.split(",");
-        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUsername(), user);
-        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUsername(), roleCodes);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName(), user);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUserName(), roleCodes);
         List<UserRole> userRoleSet = new ArrayList<>();
         for (String roleCode : RoleCodes) {
-            if (StrUtil.isEmpty(roleCode) || StrUtil.isEmpty(user.getUsername())) {
+            if (StrUtil.isEmpty(roleCode) || StrUtil.isEmpty(user.getUserName())) {
                 continue;
             }
             UserRole userRole = new UserRole();
-            userRole.setUsername(user.getUsername());
+            userRole.setUsername(user.getUserName());
             userRole.setRoleCode(roleCode);
             userRoleService.save(userRole);
             userRoleSet.add(userRole);
@@ -122,7 +122,7 @@ public class UserBL {
 
     public static OperateReport saveUser(UserParm userParm) {
         OperateReport operateReport = new OperateReport(true);
-        String userName = userParm.getUsername();
+        String userName = userParm.getUserName();
         User user = userService.getOneByUserName(userName);
         String oldPassword = user.getPassword();
         String oldBranch = user.getBranchInnercode();
@@ -131,11 +131,11 @@ public class UserBL {
             operateReport.setMessage("用户不存在");
             return operateReport;
         }
-        user.setRealname(userParm.getRealname());
+        user.setRealName(userParm.getRealName());
         user.setEmail(userParm.getEmail());
         user.setMobile(userParm.getMobile());
         user.setBranchInnercode(userParm.getBranchInnercode());
-        if (AdminUserName.getValue().equals(user.getUsername()) && YesOrNo.isNo(user.getStatus())) {
+        if (AdminUserName.getValue().equals(user.getUserName()) && YesOrNo.isNo(user.getStatus())) {
             operateReport.setSuccess(false);
             operateReport.setMessage("超级管理员不允许禁用！");
             return operateReport;
@@ -146,13 +146,13 @@ public class UserBL {
             user.setStatus(YesOrNo.Yes); // 若未设置状态则默认为启用状态
         }
         userService.updateById(user);
-        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUsername(), user);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName(), user);
         // 处理老角色
-        userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUsername, user.getUsername()));
-        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUsername(), "");
+        userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUsername, user.getUserName()));
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUserName(), "");
         if (StrUtil.isNotEmpty(user.getBranchInnercode()) && !user.getBranchInnercode().equals(oldBranch)) {
             // 用户机构改变时更新用户权限,取新机构权限和用户权限的交集
-            Privilege privilege = privilegeService.getOne(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, user.getUsername()));
+            Privilege privilege = privilegeService.getOne(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, user.getUserName()));
             if (privilege != null) {
                 PrivilegeModel bp = PrivBL.getBranchPriv(user.getBranchInnercode());
                 PrivilegeModel p = new PrivilegeModel();
@@ -165,7 +165,7 @@ public class UserBL {
                 privilegeService.update(new Privilege(), Wrappers.<Privilege>lambdaUpdate()
                         .set(Privilege::getPrivs, privilege.getPrivs())
                         .eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User)
-                        .eq(Privilege::getOwner, user.getUsername()));
+                        .eq(Privilege::getOwner, user.getUserName()));
             }
         }
         // 添加角色
@@ -176,15 +176,15 @@ public class UserBL {
         }
         String[] RoleCodes = roleCodes.split(",");
         for (String roleCode : RoleCodes) {
-            if (StrUtil.isEmpty(roleCode) || StrUtil.isEmpty(user.getUsername())) {
+            if (StrUtil.isEmpty(roleCode) || StrUtil.isEmpty(user.getUserName())) {
                 continue;
             }
             UserRole userRole = new UserRole();
-            userRole.setUsername(user.getUsername());
+            userRole.setUsername(user.getUserName());
             userRole.setRoleCode(roleCode);
             userRoleService.save(userRole);
         }
-        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUsername(), roleCodes);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUserName(), roleCodes);
         operateReport.setData(new Object[]{user, roleCodes});
         return operateReport;
     }
@@ -195,27 +195,27 @@ public class UserBL {
     public static OperateReport deleteUser(String userNames) {
         OperateReport operateReport = new OperateReport(true);
         String[] userNameArr = userNames.split(",");
-        List<User> userList = userService.list(Wrappers.<User>lambdaQuery().in(User::getUsername, userNameArr));
+        List<User> userList = userService.list(Wrappers.<User>lambdaQuery().in(User::getUserName, userNameArr));
         for (User user : userList) {
             PrivBL.assertBranch(user.getBranchInnercode());
-            if (Current.getUser().getUserName().equals(user.getUsername())) {
+            if (Current.getUser().getUserName().equals(user.getUserName())) {
                 operateReport.setSuccess(false);
                 operateReport.setMessage("不能删除当前用户自己!");
                 return operateReport;
             }
-            if (AdminUserName.getValue().equalsIgnoreCase(user.getUsername())) {
+            if (AdminUserName.getValue().equalsIgnoreCase(user.getUserName())) {
                 operateReport.setSuccess(false);
                 operateReport.setMessage(AdminUserName.getValue() + "为系统默认的管理员，不能删除!");
                 return operateReport;
             }
-            FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUsername());
-            FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUsername());
+            FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName());
+            FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_UserRole, user.getUserName());
             // 删除用户与机构的关系
-            userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUsername, user.getUsername()));
+            userRoleService.remove(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUsername, user.getUserName()));
             // 删除用户的权限
-            privilegeService.remove(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, user.getUsername()));
+            privilegeService.remove(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, user.getUserName()));
             // 删除用户
-            userService.remove(Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()));
+            userService.remove(Wrappers.<User>lambdaQuery().eq(User::getUserName, user.getUserName()));
             // TODO 用户删除后删除密码历史记录
         }
         operateReport.setData(userList);

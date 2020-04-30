@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author ssrs
- * @since 2020-04-18
+ * @since 2020-04-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -33,14 +33,14 @@ public class User implements Serializable {
     /**
      * 用户名
      */
-    private String username;
+    private String userName;
 
     /**
      * 用户昵称
      */
-    private String nickname;
+    private String nickName;
 
-    private String realname;
+    private String realName;
 
     /**
      * 密码
@@ -69,7 +69,7 @@ public class User implements Serializable {
     private String lastLoginIp;
 
     /**
-     * 状态 N：禁用 Y：正常
+     * 状态 0：禁用 1：正常
      */
     private String status;
 
@@ -112,11 +112,11 @@ public class User implements Serializable {
 
     public static final String ID = "id";
 
-    public static final String USERNAME = "username";
+    public static final String USER_NAME = "user_name";
 
-    public static final String NICKNAME = "nickname";
+    public static final String NICK_NAME = "nick_name";
 
-    public static final String REALNAME = "realname";
+    public static final String REAL_NAME = "real_name";
 
     public static final String PASSWORD = "password";
 
