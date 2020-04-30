@@ -64,22 +64,21 @@ public abstract class JWTTokenUtils {
     /**
      * 创建web登录Token
      */
-    public static JSONObject createWebToken(User.UserData userData) {
-        Map<String, Object> claims = new HashMap<>(1);
-        Map<String, Object> map = BeanUtil.beanToMap(userData);
-        claims.putAll(map);
-        claims.put("username", userData.getUserName());
-        return createToken(userData.getUserName(), claims, WEB_EXPIRATION);
+    public static JSONObject createWebToken(String username) {
+        Map<String, Object> claims = new HashMap<>(2);
+        claims.put("username", username);
+        claims.put("userName", username);
+        return createToken(username, claims, WEB_EXPIRATION);
     }
 
     /**
      * 创建APP登录Token
      */
-    public static JSONObject createAppToken(User.UserData userData) {
-        Map<String, Object> claims = new HashMap<>(1);
-        claims.putAll(userData);
-        claims.put("username", userData.getUserName());
-        return createToken(userData.getUserName(), claims, APP_EXPIRATION);
+    public static JSONObject createAppToken(String username) {
+        Map<String, Object> claims = new HashMap<>(2);
+        claims.put("username", username);
+        claims.put("userName", username);
+        return createToken(username, claims, APP_EXPIRATION);
     }
 
     /**
@@ -111,10 +110,6 @@ public abstract class JWTTokenUtils {
 
     public static String getUserName(String token) {
         return Convert.toStr(getClaim(token).get("username"));
-    }
-
-    public static User.UserData getUserDate(String token) {
-        return BeanUtil.toBean(getClaim(token), User.UserData.class);
     }
 
     /**

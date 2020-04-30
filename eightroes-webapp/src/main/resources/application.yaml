@@ -45,5 +45,5 @@ mybatis-plus:
       select-strategy: ignored
     banner: false
   type-enums-package: com.ssrs.*.enums
-  type-aliases-package: com.ssrs.*.model.entity,com.ssrs.*.model.dto
+  type-aliases-package: com.ssrs.*.model.entity,com.ssrs.*.model.dto,com.ssrs.*.model.query
 

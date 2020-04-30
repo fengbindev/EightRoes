@@ -1,15 +1,14 @@
 package com.ssrs.platform.bl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.PrivilegeModel;
 import com.ssrs.framework.cache.FrameworkCacheManager;
+import com.ssrs.framework.web.exception.NoPrivException;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.extend.MenuPrivService;
 import com.ssrs.platform.model.entity.Branch;
@@ -22,9 +21,10 @@ import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.util.PlatformCache;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class PrivBL {
@@ -392,7 +392,8 @@ public class PrivBL {
                 }
             }
             privilege.setPrivs(p.toString());
-            privilegeService.update(privilege, Wrappers.<Privilege>lambdaUpdate()
+            privilegeService.update(new Privilege(), Wrappers.<Privilege>lambdaUpdate()
+                    .set(Privilege::getPrivs, privilege.getPrivs())
                     .eq(Privilege::getOwnerType, type)
                     .eq(Privilege::getOwner, id));
             if (PrivilegeModel.OwnerType_Role.equals(privilege.getOwnerType())) {
@@ -420,7 +421,8 @@ public class PrivBL {
                         priv.remove(unCheckKey);
                     }
                     child.setPrivs(priv.toString());
-                    privilegeService.update(child, Wrappers.<Privilege>lambdaUpdate()
+                    privilegeService.update(new Privilege(), Wrappers.<Privilege>lambdaUpdate()
+                            .set(Privilege::getPrivs, child.getPrivs())
                             .eq(Privilege::getOwnerType, child.getOwnerType())
                             .eq(Privilege::getOwner, child.getOwner()));
                     if (PrivilegeModel.OwnerType_Role.equals(child.getOwnerType())) {
@@ -440,6 +442,19 @@ public class PrivBL {
             privilege.setOwnerType(type);
             privilege.setPrivs(p.toString());
             privilegeService.save(privilege);
+        }
+    }
+
+    /**
+     * 当前用户是否是branchInnerCode指定的机构或其上级机构的用户,如果不是，则抛出权限异常。
+     */
+    public static void assertBranch(String branchInnerCode) {
+        if (StrUtil.isEmpty(Current.getUser().getBranchInnerCode())) {
+            return;
+        }
+        if (StrUtil.isNotEmpty(branchInnerCode) && !branchInnerCode.startsWith(Current.getUser().getBranchInnerCode())) {
+            throw new NoPrivException(
+                    "Assert branch failed:User's branch is " + Current.getUser().getBranchInnerCode() + ",but operating " + branchInnerCode);
         }
     }
 }

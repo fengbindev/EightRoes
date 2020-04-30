@@ -1,11 +1,14 @@
 package com.ssrs.framework.web;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.User;
+import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.framework.security.filter.JWTFilter;
 import com.ssrs.framework.util.JWTTokenUtils;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -43,11 +47,11 @@ public class FrameworkInterceptor implements HandlerInterceptor {
             String[] methodMappings = Objects.nonNull(methodMappingAnnotation) ? methodMappingAnnotation.path() : emptyArray;
             Set<String> mappings = new HashSet<>(1);
             for (String reqMapping : requestMappings) {
-                if (methodMappings.length>0){
+                if (methodMappings.length > 0) {
                     for (String methodMapping : methodMappings) {
                         mappings.add(reqMapping + methodMapping);
                     }
-                }else{
+                } else {
                     mappings.add(reqMapping);
                 }
             }
@@ -63,24 +67,35 @@ public class FrameworkInterceptor implements HandlerInterceptor {
 
     /**
      * 准备当前请求线程用户信息
+     *
      * @param request
      */
     private void restoreCurrentUserData(HttpServletRequest request) {
-        // TODO 后续改为从缓存中获取用户信息，不要放在请求头，防止请求头过大
         //从header中获取token
         String token = request.getHeader(JWTTokenUtils.TOKEN_HEADER);
-        if (StrUtil.isBlank(token)){
+        if (StrUtil.isBlank(token)) {
             return;
         }
-        token =  token.replaceFirst("Bearer ", "");
-        if (JWTTokenUtils.isExpired(token)){
+        token = token.replaceFirst("Bearer ", "");
+        if (JWTTokenUtils.isExpired(token)) {
             return;
         }
-        // TODO 这里目前有问题，token数据直接存到了map里，没有存到属性上，后续改为从缓存种获取时修复。
-        User.UserData userData = JWTTokenUtils.getUserDate(token);
-        userData.setUserName(userData.get("userName").toString());
-        userData.setBranchInnerCode(userData.get("branchInnerCode").toString());
-        Current.setUser(userData);
+        String userName = JWTTokenUtils.getUserName(token);
+        /**
+         * TODO
+         * 目前是从缓存中获取用户信息，感觉不太好，用户的缓存提供者并不在framework模块，导致提供者id和type写死了，没有做到模块分离
+         * 目前有想到的几种方法但都不是很理想
+         * （1）使用Cache模块重写Shior的SessionManage和CacheManager，登录完成后将用户信息放到Shiro的Session中去。已经在缓存中存了用户信息，再存一份就有点恶心了
+         * （2）放到请求头的token中去，最开始就是这样的，但是考虑到token信息要尽量小，防止每次请求都要带上大量token影响带宽性能
+         */
+        Object user = FrameworkCacheManager.get("Platform", "User", userName);
+        Map<String, Object> userMap = BeanUtil.beanToMap(user);
+        User.setUserName(Convert.toStr(userMap.get("username")));
+        User.setRealName(Convert.toStr(userMap.get("realname")));
+        User.setBranchAdministrator(StrUtil.equals("Y", Convert.toStr(userMap.get("branchAdmin"))));
+        User.setBranchInnerCode(Convert.toStr(userMap.get("branchInnercode")));
+        User.setSessionId(request.getSession().getId());
+        User.setLogin(true);
     }
 
     @Override
@@ -89,5 +104,6 @@ public class FrameworkInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        Current.clear();// 确保Current中的数据被清空
     }
 }

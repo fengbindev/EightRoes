@@ -93,12 +93,12 @@ public abstract class JacksonUtils {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         //不显示为null的字段
-        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+//        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+//        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         // 忽略不能转移的字符
 //        objectMapper.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
         // 过滤对象的null属性.
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         //忽略transient
         objectMapper.configure(MapperFeature.PROPAGATE_TRANSIENT_MARKER, true);
         SimpleModule simpleModule = new SimpleModule();

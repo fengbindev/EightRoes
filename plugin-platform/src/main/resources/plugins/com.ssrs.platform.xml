@@ -80,6 +80,12 @@
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
+        <id>com.ssrs.platform.priv.RoleManagerPriv</id>
+        <class>com.ssrs.platform.priv.RoleManagerPriv</class>
+        <description>角色管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
         <id>com.ssrs.platform.priv.UserManagerPriv</id>
         <class>com.ssrs.platform.priv.UserManagerPriv</class>
         <description>用户管理权限</description>

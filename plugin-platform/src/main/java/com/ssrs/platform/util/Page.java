@@ -30,7 +30,7 @@ public class Page implements Serializable {
     /**
      * 当前页数
      */
-    private int pageIndex;
+    private int pageNo;
     /**
      * 列表数据
      */
@@ -42,13 +42,13 @@ public class Page implements Serializable {
      * @param data       列表数据
      * @param totalCount 总记录数
      * @param pageSize   每页记录数
-     * @param pageIndex   当前页数
+     * @param pageNo  当前页数
      */
-    public Page(List<?> data, int totalCount, int pageSize, int pageIndex) {
+    public Page(List<?> data, int totalCount, int pageSize, int pageNo) {
         this.data = data;
         this.totalCount = totalCount;
         this.pageSize = pageSize;
-        this.pageIndex = pageIndex;
+        this.pageNo = pageNo;
         this.totalPage = (int) Math.ceil((double) totalCount / pageSize);
     }
 
@@ -59,7 +59,7 @@ public class Page implements Serializable {
         this.data = page.getRecords();
         this.totalCount = (int) page.getTotal();
         this.pageSize = (int) page.getSize();
-        this.pageIndex = (int) page.getCurrent();
+        this.pageNo = (int) page.getCurrent();
         this.totalPage = (int) page.getPages();
     }
 
@@ -87,20 +87,21 @@ public class Page implements Serializable {
         this.totalPage = totalPage;
     }
 
-    public int getPageIndex() {
-        return pageIndex;
+    public int getPageNo() {
+        return pageNo;
     }
 
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
     }
 
-    public List<?> getDate() {
+    public List<?> getData() {
         return data;
     }
 
-    public void setDate(List<?> data) {
+    public void setData(List<?> data) {
         this.data = data;
     }
+
 }
 

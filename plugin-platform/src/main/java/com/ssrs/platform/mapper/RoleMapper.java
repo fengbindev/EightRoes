@@ -1,7 +1,9 @@
 package com.ssrs.platform.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ssrs.platform.model.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ssrs.platform.model.query.RoleQuery;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
+    IPage<RoleQuery> selectPage(IPage<?> page, String roleName);
 }

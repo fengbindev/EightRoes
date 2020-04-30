@@ -21,6 +21,7 @@ public class Query<T> {
         return this.getPage(params, null, false);
     }
 
+
     public IPage<T> getPage(Map<String, Object> params, String defaultOrderField, boolean isAsc) {
         //分页参数
         long pageNo = PageConstant.DEFAULT_PAGENO;

@@ -1,6 +1,7 @@
 package com.ssrs.framework.cache;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
@@ -165,7 +166,11 @@ public class FrameworkCacheManager {
         }
         try {
             cp.lock.lock();
-            Object removeData = cacheManager.getCache(type).get(key).get();
+            Cache.ValueWrapper valueWrapper = cacheManager.getCache(type).get(key);
+            if (ObjectUtil.isEmpty(valueWrapper)) {
+                return null;
+            }
+            Object removeData = valueWrapper.get();
             cacheManager.getCache(type).evict(key);
             removeTypeKeys(providerID, type, key);
             return removeData;

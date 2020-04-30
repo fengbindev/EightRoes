@@ -50,16 +50,7 @@ public class AuthController extends BaseController {
         ApiAssert.isTrue(ErrorCodeEnum.USER_IS_DISABLED, !StatusEnum.NORMAL.equals(user.getStatus()));
         // TODO 三级等保功能
         // 设置当选用户信息
-        // TODO 后续用户信息需要放到session中，防止请求head参数过大，浪费流量
-        com.ssrs.framework.User.UserData userData = new com.ssrs.framework.User.UserData();
-        userData.setUserName(user.getUsername());
-        userData.setBranchAdministrator(YesOrNo.isYes(user.getBranchAdmin()));
-        userData.setBranchInnerCode(user.getBranchInnercode());
-        userData.setLogin(true);
-        userData.setRealName(user.getRealname());
-        userData.setStatus(user.getStatus().toString());
-        userData.setPrivilegeModel(PrivBL.getUserPriv(user.getUsername()));
-        JSONObject webToken = JWTTokenUtils.createWebToken(userData);
+        JSONObject webToken = JWTTokenUtils.createWebToken(user.getUsername());
         return success(webToken);
 
     }

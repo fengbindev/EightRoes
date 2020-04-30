@@ -2,6 +2,9 @@ package com.ssrs.platform.service;
 
 import com.ssrs.platform.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ssrs.platform.util.Page;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -14,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IUserService extends IService<User> {
 
     User getOneByUserName(String key);
+
 }

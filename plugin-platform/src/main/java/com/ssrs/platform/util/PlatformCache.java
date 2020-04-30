@@ -50,7 +50,6 @@ public class PlatformCache extends CacheDataProvider {
 
     public static void removeRole(String roleCode) {
         FrameworkCacheManager.remove(ProviderID, Type_Role, roleCode);
-        PlatformCache pc = (PlatformCache) FrameworkCacheManager.getCache(ProviderID);
     }
 
     public static void addUserRole(String userName, String roleCode) {

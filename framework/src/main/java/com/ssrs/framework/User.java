@@ -72,6 +72,13 @@ public class User {
     }
 
     /**
+     * 设置当前用户的分支机构内部编码
+     */
+    public static void setSessionId(String sessionId) {
+        getCurrent(true).setSessionID(sessionId);
+    }
+
+    /**
      * 按key获取指定数据项
      */
     public static Object getValue(Object key) {
@@ -242,6 +249,14 @@ public class User {
         public void setLogin(boolean isLogin) {
             this.isLogin = isLogin;
 
+        }
+
+        public String getSessionID() {
+            return sessionID;
+        }
+
+        public void setSessionID(String sessionID) {
+            this.sessionID = sessionID;
         }
 
         public PrivilegeModel getPrivilegeModel() {

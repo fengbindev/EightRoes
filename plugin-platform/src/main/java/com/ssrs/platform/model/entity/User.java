@@ -69,9 +69,9 @@ public class User implements Serializable {
     private String lastLoginIp;
 
     /**
-     * 状态 0：禁用 1：正常
+     * 状态 N：禁用 Y：正常
      */
-    private Integer status;
+    private String status;
 
     private LocalDateTime lastLoginTime;
 
