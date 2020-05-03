@@ -3,19 +3,16 @@ package com.ssrs.platform.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNode;
-import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
-import cn.hutool.core.lang.tree.parser.DefaultNodeParser;
-import cn.hutool.core.lang.tree.parser.NodeParser;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.log.StaticLog;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.PrivilegeModel;
 import com.ssrs.framework.cache.FrameworkCacheManager;
+import com.ssrs.framework.core.OperateReport;
+import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
@@ -26,6 +23,9 @@ import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.BranchParm;
+import com.ssrs.platform.point.AfterBranchAddPoint;
+import com.ssrs.platform.point.AfterBranchDeletePoint;
+import com.ssrs.platform.point.AfterBranchModifyPoint;
 import com.ssrs.platform.service.IBranchService;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IRoleService;
@@ -37,9 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +100,10 @@ public class BranchController extends BaseController {
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(@Validated @RequestBody BranchParm branchParm) {
         Branch branch = branchParm.convert(Branch.class);
+        OperateReport operateReport = branchService.isNameOrBranchCodeExists(branch.getName(), branch.getBranchCode(), null);
+        if (!operateReport.isSuccess()) {
+            return failure(operateReport.getMessage());
+        }
         if (StrUtil.isEmpty(branch.getParentInnercode()) || "0000".equals(branch.getParentInnercode())) {
             branch.setBranchInnercode(NoUtil.getMaxNo("BranchInnerCode", 4));
             branch.setType("1");
@@ -120,15 +121,27 @@ public class BranchController extends BaseController {
             branchService.updateById(parentBranch);
         }
         branchService.save(branch);
+        ExtendManager.invoke(AfterBranchAddPoint.ID, new Object[]{branch});
         return success("保存成功");
     }
 
     @Priv
     @PutMapping("/{bracnInnercode}")
+    @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> update(@PathVariable String bracnInnercode, @Validated @RequestBody BranchParm branchParm) {
         Branch branch = branchParm.convert(Branch.class);
         branch.setBranchInnercode(bracnInnercode);
+        OperateReport operateReport = branchService.isNameOrBranchCodeExists(branch.getName(), branch.getBranchCode(), branch.getBranchInnercode());
+        if (!operateReport.isSuccess()) {
+            return failure(operateReport.getMessage());
+        }
+        if (bracnInnercode.length() == 4) {
+            branch.setParentInnercode("0000");
+        }
+        PrivBL.assertBranch(bracnInnercode);
         branchService.updateById(branch);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Branch, branch.getBranchInnercode(), branch);
+        ExtendManager.invoke(AfterBranchModifyPoint.ID, new Object[]{branch});
         return success("修改成功");
     }
 
@@ -154,7 +167,7 @@ public class BranchController extends BaseController {
             }
         }
         // 删除机构后的扩展点
-        // ExtendManager.invoke(AfterBranchDeleteAction.ExtendPointID, new Object[] { ids });
+        ExtendManager.invoke(AfterBranchDeletePoint.ID, new Object[]{ids});
         for (String innercode : idArr) {
             FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_Branch, innercode);
         }

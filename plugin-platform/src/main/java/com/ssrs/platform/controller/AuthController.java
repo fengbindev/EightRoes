@@ -8,7 +8,7 @@ import com.ssrs.framework.util.JWTTokenUtils;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.framework.web.ErrorCodeEnum;
-import com.ssrs.platform.enums.StatusEnum;
+import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.AuthUser;
 import com.ssrs.platform.service.IUserService;
@@ -41,7 +41,7 @@ public class AuthController extends BaseController {
         // 用户名密码错误
         ApiAssert.isTrue(ErrorCodeEnum.USERNAME_OR_PASSWORD_IS_WRONG, authUser.getPassword().equals(user.getPassword()));
         // 用户被禁用
-        ApiAssert.isTrue(ErrorCodeEnum.USER_IS_DISABLED, !StatusEnum.NORMAL.equals(user.getStatus()));
+        ApiAssert.isTrue(ErrorCodeEnum.USER_IS_DISABLED, YesOrNo.isYes(user.getStatus()));
         // TODO 三级等保功能
         // 设置当选用户信息
         JSONObject webToken = JWTTokenUtils.createWebToken(user.getUserName());

@@ -28,7 +28,7 @@ public class UserRole implements Serializable {
      * 用户名
      */
     @TableId(type = IdType.INPUT)
-    private String username;
+    private String userName;
 
     /**
      * 角色编码

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.PrivilegeModel;
 import com.ssrs.framework.cache.FrameworkCacheManager;
+import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
@@ -19,6 +20,9 @@ import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.UserRole;
 import com.ssrs.platform.model.parm.RoleParm;
 import com.ssrs.platform.model.query.RoleQuery;
+import com.ssrs.platform.point.AfterRoleAddPoint;
+import com.ssrs.platform.point.AfterRoleDeletePoint;
+import com.ssrs.platform.point.AfterRoleModifyPoint;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
@@ -104,7 +108,7 @@ public class RoleController extends BaseController {
         // 缓存角色信息
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色添加后的扩展点
-        // ExtendManager.invoke(AfterRoleAddAction.ExtendPointID, new Object[] { role, priv });
+         ExtendManager.invoke(AfterRoleAddPoint.ID, new Object[] { role, priv });
         return success("添加成功");
     }
 
@@ -119,7 +123,7 @@ public class RoleController extends BaseController {
         roleService.updateById(role);
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色修改后的扩展点
-        // ExtendManager.invoke(AfterRoleModifyAction.ExtendPointID, new Object[] { role , PrivBL.getRolePriv(role.getRoleCode())});
+         ExtendManager.invoke(AfterRoleModifyPoint.ID, new Object[] { role , PrivBL.getRolePriv(role.getRoleCode())});
         return success("修改成功");
     }
 
@@ -138,7 +142,7 @@ public class RoleController extends BaseController {
         // 删除缓存
         PlatformCache.removeRole(role.getRoleCode());
         // 删除角色后的扩展点
-        //ExtendManager.invoke(AfterRoleDeleteAction.ExtendPointID, new Object[] { role, userRoleSet, privilege });
+        ExtendManager.invoke(AfterRoleDeletePoint.ID, new Object[] { role });
         return success("删除成功");
     }
 

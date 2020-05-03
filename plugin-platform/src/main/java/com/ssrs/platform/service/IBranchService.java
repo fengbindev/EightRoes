@@ -1,5 +1,6 @@
 package com.ssrs.platform.service;
 
+import com.ssrs.framework.core.OperateReport;
 import com.ssrs.platform.model.entity.Branch;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-04-04
  */
 public interface IBranchService extends IService<Branch> {
-
+    OperateReport isNameOrBranchCodeExists(String name, String branchCode, String innerCode);
 }

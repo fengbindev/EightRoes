@@ -11,16 +11,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.core.OperateReport;
+import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
-import com.ssrs.platform.bl.UserBL;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.UserParm;
 import com.ssrs.platform.model.query.RoleQuery;
 import com.ssrs.platform.model.query.UserQuery;
+import com.ssrs.platform.point.AfterUserAddPoint;
+import com.ssrs.platform.point.AfterUserDeletePoint;
+import com.ssrs.platform.point.AfterUserModifyPoint;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
 import com.ssrs.platform.service.IUserService;
@@ -133,12 +136,12 @@ public class UserController extends BaseController {
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(@RequestBody UserParm userParm) {
-        OperateReport operateReport = UserBL.addUser(userParm);
+        OperateReport operateReport = userService.addUser(userParm);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
         }
         // 用户添加完成后的扩展点
-        // ExtendManager.invoke(AfterUserAddAction.ExtendPointID, obj);
+        ExtendManager.invoke(AfterUserAddPoint.ID, (Object[]) operateReport.getData());
         return success("添加成功");
     }
 
@@ -146,12 +149,12 @@ public class UserController extends BaseController {
     @PutMapping("/{username}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> update(@PathVariable("username") String username, @RequestBody UserParm userParm) {
-        OperateReport operateReport = UserBL.saveUser(userParm);
+        OperateReport operateReport = userService.saveUser(userParm);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
         }
         // 用户修改完成后的扩展点
-        // ExtendManager.invoke(AfterUserModifyAction.ExtendPointID, obj);
+         ExtendManager.invoke(AfterUserModifyPoint.ID, (Object[]) operateReport.getData());
         return success("保存成功");
     }
 
@@ -159,12 +162,12 @@ public class UserController extends BaseController {
     @DeleteMapping("/{ids}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable("ids") String ids) {
-        OperateReport operateReport = UserBL.deleteUser(ids);
+        OperateReport operateReport = userService.deleteUser(ids);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
         }
         // 用户删除完成后的扩展点
-        // ExtendManager.invoke(AfterUserDeleteAction.ExtendPointID, obj);
+         ExtendManager.invoke(AfterUserDeletePoint.ID, (Object[]) operateReport.getData());
         return success("删除成功");
     }
 }

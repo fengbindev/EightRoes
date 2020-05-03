@@ -91,4 +91,54 @@
         <description>用户管理权限</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterUserAddPoint</id>
+        <class>com.ssrs.platform.point.AfterUserAddPoint</class>
+        <description>用户添加后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterUserModifyPoint</id>
+        <class>com.ssrs.platform.point.AfterUserModifyPoint</class>
+        <description>修改用户后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterUserDeletePoint</id>
+        <class>com.ssrs.platform.point.AfterUserDeletePoint</class>
+        <description>用户删除后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterRoleAddPoint</id>
+        <class>com.ssrs.platform.point.AfterRoleAddPoint</class>
+        <description>角色添加后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterRoleModifyPoint</id>
+        <class>com.ssrs.platform.point.AfterRoleModifyPoint</class>
+        <description>角色修改后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterRoleDeletePoint</id>
+        <class>com.ssrs.platform.point.AfterRoleDeletePoint</class>
+        <description>角色删除后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterBranchAddPoint</id>
+        <class>com.ssrs.platform.point.AfterBranchAddPoint</class>
+        <description>添加机构后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterBranchModifyPoint</id>
+        <class>com.ssrs.platform.point.AfterBranchModifyPoint</class>
+        <description>机构修改后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.AfterBranchDeletePoint</id>
+        <class>com.ssrs.platform.point.AfterBranchDeletePoint</class>
+        <description>机构删除后的扩展点</description>
+    </extend-point>
+    <extend-point>
+        <id>com.ssrs.platform.point.ApplicationPrivsExtendPoint</id>
+        <class>com.ssrs.platform.point.ApplicationPrivsExtendPoint</class>
+        <description>获取当前登录用户权限后的扩展点</description>
+    </extend-point>
 </plugin>

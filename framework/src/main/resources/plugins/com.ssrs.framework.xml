@@ -7,11 +7,11 @@
 	<provider>ssrs</provider>
 	<version>1.0</version>
 	<description>FrameworkPlugin</description>
-	<extendo-point>
+	<extend-point>
 		<id>com.ssrs.framework.point.AfterAllPluginStartedAction</id>
 		<class>com.ssrs.framework.point.AfterAllPluginStartedAction</class>
 		<description>所有插件加载完成后扩展点</description>
-	</extendo-point>
+	</extend-point>
 	<extend-point>
 		<id>com.ssrs.framework.point.AddUserPermissionsPoint</id>
 		<class>com.ssrs.framework.point.AddUserPermissionsPoint</class>

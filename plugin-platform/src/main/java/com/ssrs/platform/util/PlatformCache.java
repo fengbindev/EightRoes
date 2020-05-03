@@ -89,7 +89,7 @@ public class PlatformCache extends CacheDataProvider {
     public void onKeyNotFound(String type, String key) {
         if (Type_UserRole.equals(type)) {
             IUserRoleService userRoleService = SpringUtil.getBean(IUserRoleService.class);
-            List<UserRole> userRoles = userRoleService.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUsername, key));
+            List<UserRole> userRoles = userRoleService.list(Wrappers.<UserRole>lambdaQuery().eq(UserRole::getUserName, key));
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < userRoles.size(); i++) {
                 if (i != 0) {

@@ -50,7 +50,7 @@ public class MysqlGenerator {
                 // 全局配置
                 new GlobalConfig()
                         .setOutputDir("D:\\workspace\\EightRoes\\plugin-platform\\src\\main\\java")//输出目录
-                        .setFileOverride(true)// 是否覆盖文件
+                        .setFileOverride(false)// 是否覆盖文件
                         .setActiveRecord(false)// 开启 activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
                         .setBaseResultMap(false)// XML ResultMap

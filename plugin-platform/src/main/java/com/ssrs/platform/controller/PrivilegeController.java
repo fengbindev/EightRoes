@@ -16,6 +16,8 @@ import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.extend.MenuPrivService;
 import com.ssrs.platform.model.Menu;
 import com.ssrs.platform.priv.AbstractMenuPriv;
+import com.ssrs.platform.service.IPrivilegeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/privilege/id/{typeID}/type/{type}")
 public class PrivilegeController extends BaseController {
+    @Autowired
+    private IPrivilegeService privilegeService;
 
     @Priv
     @GetMapping("/menus")
@@ -46,7 +50,7 @@ public class PrivilegeController extends BaseController {
     public ApiResponses<String> update(@PathVariable String typeID, @PathVariable String type, @RequestParam String data) {
         String[] arr = StrUtil.split(data, ",");
         ArrayList<String> keys = CollUtil.toList(arr);
-        PrivBL.setPriv(keys, typeID, type);
+        privilegeService.setPriv(keys, typeID, type);
         return success("保存成功");
     }
 
