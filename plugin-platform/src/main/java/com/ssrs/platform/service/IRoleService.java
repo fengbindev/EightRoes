@@ -16,5 +16,4 @@ import java.util.Map;
  */
 public interface IRoleService extends IService<Role> {
 
-    Page selectPage(Map<String, Object> params);
 }

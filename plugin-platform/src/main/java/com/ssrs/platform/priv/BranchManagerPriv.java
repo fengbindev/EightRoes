@@ -1,11 +1,11 @@
 package com.ssrs.platform.priv;
 
 public class BranchManagerPriv extends AbstractMenuPriv{
-    private static final String MenuID = "BranchManagerPriv";
-    private static final String Add = MenuID + ".Add";
-    private static final String Edit = MenuID + ".Edit";
-    private static final String Delete = MenuID + ".Delete";
-    private static final String PrivRange = MenuID + ".PrivRange";
+    public static final String MenuID = "BranchManagerPriv";
+    public static final String Add = MenuID + ".Add";
+    public static final String Edit = MenuID + ".Edit";
+    public static final String Delete = MenuID + ".Delete";
+    public static final String PrivRange = MenuID + ".PrivRange";
 
     public BranchManagerPriv() {
         super(MenuID, "机构管理", null);

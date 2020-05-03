@@ -1,7 +1,13 @@
 package com.ssrs.platform.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ssrs.framework.Current;
 import com.ssrs.framework.PrivilegeModel;
 import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.framework.security.annotation.Priv;
@@ -12,16 +18,20 @@ import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.UserRole;
 import com.ssrs.platform.model.parm.RoleParm;
+import com.ssrs.platform.model.query.RoleQuery;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
 import com.ssrs.platform.util.Page;
 import com.ssrs.platform.util.PlatformCache;
+import com.ssrs.platform.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +55,35 @@ public class RoleController extends BaseController {
     @Priv
     @GetMapping
     public ApiResponses<Page> list(@RequestParam Map<String, Object> params) {
-        Page page = roleService.selectPage(params);
+        String branchInnercode = (String) params.get("branchInnercode");
+        String roleName = (String) params.get("roleName");
+        LambdaQueryWrapper<Role> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        if (!Current.getUser().isBranchAdministrator()) {
+            if (StrUtil.isEmpty(branchInnercode)) {
+                lambdaQueryWrapper.likeRight(Role::getBranchInnercode, Current.getUser().getBranchInnerCode());
+            } else {
+                lambdaQueryWrapper.likeRight(Role::getBranchInnercode, branchInnercode);
+            }
+        } else {
+            if (StrUtil.isNotEmpty(branchInnercode)) {
+                lambdaQueryWrapper.likeRight(Role::getBranchInnercode, branchInnercode);
+            }
+        }
+        lambdaQueryWrapper.like(StrUtil.isNotEmpty(roleName), Role::getRoleName, roleName);
+        lambdaQueryWrapper.orderByAsc(Role::getBranchInnercode, Role::getCreateTime);
+        IPage<Role> ipage = roleService.page(new Query<Role>().getPage(params), lambdaQueryWrapper);
+        Page page = new Page(ipage);
+        List<Role> data = (List<Role>) page.getData();
+        if (CollUtil.isEmpty(data)) {
+            return success(page);
+        }
+        List<RoleQuery> tmpData = new ArrayList<>(data.size());
+        for (Role role : data) {
+            RoleQuery roleQuery = BeanUtil.toBean(role, RoleQuery.class);
+            roleQuery.setBranchName(PlatformCache.getBranch(roleQuery.getBranchInnercode()).getName());
+            tmpData.add(roleQuery);
+        }
+        page.setData(tmpData);
         return success(page);
     }
 

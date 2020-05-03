@@ -16,6 +16,9 @@ import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.priv.AbstractMenuPriv;
+import com.ssrs.platform.priv.BranchManagerPriv;
+import com.ssrs.platform.priv.RoleManagerPriv;
+import com.ssrs.platform.priv.UserManagerPriv;
 import com.ssrs.platform.service.IBranchService;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.util.PlatformCache;
@@ -254,11 +257,11 @@ public class PrivBL {
      *
      * @return
      */
-    public static PrivilegeModel getUserPriv(String id) {
-        if (StrUtil.isEmpty(id)) {
+    public static PrivilegeModel getUserPriv(String userName) {
+        if (StrUtil.isEmpty(userName)) {
             return null;
         }
-        User user = PlatformCache.getUser(id);
+        User user = PlatformCache.getUser(userName);
         if (user == null) {
             return null;
         }
@@ -273,7 +276,7 @@ public class PrivBL {
         } else {
             PrivilegeModel bp = getBranchPriv(user.getBranchInnercode());
             p = new PrivilegeModel();
-            Privilege privilege = privilegeService.getOne(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, id));
+            Privilege privilege = privilegeService.getOne(Wrappers.<Privilege>lambdaQuery().eq(Privilege::getOwnerType, PrivilegeModel.OwnerType_User).eq(Privilege::getOwner, userName));
             if (privilege != null) {
                 String priv = privilege.getPrivs();
                 p.parse(priv);
@@ -290,11 +293,11 @@ public class PrivBL {
                 p.union(p2);
             }
             // 机构管理员
-            List<Branch> branchList = branchService.list(Wrappers.<Branch>lambdaQuery().like(Branch::getManager, id));
+            List<Branch> branchList = branchService.list(Wrappers.<Branch>lambdaQuery().like(Branch::getManager, userName));
             for (Branch branch : branchList) {
                 String[] us = StrUtil.split(branch.getManager(), ",");
                 for (String u : us) {
-                    if (u.trim().equals(id)) {
+                    if (u.trim().equals(userName)) {
                         bp = getBranchPriv(branch.getBranchInnercode());
                         p.union(bp);
                     }
@@ -346,22 +349,21 @@ public class PrivBL {
     /**
      * 判断用户是否有设置权限
      *
-     * @param ownerType
-     * @param owner
+     * @param type
+     * @param userName
      * @return
      */
-    public static boolean canSetPriv(String ownerType, String owner) {
+    public static boolean canSetPriv(String type, String userName) {
         String setPrivID = "";
-//        if (PrivilegeModel.OwnerType_Branch.equals(type)) {
-//            setPrivID = BranchPriv.SetPrivRange;
-//        } else if (Privilege.OwnerType_User.equals(type)) {
-//            setPrivID = UserPriv.SetPriv;
-//        } else if (Privilege.OwnerType_Role.equals(type)) {
-//            setPrivID = RolePriv.SetPriv;
-//        }
-//        PrivilegeModel p = getUserPriv(userName);
-//        return p.hasPriv(setPrivID);
-        return true;
+        if (PrivilegeModel.OwnerType_Branch.equals(type)) {
+            setPrivID = BranchManagerPriv.PrivRange;
+        } else if (PrivilegeModel.OwnerType_User.equals(type)) {
+            setPrivID = UserManagerPriv.PrivRange;
+        } else if (PrivilegeModel.OwnerType_Role.equals(type)) {
+            setPrivID = RoleManagerPriv.PrivRange;
+        }
+        PrivilegeModel p = getUserPriv(userName);
+        return p.hasPriv(setPrivID);
     }
 
     /**
@@ -411,7 +413,7 @@ public class PrivBL {
                         // 获取机构下角色
                         .or(privilegeLambdaQueryWrapper -> privilegeLambdaQueryWrapper.exists(String.format("select 1 from sys_role where branch_innercode like '%s' and sys_privilege.owner_type='%s' and  sys_privilege.owner=role_code", id + "%", PrivilegeModel.OwnerType_Role)))
                         // 获取机构下用户
-                        .or(privilegeLambdaQueryWrapper -> privilegeLambdaQueryWrapper.exists(String.format("select 1 from sys_user where branch_innercode like '%s' and sys_privilege.owner_type='%s' and  sys_privilege.owner=username", id + "%", PrivilegeModel.OwnerType_User)))
+                        .or(privilegeLambdaQueryWrapper -> privilegeLambdaQueryWrapper.exists(String.format("select 1 from sys_user where branch_innercode like '%s' and sys_privilege.owner_type='%s' and  sys_privilege.owner=user_name", id + "%", PrivilegeModel.OwnerType_User)))
                 );
                 for (Privilege child : privilegeList) {
                     // 将本次取消选中的权限项从子机构、机构下用户、机构下角色的权限中去掉

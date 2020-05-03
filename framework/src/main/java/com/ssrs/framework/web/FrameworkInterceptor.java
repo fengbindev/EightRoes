@@ -90,8 +90,8 @@ public class FrameworkInterceptor implements HandlerInterceptor {
          */
         Object user = FrameworkCacheManager.get("Platform", "User", userName);
         Map<String, Object> userMap = BeanUtil.beanToMap(user);
-        User.setUserName(Convert.toStr(userMap.get("username")));
-        User.setRealName(Convert.toStr(userMap.get("realname")));
+        User.setUserName(Convert.toStr(userMap.get("userName")));
+        User.setRealName(Convert.toStr(userMap.get("realName")));
         User.setBranchAdministrator(StrUtil.equals("Y", Convert.toStr(userMap.get("branchAdmin"))));
         User.setBranchInnerCode(Convert.toStr(userMap.get("branchInnercode")));
         User.setSessionId(request.getSession().getId());

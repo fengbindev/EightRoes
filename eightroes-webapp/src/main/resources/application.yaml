@@ -41,7 +41,7 @@ mybatis-plus:
     db-config:
       id-type: auto
       insert-strategy: ignored
-      update-strategy: not_empty
+      update-strategy: not_null
       select-strategy: ignored
     banner: false
   type-enums-package: com.ssrs.*.enums

@@ -23,10 +23,4 @@ import java.util.Map;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
-    @Override
-    public Page selectPage(Map<String, Object> params) {
-        String roleName = (String) params.get("roleName");
-        IPage<RoleQuery> page = baseMapper.selectPage(new Query<RoleQuery>().getPage(params), roleName);
-        return new Page(page);
-    }
 }
