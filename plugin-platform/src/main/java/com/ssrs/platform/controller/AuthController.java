@@ -28,7 +28,7 @@ public class AuthController extends BaseController {
 
     @Priv(login = false)
     @PostMapping("/login")
-    public ApiResponses<JSONObject> login(@Validated @RequestBody AuthUser authUser) {
+    public ApiResponses<JSONObject> login(@Validated AuthUser authUser) {
         // TODO 校验验证码
         // 密码解密
 //        RSA rsa = new RSA(privateKey, null);

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ public class BasicErrorController implements ErrorController {
 
     @RequestMapping
     public void error(HttpServletRequest request,
-                      HttpServletResponse response) {
+                      HttpServletResponse response) throws IOException {
         request = new RequestWrapper(request);
         ErrorCodeEnum errorCode;
         switch (response.getStatus()) {

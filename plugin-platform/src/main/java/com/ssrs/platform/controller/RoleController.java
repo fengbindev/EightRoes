@@ -94,7 +94,7 @@ public class RoleController extends BaseController {
     @Priv
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> create(@Validated(RoleParm.Create.class) @RequestBody RoleParm roleParm) {
+    public ApiResponses<String> create(@Validated(RoleParm.Create.class)  RoleParm roleParm) {
         Role role = roleParm.convert(Role.class);
         Role exitRole = roleService.getById(role.getRoleCode());
         if (exitRole != null) {
@@ -114,7 +114,7 @@ public class RoleController extends BaseController {
 
     @Priv
     @PutMapping("/{roleCode}")
-    public ApiResponses<String> update(@PathVariable String roleCode, @Validated(RoleParm.Update.class) @RequestBody RoleParm roleParm) {
+    public ApiResponses<String> update(@PathVariable String roleCode, @Validated(RoleParm.Update.class)  RoleParm roleParm) {
         Role role = roleParm.convert(Role.class);
         Role exitRole = roleService.getById(roleCode);
         if (exitRole == null) {

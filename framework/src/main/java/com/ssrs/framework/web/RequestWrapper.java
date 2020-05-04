@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -35,9 +37,14 @@ public class RequestWrapper extends HttpServletRequestWrapper {
      * 存储requestBody byte[]
      */
     private final byte[] body;
+    /**
+     * 存储 parameterMap Map<String, String[]>
+     */
+    private  Map<String, String[]> parameterMap = new HashMap<>();
 
     public RequestWrapper(HttpServletRequest request) {
         super(request);
+        this.parameterMap = request.getParameterMap();
         this.body = RequestUtils.getByteBody(request);
     }
 
@@ -104,6 +111,11 @@ public class RequestWrapper extends HttpServletRequestWrapper {
             return null;
         }
         return htmlEscape(value);
+    }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        return parameterMap;
     }
 
     @Override

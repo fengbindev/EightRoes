@@ -148,13 +148,13 @@ public class UserController extends BaseController {
     @Priv
     @PutMapping("/{username}")
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> update(@PathVariable("username") String username, @RequestBody UserParm userParm) {
+    public ApiResponses<String> update(@PathVariable("username") String username, UserParm userParm) {
         OperateReport operateReport = userService.saveUser(userParm);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
         }
         // 用户修改完成后的扩展点
-         ExtendManager.invoke(AfterUserModifyPoint.ID, (Object[]) operateReport.getData());
+        ExtendManager.invoke(AfterUserModifyPoint.ID, (Object[]) operateReport.getData());
         return success("保存成功");
     }
 
@@ -167,7 +167,7 @@ public class UserController extends BaseController {
             return failure(operateReport.getMessage());
         }
         // 用户删除完成后的扩展点
-         ExtendManager.invoke(AfterUserDeletePoint.ID, (Object[]) operateReport.getData());
+        ExtendManager.invoke(AfterUserDeletePoint.ID, (Object[]) operateReport.getData());
         return success("删除成功");
     }
 }

@@ -17,7 +17,6 @@ public class AuthUser {
 
     private String code;
 
-    private String uuid = "";
 
     @Override
     public String toString() {

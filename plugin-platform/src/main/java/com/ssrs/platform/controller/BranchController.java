@@ -98,7 +98,7 @@ public class BranchController extends BaseController {
     @Priv
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> create(@Validated @RequestBody BranchParm branchParm) {
+    public ApiResponses<String> create(@Validated  BranchParm branchParm) {
         Branch branch = branchParm.convert(Branch.class);
         OperateReport operateReport = branchService.isNameOrBranchCodeExists(branch.getName(), branch.getBranchCode(), null);
         if (!operateReport.isSuccess()) {
@@ -128,7 +128,7 @@ public class BranchController extends BaseController {
     @Priv
     @PutMapping("/{bracnInnercode}")
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> update(@PathVariable String bracnInnercode, @Validated @RequestBody BranchParm branchParm) {
+    public ApiResponses<String> update(@PathVariable String bracnInnercode, @Validated BranchParm branchParm) {
         Branch branch = branchParm.convert(Branch.class);
         branch.setBranchInnercode(bracnInnercode);
         OperateReport operateReport = branchService.isNameOrBranchCodeExists(branch.getName(), branch.getBranchCode(), branch.getBranchInnercode());
