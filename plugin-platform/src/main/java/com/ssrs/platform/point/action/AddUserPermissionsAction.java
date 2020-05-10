@@ -1,10 +1,12 @@
 package com.ssrs.platform.point.action;
 
+import com.ssrs.framework.PrivilegeModel;
+import com.ssrs.framework.User;
 import com.ssrs.framework.point.AddUserPermissionsPoint;
 import com.ssrs.framework.util.SpringUtil;
+import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.service.IUserService;
 
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -15,9 +17,9 @@ public class AddUserPermissionsAction extends AddUserPermissionsPoint {
 
     @Override
     public Set<String> execute() {
-        Set<String> set = new HashSet<>();
-       // TODO 获取用户权限
-        return set;
+        PrivilegeModel privilege = PrivBL.getCurrentPrivilege(PrivilegeModel.OwnerType_User, User.getUserName());
+        Set<String> menuPrivSet = privilege.getMenuPrivSet();
+        return menuPrivSet;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class RestResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         }
         ResponseData r = Current.getResponse();
         if (body != null) {
-            r.put("data", body);
+            r.set("data", body);
         }
         if (r == null) {
             return null;

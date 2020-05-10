@@ -23,6 +23,7 @@ import com.ssrs.platform.model.query.RoleQuery;
 import com.ssrs.platform.point.AfterRoleAddPoint;
 import com.ssrs.platform.point.AfterRoleDeletePoint;
 import com.ssrs.platform.point.AfterRoleModifyPoint;
+import com.ssrs.platform.priv.RoleManagerPriv;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
@@ -91,7 +92,7 @@ public class RoleController extends BaseController {
         return success(page);
     }
 
-    @Priv
+    @Priv(RoleManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(@Validated(RoleParm.Create.class)  RoleParm roleParm) {
@@ -112,7 +113,7 @@ public class RoleController extends BaseController {
         return success("添加成功");
     }
 
-    @Priv
+    @Priv(RoleManagerPriv.Edit)
     @PutMapping("/{roleCode}")
     public ApiResponses<String> update(@PathVariable String roleCode, @Validated(RoleParm.Update.class)  RoleParm roleParm) {
         Role role = roleParm.convert(Role.class);
@@ -127,7 +128,7 @@ public class RoleController extends BaseController {
         return success("修改成功");
     }
 
-    @Priv
+    @Priv(RoleManagerPriv.Delete)
     @DeleteMapping("/{id}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable String id) {

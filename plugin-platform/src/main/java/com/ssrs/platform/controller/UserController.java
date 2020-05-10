@@ -24,6 +24,7 @@ import com.ssrs.platform.model.query.UserQuery;
 import com.ssrs.platform.point.AfterUserAddPoint;
 import com.ssrs.platform.point.AfterUserDeletePoint;
 import com.ssrs.platform.point.AfterUserModifyPoint;
+import com.ssrs.platform.priv.UserManagerPriv;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
 import com.ssrs.platform.service.IUserService;
@@ -132,7 +133,7 @@ public class UserController extends BaseController {
         return success(data);
     }
 
-    @Priv
+    @Priv(UserManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(@RequestBody UserParm userParm) {
@@ -141,11 +142,11 @@ public class UserController extends BaseController {
             return failure(operateReport.getMessage());
         }
         // 用户添加完成后的扩展点
-        ExtendManager.invoke(AfterUserAddPoint.ID, (Object[]) operateReport.getData());
+        ExtendManager.invoke(AfterUserAddPoint.ID, new Object[]{operateReport.getData()});
         return success("添加成功");
     }
 
-    @Priv
+    @Priv(UserManagerPriv.Edit)
     @PutMapping("/{username}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> update(@PathVariable("username") String username, UserParm userParm) {
@@ -154,11 +155,11 @@ public class UserController extends BaseController {
             return failure(operateReport.getMessage());
         }
         // 用户修改完成后的扩展点
-        ExtendManager.invoke(AfterUserModifyPoint.ID, (Object[]) operateReport.getData());
+        ExtendManager.invoke(AfterUserModifyPoint.ID, new Object[]{operateReport.getData()});
         return success("保存成功");
     }
 
-    @Priv
+    @Priv(UserManagerPriv.Delete)
     @DeleteMapping("/{ids}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable("ids") String ids) {
@@ -167,7 +168,7 @@ public class UserController extends BaseController {
             return failure(operateReport.getMessage());
         }
         // 用户删除完成后的扩展点
-        ExtendManager.invoke(AfterUserDeletePoint.ID, (Object[]) operateReport.getData());
+        ExtendManager.invoke(AfterUserDeletePoint.ID, new Object[]{operateReport.getData()});
         return success("删除成功");
     }
 }

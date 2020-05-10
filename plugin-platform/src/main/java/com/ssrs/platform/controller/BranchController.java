@@ -26,6 +26,7 @@ import com.ssrs.platform.model.parm.BranchParm;
 import com.ssrs.platform.point.AfterBranchAddPoint;
 import com.ssrs.platform.point.AfterBranchDeletePoint;
 import com.ssrs.platform.point.AfterBranchModifyPoint;
+import com.ssrs.platform.priv.BranchManagerPriv;
 import com.ssrs.platform.service.IBranchService;
 import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IRoleService;
@@ -95,7 +96,7 @@ public class BranchController extends BaseController {
         return success(branchTree);
     }
 
-    @Priv
+    @Priv(BranchManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(@Validated  BranchParm branchParm) {
@@ -125,7 +126,7 @@ public class BranchController extends BaseController {
         return success("保存成功");
     }
 
-    @Priv
+    @Priv(BranchManagerPriv.Edit)
     @PutMapping("/{bracnInnercode}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> update(@PathVariable String bracnInnercode, @Validated BranchParm branchParm) {
@@ -145,7 +146,7 @@ public class BranchController extends BaseController {
         return success("修改成功");
     }
 
-    @Priv
+    @Priv(BranchManagerPriv.Delete)
     @DeleteMapping("/{ids}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable String ids) {

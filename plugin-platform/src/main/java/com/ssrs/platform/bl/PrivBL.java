@@ -29,6 +29,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 权限处理逻辑
+ *
+ * @author ssrs
+ */
 @Component
 public class PrivBL {
     private static Log log = LogFactory.get();

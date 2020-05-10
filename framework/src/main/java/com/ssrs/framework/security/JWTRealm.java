@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.point.AddUserPermissionsPoint;
 import com.ssrs.framework.point.AddUserRolesPoint;
+import com.ssrs.framework.util.JWTTokenUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -63,5 +64,23 @@ public class JWTRealm extends AuthorizingRealm {
         String accessToken = (String) auth.getPrincipal();
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(accessToken, accessToken, getName());
         return info;
+    }
+
+    /**
+     * 建议重写此方法，提供唯一的缓存Key
+     */
+    @Override
+    protected Object getAuthorizationCacheKey(PrincipalCollection principals) {
+        String token = (String) principals.getPrimaryPrincipal();
+        return JWTTokenUtils.getUserName(token);
+    }
+
+    /**
+     * 建议重写此方法，提供唯一的缓存Key
+     */
+    @Override
+    protected Object getAuthenticationCacheKey(PrincipalCollection principals) {
+        String token = (String) principals.getPrimaryPrincipal();
+        return JWTTokenUtils.getUserName(token);
     }
 }

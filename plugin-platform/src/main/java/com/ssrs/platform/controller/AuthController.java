@@ -1,7 +1,9 @@
 package com.ssrs.platform.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ssrs.framework.security.ShiroAuthorizationHelper;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.util.ApiAssert;
 import com.ssrs.framework.util.JWTTokenUtils;
@@ -13,8 +15,13 @@ import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.AuthUser;
 import com.ssrs.platform.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
@@ -25,6 +32,8 @@ public class AuthController extends BaseController {
 //    private String privateKey;
     @Autowired
     private IUserService userService;
+    @Autowired
+    private CacheManager cacheManager;
 
     @Priv(login = false)
     @PostMapping("/login")
@@ -45,6 +54,8 @@ public class AuthController extends BaseController {
         // TODO 三级等保功能
         // 设置当选用户信息
         JSONObject webToken = JWTTokenUtils.createWebToken(user.getUserName());
+        // 清除权限缓存
+        ShiroAuthorizationHelper.clearAuthorizationInfo(user.getUserName());
         return success(webToken);
 
     }

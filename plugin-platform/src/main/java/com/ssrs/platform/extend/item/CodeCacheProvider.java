@@ -1,5 +1,6 @@
 package com.ssrs.platform.extend.item;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.cache.CacheDataProvider;
 import com.ssrs.framework.cache.FrameworkCacheManager;
@@ -30,6 +31,13 @@ public class CodeCacheProvider extends CacheDataProvider {
         return "代码项缓存提供者";
     }
 
+    /**
+     * 获取指定代码类别下的指定代码项
+     */
+    public static Code get(String type, String codeValue) {
+        return (Code) FrameworkCacheManager.get(ProviderID, type, codeValue);
+    }
+
     public static void setCode(Code code) {
         if (code == null || "System".equals(code.getParentCode())) {
             return;
@@ -46,6 +54,13 @@ public class CodeCacheProvider extends CacheDataProvider {
         } else {
             FrameworkCacheManager.removeType(ProviderID, code.getCodeType());
         }
+    }
+
+    public static void removeCode(String codeType) {
+        if (StrUtil.isEmpty(codeType)) {
+            return;
+        }
+        FrameworkCacheManager.removeType(ProviderID, codeType);
     }
 
 

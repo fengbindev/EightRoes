@@ -1,5 +1,6 @@
 package com.ssrs.framework.security;
 
+import com.ssrs.framework.security.cache.ShiroSpringCacheManager;
 import com.ssrs.framework.security.filter.JWTFilter;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
@@ -20,11 +21,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
-public class ShiroAutoConfiguration{
+public class ShiroAutoConfiguration {
 
     @Bean
     public static DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
+        creator.setUsePrefix(true);
         creator.setProxyTargetClass(true);
         return creator;
     }
@@ -40,14 +42,16 @@ public class ShiroAutoConfiguration{
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(Realm realm) {
+    public DefaultWebSecurityManager securityManager(Realm realm, ShiroSpringCacheManager cacheManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
+        securityManager.setCacheManager(cacheManager);
         return securityManager;
     }
 
     /**
      * 启用注解拦截方式
+     *
      * @return AuthorizationAttributeSourceAdvisor
      */
     @Bean
@@ -58,7 +62,7 @@ public class ShiroAutoConfiguration{
     }
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager  securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, Filter> filters = new HashMap<>();

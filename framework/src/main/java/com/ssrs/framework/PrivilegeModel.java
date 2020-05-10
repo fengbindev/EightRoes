@@ -8,6 +8,7 @@ import cn.hutool.json.JSONUtil;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -146,6 +147,10 @@ public class PrivilegeModel implements Serializable {
 
     private void clear() {
         keys.clear();
+    }
+
+    public Set<String> getMenuPrivSet() {
+       return  keys.keySet();
     }
 
     @Override
