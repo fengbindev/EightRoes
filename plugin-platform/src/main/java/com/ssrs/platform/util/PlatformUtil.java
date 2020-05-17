@@ -21,7 +21,7 @@ public class PlatformUtil {
 
 
     /**
-     * 载入数据库配置中的配置项
+     * 载入数据库配置中的配置项 TODO 可能要放到缓存中去。
      */
     public static void loadDBConfig() {
         synchronized (mutex) {

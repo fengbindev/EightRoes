@@ -46,4 +46,10 @@ mybatis-plus:
     banner: false
   type-enums-package: com.ssrs.*.enums
   type-aliases-package: com.ssrs.*.model.entity,com.ssrs.*.model.dto,com.ssrs.*.model.query
+logging:
+  level:
+    org.apache.http: off
+    org.springframework: error
+    sun.rmi: off
+    ch.qos.logback.classic.Level: off
 

@@ -1,5 +1,6 @@
 package com.ssrs.platform.service;
 
+import cn.hutool.core.lang.Dict;
 import com.ssrs.platform.model.entity.Config;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IConfigService extends IService<Config> {
 
+    void saveConfig(Dict dict);
 }

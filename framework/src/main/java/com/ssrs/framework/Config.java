@@ -94,9 +94,9 @@ public class Config {
 
     private static void initProduct() {
         appCode = Optional.ofNullable(appCode)
-                .orElseGet(() -> configMap.getOrDefault("App.code", "sso"));
+                .orElseGet(() -> configMap.getOrDefault("App.code", "EightRoes"));
         appName = Optional.ofNullable(appName)
-                .orElseGet(() -> configMap.getOrDefault("App.name", "单点登录系统"));
+                .orElseGet(() -> configMap.getOrDefault("App.name", "八玫瑰快速开发框架"));
         appVersion = Optional.ofNullable(appVersion)
                 .orElseGet(() -> configMap.getOrDefault("App.version", "1.0"));
     }
@@ -121,6 +121,10 @@ public class Config {
         configMap.put(key, value);
     }
 
+    public static void removeValue(String key) {
+        configMap.remove(key);
+    }
+
     /**
      * @return 获取应用code
      */
@@ -132,7 +136,7 @@ public class Config {
     }
 
     /**
-     * @return获取应用名称
+     * @return 获取应用名称
      */
     public static String getAppName() {
         if (!loaded) {

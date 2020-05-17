@@ -12,7 +12,7 @@ import com.ssrs.platform.code.DataType;
 public class AdminUserName extends FixedConfigItem {
     public static final String ID = "Platform.AdminUserName";
 
-    public AdminUserName(String code, String dataType, String controlType, String memo) {
+    public AdminUserName() {
         super(ID, DataType.ShortText, ControlType.Text, "系统管理员的用户名");
     }
 

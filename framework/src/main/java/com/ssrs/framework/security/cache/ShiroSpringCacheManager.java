@@ -9,6 +9,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.Destroyable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,14 +22,11 @@ import org.springframework.stereotype.Component;
 public class ShiroSpringCacheManager implements CacheManager, Destroyable {
 
     @Autowired
+    @Lazy
     private org.springframework.cache.CacheManager cacheManager;
 
     public org.springframework.cache.CacheManager getCacheManager() {
         return cacheManager;
-    }
-
-    public void setCacheManager(org.springframework.cache.CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
     }
 
     @Override
