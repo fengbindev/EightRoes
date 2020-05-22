@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
     <id>com.ssrs.platform.PlatformPlugin</id>
-    <name>framework</name>
     <class>com.ssrs.platform.PlatformPlugin</class>
     <author>ssrs</author>
     <provider>ssrs</provider>
@@ -141,4 +140,5 @@
         <class>com.ssrs.platform.point.ApplicationPrivsExtendPoint</class>
         <description>获取当前登录用户权限后的扩展点</description>
     </extend-point>
+    <name>基础平台</name>
 </plugin>

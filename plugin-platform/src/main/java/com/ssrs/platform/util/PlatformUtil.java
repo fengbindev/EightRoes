@@ -21,16 +21,16 @@ public class PlatformUtil {
 
 
     /**
-     * 载入数据库配置中的配置项 TODO 可能要放到缓存中去。
+     * 载入数据库配置中的配置项
      */
     public static void loadDBConfig() {
         synchronized (mutex) {
             try {
                 IConfigService configService = SpringUtil.getBean(IConfigService.class);
                 configService.list().forEach(config -> {
-                    Config.getMap().put(config.getCode(), config.getValue());
+                    Config.setValue(config.getCode(), config.getValue());
                 });
-                Config.getMap().put("AdminUserName", AdminUserName.getValue());
+                Config.setValue("AdminUserName", AdminUserName.getValue());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -2,6 +2,7 @@ package com.ssrs.framework;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.schedule.SystemTaskManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -27,12 +30,15 @@ import javax.servlet.ServletException;
 @ComponentScan({"**.com.ssrs.**"})
 @ServletComponentScan({"com.ssrs.framework"})
 @Order(-2147483648)
+@EnableCaching
 public class FrameworkAutoConfiguration extends SpringBootServletInitializer {
     private static final Log log = LogFactory.get();
     @Autowired
     private ServletContext servletContext;
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Autowired
+    private CacheManager cacheManager;
     private static boolean initFlag = false;
     private static boolean startupFlag = false;
     private static FrameworkAutoConfiguration instance;
@@ -63,6 +69,7 @@ public class FrameworkAutoConfiguration extends SpringBootServletInitializer {
             startupFlag = true;
         }
         if (!initFlag) {
+            FrameworkCacheManager.setCacheManager(cacheManager);
             Config.setWebApplicationContext(webApplicationContext);
             Config.setBuildInfo(getBuildProperties());
             ExtendManager.getInstance().start();

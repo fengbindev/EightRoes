@@ -40,4 +40,10 @@
 		<description>定时任务缓存扩展项</description>
 		<extend-service>com.ssrs.framework.cache.CacheService</extend-service>
 	</extend-item>
+	<extend-item>
+		<id>com.ssrs.framework.cache.ConfigCacheProvider</id>
+		<class>com.ssrs.framework.cache.ConfigCacheProvider</class>
+		<description>配置项缓存提供者</description>
+		<extend-service>com.ssrs.framework.cache.CacheService</extend-service>
+	</extend-item>
 </plugin>

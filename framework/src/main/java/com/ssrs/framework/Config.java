@@ -1,10 +1,13 @@
 package com.ssrs.framework;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import cn.hutool.system.*;
+import com.ssrs.framework.cache.ConfigCacheProvider;
+import com.ssrs.framework.cache.FrameworkCacheManager;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -104,25 +107,34 @@ public class Config {
     public static void reloadConfig() {
         loaded = false;
         configMap.clear();
+        FrameworkCacheManager.removeType(ConfigCacheProvider.ProviderID, ConfigCacheProvider.ProviderID);
         ConfigLoader.reload();
         init();
     }
 
-    public static Map<String, String> getMap() {
+    private static Map<String, String> getMap() {
         return configMap;
     }
 
     public static String getValue(String key) {
         init();
-        return configMap.get(key);
+        String value = configMap.get(key);
+        if (StrUtil.isNotEmpty(value)){
+            return  value;
+        }
+        Object cacheValue = FrameworkCacheManager.get(ConfigCacheProvider.ProviderID, ConfigCacheProvider.ProviderID, key);
+        setValue(key, Convert.toStr(cacheValue));
+        return Convert.toStr(cacheValue);
     }
 
     public static void setValue(String key, String value) {
         configMap.put(key, value);
+        FrameworkCacheManager.set(ConfigCacheProvider.ProviderID, ConfigCacheProvider.ProviderID, key, value);
     }
 
     public static void removeValue(String key) {
         configMap.remove(key);
+        FrameworkCacheManager.remove(ConfigCacheProvider.ProviderID, ConfigCacheProvider.ProviderID, key);
     }
 
     /**

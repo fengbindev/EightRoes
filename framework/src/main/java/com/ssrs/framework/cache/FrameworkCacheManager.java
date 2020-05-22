@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class FrameworkCacheManager {
     public static CacheManager cacheManager;
 
     @Autowired
-    public void setCacheManager(CacheManager cacheManager) {
+    public static void setCacheManager(CacheManager cacheManager) {
         FrameworkCacheManager.cacheManager = cacheManager;
     }
 

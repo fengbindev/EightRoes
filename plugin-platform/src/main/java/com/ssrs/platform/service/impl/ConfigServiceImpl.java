@@ -46,6 +46,8 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
                     if (StrUtil.isEmpty(value)) {
                         continue;
                     }
+                    config = new Config();
+                    config.setCode(fci.getExtendItemID());
                     config.setValue(value);
                     config.setName(fci.getExtendItemName());
                     save(config);
