@@ -14,6 +14,7 @@ import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.FixedConfigItem;
 import com.ssrs.platform.extend.ConfigService;
+import com.ssrs.platform.priv.ConfigManagerPriv;
 import com.ssrs.platform.service.IConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class ConfigController extends BaseController {
     @Autowired
     private IConfigService configService;
 
-    @Priv
+    @Priv(ConfigManagerPriv.Save)
     @PutMapping("/saved")
     public ApiResponses<String> saved(String data) {
         JSONArray plugins = JSONUtil.parseArray(data);
@@ -56,7 +57,7 @@ public class ConfigController extends BaseController {
         return success("保存成功");
     }
 
-    @Priv
+    @Priv(ConfigManagerPriv.MenuID)
     @GetMapping
     public ApiResponses<JSONArray> list() {
         // 获取所有配置项

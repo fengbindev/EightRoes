@@ -1,6 +1,7 @@
 package com.ssrs.framework.security;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.util.JWTTokenUtils;
 import com.ssrs.framework.util.SpringUtil;
@@ -39,6 +40,9 @@ public class PermissionHandler extends AuthorizingAnnotationHandler {
                 return;
             }
             String token = Convert.toStr(subject.getPrincipal());
+            if (StrUtil.isEmpty(token)){
+                throw new ApiException(ErrorCodeEnum.UNAUTHORIZED);
+            }
             if (JWTTokenUtils.isExpired(token)) {
                 throw new ApiException(ErrorCodeEnum.UNAUTHORIZED);
             }

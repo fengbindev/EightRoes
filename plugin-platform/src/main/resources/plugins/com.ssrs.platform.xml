@@ -90,6 +90,12 @@
         <description>用户管理权限</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.ConfigManagerPriv</id>
+        <class>com.ssrs.platform.priv.ConfigManagerPriv</class>
+        <description>配置管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
         <class>com.ssrs.platform.point.AfterUserAddPoint</class>

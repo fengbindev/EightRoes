@@ -11,6 +11,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class SystemTaskManager extends AbstractTaskManager {
+    public static final String ID = "SYSTEM";
     private static final Log log = LogFactory.get();
     private static boolean startFlag = false;
     private static Lock lock = new ReentrantLock();

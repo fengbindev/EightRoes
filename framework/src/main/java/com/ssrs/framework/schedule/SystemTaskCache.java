@@ -36,14 +36,14 @@ public class SystemTaskCache extends CacheDataProvider {
         return (SystemTask) FrameworkCacheManager.get(ProviderID, Type, taskId);
     }
 
-    public void set(SystemTask task) {
+    public static void set(SystemTask task) {
         if (task == null) {
             return;
         }
         FrameworkCacheManager.set(ProviderID, Type, task.getExtendItemID(), task);
     }
 
-    public void remove(SystemTask task) {
+    public static void remove(SystemTask task) {
         if (task == null) {
             return;
         }

@@ -46,4 +46,16 @@
 		<description>配置项缓存提供者</description>
 		<extend-service>com.ssrs.framework.cache.CacheService</extend-service>
 	</extend-item>
+	<extend-item>
+		<id>com.ssrs.framework.task.TestTask1</id>
+		<class>com.ssrs.framework.task.TestTask1</class>
+		<description>测试任务1</description>
+		<extend-service>com.ssrs.framework.schedule.SystemTaskService</extend-service>
+	</extend-item>
+	<extend-item>
+		<id>com.ssrs.framework.task.TestTask2</id>
+		<class>com.ssrs.framework.task.TestTask2</class>
+		<description>测试任务2</description>
+		<extend-service>com.ssrs.framework.schedule.SystemTaskService</extend-service>
+	</extend-item>
 </plugin>

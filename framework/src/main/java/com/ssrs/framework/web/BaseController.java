@@ -38,6 +38,15 @@ public class BaseController {
      *
      * @return
      */
+    public static <T> ApiResponses<T> success(String message) {
+        return ApiResponses.<T>success(message, null);
+    }
+
+    /**
+     * 成功的ApiResponses
+     *
+     * @return
+     */
     public static <T> ApiResponses<T> success(String message, T object) {
         return ApiResponses.<T>success(message, object);
     }
