@@ -16,7 +16,7 @@ public class TestTask2 extends SystemTask {
     }
 
     @Override
-    public String getCronExpression() {
+    public String getDefaultCronExpression() {
         return "0/10 * * * * ?";
     }
 

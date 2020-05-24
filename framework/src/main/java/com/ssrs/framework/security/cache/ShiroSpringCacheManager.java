@@ -39,6 +39,6 @@ public class ShiroSpringCacheManager implements CacheManager, Destroyable {
             return null;
         }
         // 新建一个ShiroSpringCache 将Bean放入并实例化
-        return new ShiroSpringCache<K, V>(Config.getAppCode() + name, getCacheManager());
+        return new ShiroSpringCache<K, V>(Config.getAppCode() + "-" + name, getCacheManager());
     }
 }

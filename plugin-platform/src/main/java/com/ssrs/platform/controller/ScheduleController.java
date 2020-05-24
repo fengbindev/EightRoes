@@ -2,6 +2,7 @@ package com.ssrs.platform.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.cron.CronException;
 import cn.hutool.cron.CronUtil;
 import cn.hutool.cron.pattern.CronPattern;
 import cn.hutool.cron.task.Task;
@@ -38,10 +39,10 @@ public class ScheduleController extends BaseController {
             map.put("sourceId", task.getExtendItemID());
             map.put("sourceName", task.getExtendItemName());
             map.put("isUsing", task.isDisabled() ? YesOrNo.No : YesOrNo.Yes);
-            map.put("cronExpression", SystemTaskManager.getInstance().getTaskCronExpression(task.getExtendItemID()));
+            map.put("cronExpression", task.getCronExpression());
             if (!task.isDisabled()) {
                 try {
-                    CronExpression cronExpression = new CronExpression(SystemTaskManager.getInstance().getTaskCronExpression(task.getExtendItemID()));
+                    CronExpression cronExpression = new CronExpression(task.getCronExpression());
                     map.put("nextRunTime", cronExpression.getNextValidTimeAfter(new Date()));
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -66,8 +67,8 @@ public class ScheduleController extends BaseController {
     }
 
     @Priv
-    @PutMapping("/{id:.+}")
-    public ApiResponses<String> update(@PathVariable String id, String cronExpression, String isUsing) {
+    @PutMapping
+    public ApiResponses<String> update(String id, String cronExpression, String isUsing) {
         SystemTask systemTask = SystemTaskCache.get(id);
         if (StrUtil.isEmpty(cronExpression)) {
             return failure("表达式不能为空");
@@ -77,17 +78,23 @@ public class ScheduleController extends BaseController {
         }
         systemTask.setCronExpression(cronExpression);
         systemTask.setDisabled(!YesOrNo.isYes(isUsing));
-        SystemTaskCache.set(systemTask);
-        if (YesOrNo.isYes(isUsing)) {
-            Task task = CronUtil.getScheduler().getTaskTable().getTask(systemTask.getExtendItemID());
-            if (ObjectUtil.isEmpty(task)) {
-                CronUtil.schedule(systemTask.getExtendItemID(), systemTask.getCronExpression(), systemTask);
+        try {
+            if (YesOrNo.isYes(isUsing)) {
+                Task task = CronUtil.getScheduler().getTaskTable().getTask(systemTask.getExtendItemID());
+                if (ObjectUtil.isEmpty(task)) {
+                    CronUtil.schedule(systemTask.getExtendItemID(), systemTask.getCronExpression(), systemTask);
+                } else {
+                    CronUtil.updatePattern(systemTask.getExtendItemID(), new CronPattern(cronExpression));
+                }
             } else {
-                CronUtil.updatePattern(systemTask.getExtendItemID(), new CronPattern(cronExpression));
+                CronUtil.remove(systemTask.getExtendItemID());
             }
-        } else {
-            CronUtil.remove(systemTask.getExtendItemID());
+            SystemTaskCache.set(systemTask);
+        }catch (CronException e){
+            e.printStackTrace();
+            return failure("表达式解析异常！");
         }
+
         return success("修改成功");
     }
 

@@ -17,7 +17,7 @@ public class AddUserPermissionsAction extends AddUserPermissionsPoint {
 
     @Override
     public Set<String> execute() {
-        PrivilegeModel privilege = PrivBL.getCurrentPrivilege(PrivilegeModel.OwnerType_User, User.getUserName());
+        PrivilegeModel privilege = PrivBL.getUserPriv(User.getUserName());
         Set<String> menuPrivSet = privilege.getMenuPrivSet();
         return menuPrivSet;
     }

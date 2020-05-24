@@ -83,5 +83,6 @@ public class SystemTaskManager extends AbstractTaskManager {
             log.error("not fount this task:{}", id);
             return;
         }
+        task.execute();
     }
 }
