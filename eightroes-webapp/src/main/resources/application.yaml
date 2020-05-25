@@ -8,7 +8,7 @@ spring:
   cache:
     type: simple
   datasource:
-    url: jdbc:p6spy:mysql://127.0.0.1:3306/ssrs-sso?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 1234
     type: com.zaxxer.hikari.HikariDataSource

@@ -5,6 +5,8 @@ code=eight-roes
 name=八玫瑰快速开发框架
 #应用版本
 version=1.0
+#应用数据(日志/缓存/索引等)的存放路径,%{Parent}表示当前应用的根目录的父级目录
+appDataPath=%{Parent}/appdata/
 #是否打印请求日志
 printfRequestLog=true
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="false">
+	<property name="appName" value="EightRoes"></property>
+	 <define  name="LogbackPath" class="com.ssrs.framework.config.LogbackPath" />
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg [%thread]%n</pattern>
+			<ImmediateFlush>false</ImmediateFlush>
+		</encoder>
+	</appender>
+
+
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LogbackPath}/logs/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LogbackPath}/logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<MaxHistory>365</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg [%thread]%n</pattern>
+			<ImmediateFlush>false</ImmediateFlush>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LogbackPath}/logs/app.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LogbackPath}/logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+			<MaxHistory>365</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %msg [%thread %-5level]%n</pattern>
+			<ImmediateFlush>false</ImmediateFlush>
+		</encoder>
+	</appender>
+
+	<appender name="async" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>2048</queueSize>
+		<includeCallerData>true</includeCallerData>
+		<appender-ref ref="file" />
+	</appender>
+
+	<logger name="org.springframework" level="debug" additivity="true"></logger>
+	<logger name="io.undertow" level="info" additivity="false"></logger>
+	<logger name="org.xnio" level="info" additivity="false"></logger>
+
+	<root level="info">
+		<appender-ref ref="console" />
+		<appender-ref ref="error" />
+		<appender-ref ref="async" />
+	</root>
+</configuration> 

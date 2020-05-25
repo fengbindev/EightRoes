@@ -2,6 +2,7 @@ package com.ssrs.framework;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
@@ -24,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class Config {
-    private static final Log log = LogFactory.get();
+    private static final Log log = LogFactory.get(Config.class);
     private static boolean loaded = false;
     protected static ConcurrentHashMap<String, String> configMap = new ConcurrentHashMap<>(50);
     /**
@@ -65,6 +66,11 @@ public class Config {
     protected static String contextRealPath;
 
     /**
+     * 日志，索引等存放路径
+     */
+    protected static String appDataPath;
+
+    /**
      * 应用程序目录的全路径
      */
     protected static String applicationPath;
@@ -90,6 +96,7 @@ public class Config {
             configMap.put("system.hostName", hostInfo.getName());
             configMap.put("system.hostAddress", hostInfo.getAddress());
             initProduct();
+            setAppDataPath(ConfigLoader.getAppConfig().get("App.appDataPath"));
             loaded = true;
             log.info("----{} ({}): Config Initialized----", getAppCode(), getAppName());
         }
@@ -123,7 +130,9 @@ public class Config {
             return  value;
         }
         Object cacheValue = FrameworkCacheManager.get(ConfigCacheProvider.ProviderID, ConfigCacheProvider.ProviderID, key);
-        setValue(key, Convert.toStr(cacheValue));
+        if (ObjectUtil.isNotEmpty(cacheValue)){
+            setValue(key, Convert.toStr(cacheValue));
+        }
         return Convert.toStr(cacheValue);
     }
 
@@ -416,6 +425,43 @@ public class Config {
             }
         }
         return applicationPath;
+    }
+
+    public static String getAppDataPath() {
+        if (!loaded) {
+            init();
+        }
+        return appDataPath;
+    }
+
+    public static void setAppDataPath(String appDataPath) {
+        Config.appDataPath = replacePathHolder(appDataPath);
+    }
+
+    public static String replacePathHolder(String v) {
+        String path = Config.getApplicationRealPath();
+        if (path.endsWith("/")) {
+            path = path.substring(0, path.length() - 1);
+        }
+
+        String parentPath = FileUtil.normalize(path);
+        if (parentPath.endsWith("/target/classes")) {
+            parentPath = parentPath.substring(0, parentPath.length() - "/target/classes".length());
+        } else {
+            int endIndex = path.lastIndexOf("/");
+            if (endIndex >= 0) {
+                parentPath = path.substring(0, endIndex);
+            } else {
+                log.warn("Path ${Parent} :" + path);
+            }
+        }
+
+        v = StrUtil.replace(v, "${Self}", path, true);
+        v = StrUtil.replace(v, "%{Self}", path, true);
+        v = StrUtil.replace(v, "${Parent}", parentPath, true);
+        v = StrUtil.replace(v, "%{Parent}", parentPath, true);
+        v = FileUtil.normalize(v);
+        return v;
     }
 
 
