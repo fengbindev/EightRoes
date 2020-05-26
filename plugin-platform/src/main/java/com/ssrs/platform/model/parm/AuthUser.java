@@ -15,7 +15,9 @@ public class AuthUser {
     @NotBlank(message = "密码不能为空！")
     private String password;
 
-    private String code;
+    private String verifyCode;
+
+    private boolean isVerifyCode;
 
 
     @Override

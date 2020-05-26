@@ -1,5 +1,6 @@
 package com.ssrs.platform.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
@@ -11,6 +12,8 @@ import com.ssrs.framework.PrivilegeModel;
 import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.framework.core.OperateReport;
 import com.ssrs.platform.bl.PrivBL;
+import com.ssrs.platform.code.NotIncludeUserInfo;
+import com.ssrs.platform.code.PasswordCharacterSpecification;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.model.entity.Privilege;
@@ -22,13 +25,16 @@ import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IUserRoleService;
 import com.ssrs.platform.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ssrs.platform.util.PasswordUtil;
 import com.ssrs.platform.util.PlatformCache;
+import com.ssrs.platform.util.PlatformUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -92,8 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             operateReport.setMessage(msg);
             return operateReport;
         }
-        // TODO 密码加密
-        //user.setPassword(PasswordUtil.generate(user.getPassword()));
+        user.setPassword(PasswordUtil.generate(user.getPassword()));
         // 新增用户默认设置为下次登录修改密码状态
         String isOpenThreeSecurity = Config.getValue("isOpenThreeSecurity");
         String nextLoginUpdatePwd = Config.getValue("nextLoginUpdatePwd");
@@ -250,6 +255,72 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     private String beforeUpdatePassword(String password, User user) {
+        // 未启用三级等保安全功能
+        String isOpenThreeSecurity = Config.getValue("isOpenThreeSecurity");
+        if (StrUtil.isEmpty(isOpenThreeSecurity)) {
+            isOpenThreeSecurity = YesOrNo.No;
+        }
+        if (YesOrNo.No.equalsIgnoreCase(isOpenThreeSecurity)) {
+            return null;
+        }
+        // 读取账户配置项表，获取字符配置值
+        String charRequire = Config.getValue("passwordCharacterSpecification");
+        // 读取配置项表，获取不包含用户信息的值
+        String notIncludeUserInfo = Config.getValue("notIncludeUserInfo");
+
+        // 判断密码是否开启重复性检查
+        String isOpenRecentlyCheck = Config.getValue("isOpenRecentlyCheck");
+        // 如果为Y，说明开启重复性检查
+        if (YesOrNo.Yes.equalsIgnoreCase(isOpenRecentlyCheck)) {
+            int count = Convert.toInt(Config.getValue("repeatCount"));
+            // count不为空并且count不能为0的，为0则跳过，继续执行
+            if (count > 0) {
+                // TODO 密码重复性校验
+            }
+        }
+        StringBuilder builder = new StringBuilder(1000);
+        if (PasswordCharacterSpecification.NO_REQUIRED.equalsIgnoreCase(charRequire)) {
+
+        } else if (PasswordCharacterSpecification.INCLUDE_LETTER_NUMBER.equalsIgnoreCase(charRequire)) {
+            // 密码是没有加密的密码
+            if (!INCLUDELETTERNUMBER_REGEX.matcher(password).matches()) {
+                builder.append("必须同时包含字母和数字");
+            }
+        } else if (PasswordCharacterSpecification.INCLUDE_UPLETTER_LOLTTER_NUMBER.equalsIgnoreCase(charRequire)) {
+            if (!INCLUDE_UPLETTER_LOLTTER_NUMBER_REGEX.matcher(password).matches()) {
+                builder.append("必须同时包含大写字母、小写字母、数字");
+            }
+        } else if (PasswordCharacterSpecification.INCLUDE_ALL.equalsIgnoreCase(charRequire)) {
+            if (!INCLUDE_ALL_REGEX.matcher(password).matches()) {
+                builder.append("必须同时包含大、小写字母、特殊字符、数字");
+            }
+        }
+        if (!StrUtil.isEmpty(builder.toString())) {
+            log.info("BeforeUpdatePasswordCheck ——> :" + StrUtil.format("密码中{0}", builder.toString()));
+            return StrUtil.format("密码中{0}", builder.toString());
+        }
+
+        // 3.密码中不能包含用户信息
+        if (StrUtil.isNotEmpty(notIncludeUserInfo)) {
+            StringBuilder message = new StringBuilder();
+            String[] noVals = notIncludeUserInfo.split(",");
+            int length = noVals.length;
+            Map<String, Object> codeMap = PlatformUtil.getCodeMap(NotIncludeUserInfo.CODE_TYPE);
+            for (int i = 0; noVals != null && i < length; i++) {
+                String value = NotIncludeUserInfo.getUserValueByCode(noVals[i], user);
+                if (StrUtil.isEmpty(value)) {
+                    continue;
+                }
+
+                if (password.contains(value)) {
+                    message.append(codeMap.get(noVals[i])).append(",");
+                }
+            }
+            if (message.toString().length() > 0) {
+                log.info("BeforeUpdatePasswordCheck ——> :" + "密码中不能包含" + message.substring(0, message.toString().length() - 1).toString());
+                return "密码中不能包含" + message.substring(0, message.toString().length() - 1).toString();
+            }
+        }
         return null;
     }
 }

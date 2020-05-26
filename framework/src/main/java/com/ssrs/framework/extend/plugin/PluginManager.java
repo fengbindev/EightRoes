@@ -1,22 +1,23 @@
 package com.ssrs.framework.extend.plugin;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 插件管理器
  */
 public class PluginManager {
+    private static final Log log = LogFactory.get(PluginManager.class);
     private ArrayList<PluginConfig> configList = null;
     private ReentrantLock lock = new ReentrantLock();
     private static PluginManager instance = new PluginManager();
@@ -40,7 +41,19 @@ public class PluginManager {
 
     public void loadAllConfig() {
         configList = new ArrayList<PluginConfig>();
-        Map<String, PluginConfig> map = new HashMap<>();
+        Map<String, PluginConfig> map = new LinkedHashMap<>();
+        // 首先加载framework插件
+        ClassPathResource frameworkPlugin = new ClassPathResource("plugins/com.ssrs.framework.xml");
+        if (frameworkPlugin.exists()) {
+            try {
+                InputStream is = frameworkPlugin.getInputStream();
+                PluginConfig pc = new PluginConfig();
+                pc.parse(new String(IoUtil.readBytes(is), "UTF-8"));
+                map.put(pc.getID(), pc);
+            } catch (IOException | PluginException e) {
+                e.printStackTrace();
+            }
+        }
         ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
         try {
             Resource[] rs = resourcePatternResolver.getResources("classpath*:/plugins/*.xml");
@@ -48,6 +61,9 @@ public class PluginManager {
                 try (InputStream is = r.getInputStream()) {
                     PluginConfig pc = new PluginConfig();
                     pc.parse(new String(IoUtil.readBytes(is), "UTF-8"));
+                    if (map.containsKey(pc.getID()) && !pc.getID().equals("com.ssrs.framework.FrameworkPlugin")) {
+                        log.warn("PluginConfig is overrode:" + r.getURI().toString());
+                    }
                     map.put(pc.getID(), pc);
                 } catch (Exception e) {
                     e.printStackTrace();

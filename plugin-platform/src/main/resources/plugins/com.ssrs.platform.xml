@@ -96,6 +96,24 @@
         <description>配置管理权限</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.code.NotIncludeUserInfo</id>
+        <class>com.ssrs.platform.code.NotIncludeUserInfo</class>
+        <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
+        <description>密码不包含用户信息代码项</description>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.code.OverLoginCountType</id>
+        <class>com.ssrs.platform.code.OverLoginCountType</class>
+        <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
+        <description>超过阀值处理方式代码项</description>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.code.PasswordCharacterSpecification</id>
+        <class>com.ssrs.platform.code.PasswordCharacterSpecification</class>
+        <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
+        <description>密码字符要求代码项</description>
+    </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
         <class>com.ssrs.platform.point.AfterUserAddPoint</class>

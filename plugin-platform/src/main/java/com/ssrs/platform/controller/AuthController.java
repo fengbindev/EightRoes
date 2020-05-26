@@ -3,56 +3,79 @@ package com.ssrs.platform.controller;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ssrs.framework.Current;
 import com.ssrs.framework.security.ShiroAuthorizationHelper;
 import com.ssrs.framework.security.annotation.Priv;
-import com.ssrs.framework.util.ApiAssert;
 import com.ssrs.framework.util.JWTTokenUtils;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
-import com.ssrs.framework.web.ErrorCodeEnum;
+import com.ssrs.platform.bl.LoginBL;
 import com.ssrs.platform.code.YesOrNo;
+import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.AuthUser;
 import com.ssrs.platform.service.IUserService;
+import com.ssrs.platform.util.ExpiringSet;
+import com.ssrs.platform.util.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController extends BaseController {
-    //    @Value("${rsa.private_key}")
-//    private String privateKey;
+    private static Set<String> wrongList = new ExpiringSet<String>();
     @Autowired
     private IUserService userService;
-    @Autowired
-    private CacheManager cacheManager;
 
     @Priv(login = false)
     @PostMapping("/login")
     public ApiResponses<JSONObject> login(@Validated AuthUser authUser) {
-        // TODO 校验验证码
-        // 密码解密
-//        RSA rsa = new RSA(privateKey, null);
-//        String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
-//        authUser.setPassword(password);
+        // TODO 密码加密
+        LoginContext loginContext = new LoginContext();
+        loginContext.request = Current.getRequest();
+        loginContext.response = Current.getResponse();
+        loginContext.userName = authUser.getUserName();
+        loginContext.password = authUser.getPassword();
+        loginContext.authCode = authUser.getVerifyCode();
+        loginContext.wrongList = wrongList;
+        LoginBL.validateLoginData(loginContext);
+        if (loginContext.status != 1) {
+            return failure(loginContext.message);
+        }
         // 验证用户信息
-        User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, authUser.getUserName()), true);
+        User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, authUser.getUserName()));
         // 用户不存在
-        ApiAssert.notNull(ErrorCodeEnum.USERNAME_OR_PASSWORD_IS_WRONG, user);
-        // 用户名密码错误
-        ApiAssert.isTrue(ErrorCodeEnum.USERNAME_OR_PASSWORD_IS_WRONG, authUser.getPassword().equals(user.getPassword()));
-        // 用户被禁用
-        ApiAssert.isTrue(ErrorCodeEnum.USER_IS_DISABLED, YesOrNo.isYes(user.getStatus()));
-        // TODO 三级等保功能
-        // 设置当选用户信息
+        if (ObjectUtil.isNull(user)) {
+            wrongList.add(loginContext.userName);
+            return failure("用户名或密码错误");
+        }
+        // 是否开启账户安全
+        if (LoginBL.isOpenAccountSecurity()) {
+            LoginBL.executeAccountSecurity(loginContext, user);
+            if (loginContext.status != 1) {
+                return failure(loginContext.message);
+            }
+        }
+        // 判断密码是否正确
+        if (!LoginBL.validatePassword(loginContext.password, user.getPassword())) {
+            wrongList.add(loginContext.userName);
+            return failure("用户名或密码错误");
+        }
+
+        if (!AdminUserName.getValue().equalsIgnoreCase(user.getUserName()) && YesOrNo.isNo(user.getStatus())) {
+            return failure("该用户处于停用状态，请联系管理员！");
+        }
+        LoginBL.afterLogin(user, loginContext);
+        if (loginContext.status != 1) {
+            return failure(loginContext.message);
+        }
+        LoginBL.login(user);
+        // 生成token
         JSONObject webToken = JWTTokenUtils.createWebToken(user.getUserName());
         // 清除权限缓存
         ShiroAuthorizationHelper.clearAuthorizationInfo(user.getUserName());
@@ -60,9 +83,4 @@ public class AuthController extends BaseController {
 
     }
 
-    @Priv(login = false)
-    @GetMapping
-    public ApiResponses<LocalDate> get() {
-        return success(LocalDate.of(1988, 9, 8));
-    }
 }
