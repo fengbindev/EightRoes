@@ -67,32 +67,7 @@ public enum ErrorCodeEnum {
     /**
      * 演示系统，无法该操作
      */
-    DEMO_SYSTEM_CANNOT_DO(HttpServletResponse.SC_SERVICE_UNAVAILABLE,  "演示系统，无法该操作"),
-    //----------------------------------------------------业务异常----------------------------------------------------
-    /**
-     * 用户名密码错误
-     */
-    USERNAME_OR_PASSWORD_IS_WRONG(HttpServletResponse.SC_BAD_REQUEST,  "用户名密码错误"),
-    /**
-     * 用户被禁用
-     */
-    USER_IS_DISABLED(HttpServletResponse.SC_NOT_ACCEPTABLE,  "账号已被锁定,请联系管理员"),
-    /**
-     * 未找到该用户
-     */
-    USER_NOT_FOUND(HttpServletResponse.SC_NOT_FOUND,  "未找到该用户"),
-    /**
-     * 原密码不正确
-     */
-    ORIGINAL_PASSWORD_IS_INCORRECT(HttpServletResponse.SC_BAD_REQUEST,  "原密码不正确"),
-    /**
-     * 用户名已存在
-     */
-    USERNAME_ALREADY_EXISTS(HttpServletResponse.SC_BAD_REQUEST,  "用户名已存在"),
-    /**
-     * 未找到该菜单
-     */
-    MENU_NOT_FOUND(HttpServletResponse.SC_NOT_FOUND,  "未找到该菜单"),;
+    DEMO_SYSTEM_CANNOT_DO(HttpServletResponse.SC_SERVICE_UNAVAILABLE,  "演示系统，无法该操作");
 
     private final int httpCode;
     private final String message;
