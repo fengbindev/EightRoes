@@ -4,9 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.extend.AbstractExtendService;
 import com.ssrs.framework.util.SpringUtil;
 import com.ssrs.platform.FixedCodeType;
+import com.ssrs.platform.extend.item.CodeCacheProvider;
 import com.ssrs.platform.model.entity.Code;
 import com.ssrs.platform.service.ICodeService;
 
@@ -26,9 +28,10 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
     public static void init() {
         ArrayList<String> tmpList = new ArrayList<String>();
         ICodeService codeService = SpringUtil.getBean(ICodeService.class);
-        List<Code> codeList = codeService.list();
+        List<Code> codeList = codeService.list(Wrappers.<Code>lambdaQuery().orderByAsc(Code::getCodeOrder, Code::getCodeType, Code::getParentCode));
         for (Code code : codeList) {
             tmpList.add("@CodeType=" + code.getCodeType() + "@ParentCode=" + code.getParentCode() + "@CodeValue=" + code.getCodeValue());
+            CodeCacheProvider.setCode(code);
         }
         List<FixedCodeType> codeTypeList = CodeService.getInstance().getAll();
         List<Code> saveCodeList = new ArrayList<>();
@@ -42,6 +45,7 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
                 code.setCodeName(fct.getCodeName());
                 code.setCodeOrder(System.currentTimeMillis());
                 saveCodeList.add(code);
+                CodeCacheProvider.setCode(code);
             }
             List<FixedCodeType.FixedCodeItem> items = fct.getFixedItems();
             for (FixedCodeType.FixedCodeItem item : items) {
@@ -59,6 +63,7 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
                     codeChild.setCodeOrder(System.currentTimeMillis());
                     codeChild.setMemo(item.getMemo());
                     saveCodeList.add(codeChild);
+                    CodeCacheProvider.setCode(codeChild);
                 }
             }
         }

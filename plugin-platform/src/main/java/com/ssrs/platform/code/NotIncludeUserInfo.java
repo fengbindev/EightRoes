@@ -10,7 +10,6 @@ public class NotIncludeUserInfo extends FixedCodeType {
 	public static final String NOT_INCLUDE_REALNAME = "RealName";
 	public static final String NOT_INCLUDE_EMAIL = "Email";
 	public static final String NOT_INCLUDE_MOBILE = "Mobile";
-	public static final String NOT_INCLUDE_TEL = "Tel";
 
 	public NotIncludeUserInfo() {
 		super(CODE_TYPE, "密码不包含用户信息", true, false);

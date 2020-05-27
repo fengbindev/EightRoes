@@ -20,7 +20,7 @@ import java.util.List;
 public class FrameworkCacheManager {
     private static final Log log = LogFactory.get();
     // 缓存前缀，保证多个系统连接同一个缓存不会缓存key冲突
-    private static final String cachePrefix = Config.getAppCode() + "_";
+    private static final String cachePrefix = Config.getAppCode() + "-";
     public static CacheManager cacheManager;
 
     @Autowired
@@ -209,6 +209,9 @@ public class FrameworkCacheManager {
      * @return
      */
     public static List<String> getTypeKeys(String providerID, String type) {
+        if (!StrUtil.startWith(type, cachePrefix, true)) {
+            type = cachePrefix + type;
+        }
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isEmpty(keyList)) {
@@ -225,6 +228,11 @@ public class FrameworkCacheManager {
      * @param key
      */
     public static void putTypeKeys(String providerID, String type, String key) {
+        if (!StrUtil.startWith(type, cachePrefix, true)) {
+            type = cachePrefix + type;
+        }
+        // 去除key前缀
+        key = StrUtil.removePrefix(key, cachePrefix);
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isEmpty(keyList)) {
@@ -242,6 +250,11 @@ public class FrameworkCacheManager {
      * @param key
      */
     public static void removeTypeKeys(String providerID, String type, String key) {
+        if (!StrUtil.startWith(type, cachePrefix, true)) {
+            type = cachePrefix + type;
+        }
+        // 去除key前缀
+        key = StrUtil.removePrefix(key, cachePrefix);
         String keys = providerID + "_" + type + "_keys";
         List<String> keyList = cacheManager.getCache(type).get(keys, List.class);
         if (CollUtil.isNotEmpty(keyList)) {

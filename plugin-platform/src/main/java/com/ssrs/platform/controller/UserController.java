@@ -9,12 +9,14 @@ import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ssrs.framework.Config;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.core.OperateReport;
 import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
@@ -37,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -136,7 +139,7 @@ public class UserController extends BaseController {
     @Priv(UserManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> create(@RequestBody UserParm userParm) {
+    public ApiResponses<String> create(UserParm userParm) {
         OperateReport operateReport = userService.addUser(userParm);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
@@ -170,5 +173,27 @@ public class UserController extends BaseController {
         // 用户删除完成后的扩展点
         ExtendManager.invoke(AfterUserDeletePoint.ID, new Object[]{operateReport.getData()});
         return success("删除成功");
+    }
+
+    /**
+     * 修改密码初始化验证
+     * @return
+     */
+    @Priv(login = false)
+    @GetMapping("/initpwdcheck")
+    public ApiResponses<Map<String, Object>> initPwdCheck() {
+        Map<String, Object> map = new HashMap<>();
+        String minLen = Config.getValue("passwordMinLength");
+        String maxLen = Config.getValue("passwordMaxLength");
+        String isOpenThreeSecurity = Config.getValue("isOpenThreeSecurity");
+        if (StrUtil.isEmpty(isOpenThreeSecurity) || YesOrNo.No.equalsIgnoreCase(isOpenThreeSecurity) || StrUtil.isEmpty(minLen)
+                || StrUtil.isEmpty(maxLen)) {
+            map.put("minLen", 6);
+            map.put("maxLen", 30);
+        } else {
+            map.put("minLen", minLen);
+            map.put("maxLen", maxLen);
+        }
+        return success(map);
     }
 }

@@ -1,4 +1,6 @@
 
+server:
+  port: 8081
 spring:
   devtools:
     restart:
@@ -52,4 +54,3 @@ logging:
     org.springframework: error
     sun.rmi: off
     ch.qos.logback.classic.Level: off
-

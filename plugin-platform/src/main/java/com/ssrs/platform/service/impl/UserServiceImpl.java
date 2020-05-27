@@ -108,7 +108,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         // TODO 创建用户，加入密码记录
         if (StrUtil.isEmpty(user.getStatus())) {
-            user.setStatus(YesOrNo.Yes); // 新建用户默认为启用状态
+            // 新建用户默认为启用状态
+            user.setStatus(YesOrNo.Yes);
         }
         save(user);
         // 添加一条权限记录
@@ -166,7 +167,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         PrivBL.assertBranch(user.getBranchInnercode());
         user.setPassword(oldPassword);
         if (StrUtil.isEmpty(user.getStatus())) {
-            user.setStatus(YesOrNo.Yes); // 若未设置状态则默认为启用状态
+            // 若未设置状态则默认为启用状态
+            user.setStatus(YesOrNo.Yes);
         }
         updateById(user);
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName(), user);
@@ -296,8 +298,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             }
         }
         if (!StrUtil.isEmpty(builder.toString())) {
-            log.info("BeforeUpdatePasswordCheck ——> :" + StrUtil.format("密码中{0}", builder.toString()));
-            return StrUtil.format("密码中{0}", builder.toString());
+            log.info("BeforeUpdatePasswordCheck ——> :" + StrUtil.indexedFormat("密码中{0}", builder.toString()));
+            return StrUtil.indexedFormat("密码中{0}", builder.toString());
         }
 
         // 3.密码中不能包含用户信息
