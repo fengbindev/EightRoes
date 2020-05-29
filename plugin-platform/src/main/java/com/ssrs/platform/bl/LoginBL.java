@@ -3,7 +3,6 @@ package com.ssrs.platform.bl;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.log.Log;
@@ -16,8 +15,6 @@ import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.controller.AuthCodeURLHandler;
 import com.ssrs.platform.model.entity.User;
-import com.ssrs.platform.service.IBranchService;
-import com.ssrs.platform.service.IPrivilegeService;
 import com.ssrs.platform.service.IUserService;
 import com.ssrs.platform.util.LoginContext;
 import com.ssrs.platform.util.PasswordUtil;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.Map;
 
 /**

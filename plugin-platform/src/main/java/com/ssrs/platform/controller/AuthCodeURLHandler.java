@@ -4,8 +4,6 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
 import com.ssrs.framework.Current;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.platform.util.AuthCodeUtil;
@@ -25,7 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * 显示验证码图片的URL
+ * 显示验证码图片的URL (集群模式时，需要单独使用nginx映射这个路径，或者重写这个接口)
  *
  */
 @Controller
@@ -37,6 +35,7 @@ public class AuthCodeURLHandler {
 	public static final String HeightKey = "height";
 
 	@Priv(login = false)
+	@ApiIgnore
 	@GetMapping("/authCode.png")
 	public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		int width = AuthCodeUtil.DefaultWidth;

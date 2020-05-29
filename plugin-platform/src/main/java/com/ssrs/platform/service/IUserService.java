@@ -22,4 +22,6 @@ public interface IUserService extends IService<User> {
     OperateReport saveUser(UserParm userParm);
 
     OperateReport deleteUser(String ids);
+
+    String beforeUpdatePassword(String password, User user);
 }

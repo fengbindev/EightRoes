@@ -3,6 +3,7 @@ package com.ssrs.platform.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
@@ -16,6 +17,8 @@ import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.bl.LoginBL;
+import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Role;
@@ -30,18 +33,13 @@ import com.ssrs.platform.priv.UserManagerPriv;
 import com.ssrs.platform.service.IRoleService;
 import com.ssrs.platform.service.IUserRoleService;
 import com.ssrs.platform.service.IUserService;
-import com.ssrs.platform.util.Page;
-import com.ssrs.platform.util.PlatformCache;
-import com.ssrs.platform.util.PlatformUtil;
-import com.ssrs.platform.util.Query;
+import com.ssrs.platform.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * <p>
@@ -177,6 +175,7 @@ public class UserController extends BaseController {
 
     /**
      * 修改密码初始化验证
+     *
      * @return
      */
     @Priv(login = false)
@@ -195,5 +194,77 @@ public class UserController extends BaseController {
             map.put("maxLen", maxLen);
         }
         return success(map);
+    }
+
+    /**
+     * 登录页修改密码
+     * @return
+     */
+    @Priv(login = false)
+    @PutMapping("/changeloginpassword")
+    public ApiResponses<String> changeLoginPassword() {
+        OperateReport operateReport = changePassword(true);
+        if (operateReport.isSuccess()) {
+            return success("修改成功");
+        } else {
+            return failure(operateReport.getMessage());
+        }
+
+    }
+
+    /**
+     * 用户管理页修改用户密码
+     * @return
+     */
+    @Priv(UserManagerPriv.ChangePassword)
+    @PutMapping("/password")
+    public ApiResponses<String> modifyPassword() {
+        OperateReport operateReport = changePassword(true);
+        if (operateReport.isSuccess()) {
+            return success("修改成功");
+        } else {
+            return failure(operateReport.getMessage());
+        }
+    }
+
+    private OperateReport changePassword(boolean isLogin) {
+        OperateReport operateReport = new OperateReport(true);
+        User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, Current.getRequest().getStr("userName")));
+        if (user == null) {
+            operateReport.setSuccess(false, "用户不存在");
+            return operateReport;
+        }
+        PrivBL.assertBranch(user.getBranchInnercode());
+        String password = Current.getRequest().getStr("password");
+        Current.getRequest().remove("password");
+
+        if (isLogin && !PasswordUtil.verify(Current.getRequest().getStr("oldPassword"), user.getPassword())) {
+            operateReport.setSuccess(false, "原密码不正确");
+            return operateReport;
+        }
+
+        String msg = userService.beforeUpdatePassword(password, user);
+        if (StrUtil.isNotEmpty(msg)) {
+            operateReport.setSuccess(false, msg);
+            return operateReport;
+        }
+        user.setPassword(PasswordUtil.generate(password));
+        if (StrUtil.isNotEmpty(com.ssrs.framework.User.getUserName()) && !ObjectUtil.equal(com.ssrs.framework.User.getUserName(), user.getUserName())) {
+            if (YesOrNo.isYes(Config.getValue("nextLoginUpdatePwd")) && YesOrNo.isYes(Config.getValue("isOpenThreeSecurity"))) {
+                user.setModifyPassStatus(YesOrNo.Yes);
+            } else {
+                user.setModifyPassStatus(YesOrNo.No);
+            }
+        } else {
+            user.setModifyPassStatus(YesOrNo.No);
+        }
+        user.setLoginErrorCount(0);
+        // 添加本次修改密码的时间
+        user.setLastModifyPassTime(LocalDateTime.now());
+        userService.updateById(user);
+        if (isLogin) {
+            LoginBL.login(user);
+        }
+        return operateReport;
     }
 }

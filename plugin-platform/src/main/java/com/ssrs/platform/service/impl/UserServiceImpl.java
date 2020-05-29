@@ -256,7 +256,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @param user
      * @return
      */
-    private String beforeUpdatePassword(String password, User user) {
+    @Override
+    public String beforeUpdatePassword(String password, User user) {
         // 未启用三级等保安全功能
         String isOpenThreeSecurity = Config.getValue("isOpenThreeSecurity");
         if (StrUtil.isEmpty(isOpenThreeSecurity)) {
