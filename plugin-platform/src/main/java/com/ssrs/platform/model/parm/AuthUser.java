@@ -17,7 +17,7 @@ public class AuthUser {
 
     private String verifyCode;
 
-    private boolean isVerifyCode;
+    private boolean showVerifyCode;
 
 
     @Override

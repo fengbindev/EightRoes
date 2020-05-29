@@ -64,6 +64,18 @@ public class BaseController {
     }
 
     /**
+     * 失败的ApiResponses
+     *
+     * @return
+     */
+    public static <T> ApiResponses<T> failure(int status, String message) {
+        ErrorCode errorCode = ErrorCode.builder().httpCode(status)
+                .message(message)
+                .build();
+        return ApiResponses.failure(errorCode, null);
+    }
+
+    /**
      * 空的ApiResponses
      *
      * @return

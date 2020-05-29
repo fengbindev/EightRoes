@@ -1,6 +1,7 @@
 package com.ssrs.platform.bl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -45,20 +46,20 @@ public class LoginBL {
     public static void validateLoginData(LoginContext context) {
         String username = context.userName;
         String verifyCode = context.authCode;
-        boolean isVerifyCode = context.request.getBool("isVerifyCode", false);
+        boolean showVerifyCode = context.request.getBool("showVerifyCode", false);
         if (StrUtil.isNotEmpty(verifyCode)) {
-            isVerifyCode = true;
+            showVerifyCode = true;
         }
         // 如果用户名在wrongList中并且没有验证码的时候提示请输入验证码！
         if (context.wrongList.contains(username)) {
-            isVerifyCode = true;
+            showVerifyCode = true;
             if (StrUtil.isEmpty(verifyCode)) {
                 context.status = 2;
                 context.message = "请输入验证码";
                 return;
             }
         }
-        if (isVerifyCode) {
+        if (showVerifyCode) {
             if (!AuthCodeURLHandler.verify(verifyCode)) {
                 context.status = 3;
                 context.message = "验证码已过期";
@@ -137,10 +138,10 @@ public class LoginBL {
             // 禁止登录时间
             if (user.getForbiddenLoginTime() != null) {
                 long forbiddenLoginTime = user.getForbiddenLoginTime().toInstant(ZoneOffset.of("+8")).toEpochMilli();
-                long betweenMs = System.currentTimeMillis() - forbiddenLoginTime;
+                long betweenMs = forbiddenLoginTime - System.currentTimeMillis();
 
-                if (betweenMs < 0) {
-                    String message = StrUtil.format("您密码错误重试次数过于频繁，账号临时锁定，请在{0}后尝试", DateUtil.formatBetween(betweenMs));
+                if (betweenMs > 0) {
+                    String message = StrUtil.indexedFormat("您密码错误重试次数过于频繁，账号临时锁定，请在{0}后尝试", DateUtil.formatBetween(betweenMs, BetweenFormater.Level.SECOND));
                     context.status = 9;
                     context.message = message;
                     return;
@@ -187,12 +188,12 @@ public class LoginBL {
                 // 获取锁定的时长
                 String lockTime = Config.getValue("lockTime");
                 if (StrUtil.isNotEmpty(lockTime)) {
-                    if (Convert.toLong(lockTime) > 0L) {
-                        int forbiddenTime = Convert.toInt(lockTime);
-                        long time = System.currentTimeMillis() + (1000 * forbiddenTime);
-                        user.setForbiddenLoginTime(DateUtil.toLocalDateTime(new Date()));
+                    long forbiddenTimeDay = Convert.toLong(lockTime, 0L);
+                    if (Convert.toLong(lockTime, 0L) > 0L) {
+                        LocalDateTime forbiddenTime = LocalDateTime.now().plusDays(forbiddenTimeDay);
+                        user.setForbiddenLoginTime(forbiddenTime);
                         user.setStatus(YesOrNo.No);
-                        String message = StrUtil.format("您密码错误重试次数过于频繁，账号临时锁定，请在{0}后尝试", DateUtil.formatBetween(forbiddenTime));
+                        String message = StrUtil.indexedFormat("您密码错误重试次数过于频繁，账号临时锁定，请在{0}后尝试", DateUtil.formatBetween(forbiddenTimeDay * 1000 * 86400, BetweenFormater.Level.SECOND));
                         context.status = 10;
                         context.message = message;
                         return;
@@ -213,12 +214,12 @@ public class LoginBL {
                 }
             }
         } else {
-            String message = StrUtil.format("您还有{0}次尝试次数", repeatCount - Convert.toInt(user.getLoginErrorCount(), 0));
+            String message = StrUtil.indexedFormat("您还有{0}次尝试次数", repeatCount - Convert.toInt(user.getLoginErrorCount(), 0));
             if (OverLoginCountType.TIME_LOCK.equalsIgnoreCase(overLoginCountType)) {
                 log.debug("BeforeLoginCheckAction ——> [用户:" + user.getUserName() + "] 还有" + (repeatCount - Convert.toInt(user.getLoginErrorCount(), 0))
                         + "尝试！");
                 context.status = 12;
-                context.message = "用户名或密码错误。" + message;
+                context.message = "用户名或密码错误," + message;
                 return;
             }
             // 管理员不能锁定账户，当账户安全设置为锁定账户时候则直接检查密码是否正确
@@ -227,7 +228,7 @@ public class LoginBL {
                 return;
             } else {
                 context.status = 13;
-                context.message = "用户名或密码错误。" + message;
+                context.message = "用户名或密码错误," + message;
                 return;
             }
         }

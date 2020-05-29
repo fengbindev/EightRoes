@@ -1,11 +1,8 @@
 package com.ssrs.platform.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -73,16 +70,22 @@ public class User implements Serializable {
      */
     private String status;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime lastLoginTime;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime loginErrorTime;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer loginErrorCount;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String modifyPassStatus;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime forbiddenLoginTime;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private LocalDateTime lastModifyPassTime;
 
     /**

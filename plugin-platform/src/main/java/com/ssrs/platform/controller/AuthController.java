@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 @RestController
@@ -34,7 +35,7 @@ public class AuthController extends BaseController {
 
     @Priv(login = false)
     @PostMapping("/login")
-    public ApiResponses<JSONObject> login(@Validated AuthUser authUser) {
+    public ApiResponses<JSONObject> login(HttpServletRequest request, @Validated AuthUser authUser) {
         // TODO 密码加密
         LoginContext loginContext = new LoginContext();
         loginContext.request = Current.getRequest();
@@ -45,7 +46,7 @@ public class AuthController extends BaseController {
         loginContext.wrongList = wrongList;
         LoginBL.validateLoginData(loginContext);
         if (loginContext.status != 1) {
-            return failure(loginContext.message);
+            return failure(loginContext.status, loginContext.message);
         }
         // 验证用户信息
         User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, authUser.getUserName()));
@@ -58,7 +59,7 @@ public class AuthController extends BaseController {
         if (LoginBL.isOpenAccountSecurity()) {
             LoginBL.executeAccountSecurity(loginContext, user);
             if (loginContext.status != 1) {
-                return failure(loginContext.message);
+                return failure(loginContext.status, loginContext.message);
             }
         }
         // 判断密码是否正确
@@ -72,9 +73,10 @@ public class AuthController extends BaseController {
         }
         LoginBL.afterLogin(user, loginContext);
         if (loginContext.status != 1) {
-            return failure(loginContext.message);
+            return failure(loginContext.status, loginContext.message);
         }
         LoginBL.login(user);
+        wrongList.remove(user.getUserName());
         // 生成token
         JSONObject webToken = JWTTokenUtils.createWebToken(user.getUserName());
         // 清除权限缓存

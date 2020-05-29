@@ -1,61 +1,89 @@
 package com.ssrs.platform.util;
 
+
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.ssrs.framework.Config;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-/**
- * Cookie工具类
- *
- */
 public class CookieUtil {
 
-    private CookieUtil() {
-    }
-
-    /**
-     * 添加cookie
-     *
-     * @param response
-     * @param name
-     * @param value
-     * @param maxAge
-     */
-    public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+    public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, boolean httpOnly,
+                                 int maxAge, String path) {
         Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-        if (maxAge > 0) {
-            cookie.setMaxAge(maxAge);
+        cookie.setHttpOnly(httpOnly);
+        cookie.setMaxAge(maxAge);
+        String domain = null;
+        int version = 0;
+        if (ObjectUtil.isNotEmpty(request.getCookies())) {
+            for (Cookie c : request.getCookies()) {
+                if (StrUtil.isNotEmpty(c.getDomain())) {
+                    if (StrUtil.isNotEmpty(domain)) {
+                        cookie.setDomain(domain);
+                        cookie.setVersion(version);
+                        break;
+                    }
+                }
+            }
         }
+        cookie.setPath(path);
+        cookie.setSecure(false);
         response.addCookie(cookie);
     }
 
-    /**
-     * 删除cookie
-     *
-     * @param response
-     * @param name
-     */
-    public static void removeCookie(HttpServletResponse response, String name) {
-        Cookie uid = new Cookie(name, null);
-        uid.setPath("/");
-        uid.setMaxAge(0);
-        response.addCookie(uid);
+    public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, boolean httpOnly,
+                                 int maxAge) {
+        addCookie(request, response, name, value, httpOnly, maxAge, getDefaultPath());
     }
 
-    /**
-     * 获取cookie值
-     *
-     * @param request
-     * @return
-     */
-    public static String getCookieValue(HttpServletRequest request,String cookieName) {
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(cookieName)) {
-                return cookie.getValue();
+    public static void deleteCookie(HttpServletResponse response, String name) {
+        deleteCookie(response, name, false);
+    }
+
+    public static void deleteCookie(HttpServletResponse response, String name, boolean httpOnly) {
+        Cookie c = new Cookie(name, "");
+        c.setSecure(false);
+        c.setMaxAge(0);
+        c.setHttpOnly(httpOnly);
+        c.setPath(getDefaultPath());
+        response.addCookie(c);
+    }
+
+    private static String getDefaultPath() {
+        String path = Config.getContextPath();
+        return normalizePath(path);
+    }
+
+    private static String normalizePath(String path) {
+        if (path == null) {
+            path = "/";
+        }
+
+        if (!path.endsWith("/")) {
+            path = path + "/";
+        }
+
+        return path;
+    }
+
+    public static Cookie getCookie(HttpServletRequest request, String name) {
+        if (StrUtil.isNotEmpty(name)) {
+            List<Cookie> tokenCookie = Stream.of(request.getCookies()).filter(ck -> name.equals(ck.getName())).collect(Collectors.toList());
+            if (tokenCookie != null && tokenCookie.size() > 0) {
+                return tokenCookie.get(0);
             }
         }
         return null;
+    }
+
+    public static String getCookieValue(HttpServletRequest request, String name) {
+        Cookie c = getCookie(request, name);
+        return c != null ? c.getValue() : null;
     }
 }
