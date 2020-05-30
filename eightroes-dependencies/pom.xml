@@ -14,7 +14,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- sso framework dependencies-->
+            <!-- framework dependencies-->
             <dependency>
                 <groupId>com.ssrs</groupId>
                 <artifactId>framework</artifactId>

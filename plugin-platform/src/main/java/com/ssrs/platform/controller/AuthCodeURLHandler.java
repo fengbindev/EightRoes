@@ -8,7 +8,7 @@ import com.ssrs.framework.Current;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.platform.util.AuthCodeUtil;
 import com.ssrs.platform.util.CookieUtil;
-import com.ssrs.platform.util.ExpiringSet;
+import com.ssrs.platform.util.ExpiringCacheSet;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import springfox.documentation.annotations.ApiIgnore;
@@ -23,12 +23,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 /**
- * 显示验证码图片的URL (集群模式时，需要单独使用nginx映射这个路径，或者重写这个接口)
- *
+ * 显示验证码图片的URL
  */
 @Controller
 public class AuthCodeURLHandler {
-	private static ExpiringSet<String> checkList = new ExpiringSet<String>(60 * 5, 60, true);
+	private static ExpiringCacheSet<String> checkList = new ExpiringCacheSet<String>("AuthCodeURLHandler", 60 * 5, 60, true);
 
 	public static final String DefaultAuthKey = "_EIGHTROES_AUTHCODE";
 	public static final String WidthKey = "width";

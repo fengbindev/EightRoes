@@ -15,7 +15,7 @@ import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.model.parm.AuthUser;
 import com.ssrs.platform.service.IUserService;
-import com.ssrs.platform.util.ExpiringSet;
+import com.ssrs.platform.util.ExpiringCacheSet;
 import com.ssrs.platform.util.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +29,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController extends BaseController {
-    private static Set<String> wrongList = new ExpiringSet<String>();
+    private static Set<String> wrongList = new ExpiringCacheSet<String>("AuthController");
     @Autowired
     private IUserService userService;
 
