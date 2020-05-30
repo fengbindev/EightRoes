@@ -456,7 +456,7 @@ public class PrivBL {
      * 当前用户是否是branchInnerCode指定的机构或其上级机构的用户,如果不是，则抛出权限异常。
      */
     public static void assertBranch(String branchInnerCode) {
-        if (StrUtil.isEmpty(Current.getUser().getBranchInnerCode())) {
+        if (ObjectUtil.isEmpty(Current.getUser()) || StrUtil.isEmpty(Current.getUser().getBranchInnerCode())) {
             return;
         }
         if (StrUtil.isNotEmpty(branchInnerCode) && !branchInnerCode.startsWith(Current.getUser().getBranchInnerCode())) {

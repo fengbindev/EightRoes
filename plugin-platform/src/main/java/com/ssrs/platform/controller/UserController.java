@@ -138,6 +138,11 @@ public class UserController extends BaseController {
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> create(UserParm userParm) {
+        try {
+            userParm.setPassword(RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, userParm.getPassword()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         OperateReport operateReport = userService.addUser(userParm);
         if (!operateReport.isSuccess()) {
             return failure(operateReport.getMessage());
@@ -236,9 +241,21 @@ public class UserController extends BaseController {
         }
         PrivBL.assertBranch(user.getBranchInnercode());
         String password = Current.getRequest().getStr("password");
+        String oldPassword = Current.getRequest().getStr("oldPassword");
+        try {
+            if (StrUtil.isNotEmpty(password)) {
+                password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, password);
+            }
+            if (StrUtil.isNotEmpty(oldPassword)) {
+                oldPassword = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, oldPassword);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Current.getRequest().remove("password");
+        Current.getRequest().remove("oldPassword");
 
-        if (isLogin && !PasswordUtil.verify(Current.getRequest().getStr("oldPassword"), user.getPassword())) {
+        if (isLogin && !PasswordUtil.verify(oldPassword, user.getPassword())) {
             operateReport.setSuccess(false, "原密码不正确");
             return operateReport;
         }

@@ -272,15 +272,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String notIncludeUserInfo = Config.getValue("notIncludeUserInfo");
 
         // 判断密码是否开启重复性检查
-        String isOpenRecentlyCheck = Config.getValue("isOpenRecentlyCheck");
+//        String isOpenRecentlyCheck = Config.getValue("isOpenRecentlyCheck");
         // 如果为Y，说明开启重复性检查
-        if (YesOrNo.Yes.equalsIgnoreCase(isOpenRecentlyCheck)) {
-            int count = Convert.toInt(Config.getValue("repeatCount"));
-            // count不为空并且count不能为0的，为0则跳过，继续执行
-            if (count > 0) {
-                // TODO 密码重复性校验
-            }
-        }
+//        if (YesOrNo.Yes.equalsIgnoreCase(isOpenRecentlyCheck)) {
+//            int count = Convert.toInt(Config.getValue("repeatCount"), 0);
+//            // count不为空并且count不能为0的，为0则跳过，继续执行
+//            if (count > 0) {
+//                // TODO 密码重复性校验
+//            }
+//        }
         StringBuilder builder = new StringBuilder(1000);
         if (PasswordCharacterSpecification.NO_REQUIRED.equalsIgnoreCase(charRequire)) {
 

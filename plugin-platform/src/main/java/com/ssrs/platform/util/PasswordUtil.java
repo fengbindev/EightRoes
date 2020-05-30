@@ -67,7 +67,7 @@ public class PasswordUtil {
         }
     }
     public static void main(String[] args) {
-        String password = generate("21232f297a57a5a743894a0e4a801fc3");
+        String password = generate("admin");
         System.out.println(password);
     }
 }

@@ -17,6 +17,8 @@ import com.ssrs.platform.model.parm.AuthUser;
 import com.ssrs.platform.service.IUserService;
 import com.ssrs.platform.util.ExpiringCacheSet;
 import com.ssrs.platform.util.LoginContext;
+import com.ssrs.platform.util.RsaProperties;
+import com.ssrs.platform.util.RsaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,13 +37,14 @@ public class AuthController extends BaseController {
 
     @Priv(login = false)
     @PostMapping("/login")
-    public ApiResponses<JSONObject> login(HttpServletRequest request, @Validated AuthUser authUser) {
-        // TODO 密码加密
+    public ApiResponses<JSONObject> login(HttpServletRequest request, @Validated AuthUser authUser) throws Exception {
+        // 密码解密
+        String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, authUser.getPassword());
         LoginContext loginContext = new LoginContext();
         loginContext.request = Current.getRequest();
         loginContext.response = Current.getResponse();
         loginContext.userName = authUser.getUserName();
-        loginContext.password = authUser.getPassword();
+        loginContext.password = password;
         loginContext.authCode = authUser.getVerifyCode();
         loginContext.wrongList = wrongList;
         LoginBL.validateLoginData(loginContext);
