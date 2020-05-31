@@ -6,6 +6,8 @@ public class UserManagerPriv extends AbstractMenuPriv {
     public static final String Edit = MenuID + ".Edit";
     public static final String Delete = MenuID + ".Delete";
     public static final String PrivRange = MenuID + ".PrivRange";
+    public static final String Disable = MenuID + ".Disable";
+    public static final String Enable = MenuID + ".Enable";
     public static final String ChangePassword = MenuID + ".ChangePassword";
 
     public UserManagerPriv() {
@@ -14,6 +16,8 @@ public class UserManagerPriv extends AbstractMenuPriv {
         addItem(Edit, "编辑");
         addItem(Delete, "删除");
         addItem(PrivRange, "数据权限");
-        addItem(PrivRange, "修改密码");
+        addItem(Disable, "禁用");
+        addItem(Enable, "启用");
+        addItem(ChangePassword, "修改密码");
     }
 }

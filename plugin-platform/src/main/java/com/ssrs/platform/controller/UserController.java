@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ssrs.framework.Config;
 import com.ssrs.framework.Current;
+import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.framework.core.OperateReport;
 import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
@@ -20,6 +21,7 @@ import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.bl.LoginBL;
 import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.code.YesOrNo;
+import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
@@ -224,7 +226,7 @@ public class UserController extends BaseController {
     @Priv(UserManagerPriv.ChangePassword)
     @PutMapping("/password")
     public ApiResponses<String> modifyPassword() {
-        OperateReport operateReport = changePassword(true);
+        OperateReport operateReport = changePassword(false);
         if (operateReport.isSuccess()) {
             return success("修改成功");
         } else {
@@ -279,9 +281,68 @@ public class UserController extends BaseController {
         // 添加本次修改密码的时间
         user.setLastModifyPassTime(LocalDateTime.now());
         userService.updateById(user);
+        FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName(), user);
         if (isLogin) {
             LoginBL.login(user);
         }
         return operateReport;
+    }
+
+    @Priv(UserManagerPriv.Disable)
+    @PutMapping("/disable/{id}")
+    public ApiResponses<String> disable(@PathVariable String id) {
+        Current.getRequest().set("userNames", id);
+        OperateReport operateReport = setUserStatus(false);
+        if (operateReport.isSuccess()){
+            return success(operateReport.getMessage());
+        } else {
+            return failure(operateReport.getMessage());
+        }
+    }
+
+    @Priv(UserManagerPriv.Enable)
+    @PutMapping("/enable/{id}")
+    public ApiResponses<String> enable(@PathVariable String id) {
+        Current.getRequest().set("userNames", id);
+        OperateReport operateReport = setUserStatus(true);
+        if (operateReport.isSuccess()){
+            return success(operateReport.getMessage());
+        } else {
+            return failure(operateReport.getMessage());
+        }
+    }
+
+    /**
+     * 设置用户启用禁用状态
+     *
+     * @param status
+     */
+    private OperateReport setUserStatus(boolean status) {
+        OperateReport operateReport = new OperateReport(true);
+        String statusStr = status ? YesOrNo.Yes : YesOrNo.No;
+        String userNames =  Current.getRequest().getStr("userNames");
+        List<User> userList = userService.list(Wrappers.<User>lambdaQuery().in(User::getUserName, userNames.split(",")));
+        for (User user : userList) {
+            // 判断用户如果是自己则不能设置启用停用
+            if (user.getUserName().equalsIgnoreCase(Current.getUser().getUserName())) {
+                operateReport.setSuccess(false, "不能操作自己");
+                return operateReport;
+            }
+            PrivBL.assertBranch(user.getBranchInnercode());
+            if (AdminUserName.getValue().equalsIgnoreCase(user.getUserName())) {
+                operateReport.setSuccess(false, "不能禁用管理员");
+                return operateReport;
+            }
+            user.setStatus(statusStr);
+            FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_User, user.getUserName(), user);
+        }
+        boolean result = userService.updateBatchById(userList);
+        if (result) {
+            operateReport.setSuccess(true, "操作成功");
+            return operateReport;
+        } else {
+            operateReport.setSuccess(false, "操作失败");
+            return operateReport;
+        }
     }
 }
