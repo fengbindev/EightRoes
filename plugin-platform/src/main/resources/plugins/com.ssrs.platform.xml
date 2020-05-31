@@ -114,6 +114,24 @@
         <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
         <description>密码字符要求代码项</description>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.AccountConfigPriv</id>
+        <class>com.ssrs.platform.priv.AccountConfigPriv</class>
+        <description>账户安全菜单权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.CodeManagerPriv</id>
+        <class>com.ssrs.platform.priv.CodeManagerPriv</class>
+        <description>代码管理权限</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.ScheduleManagerPriv</id>
+        <class>com.ssrs.platform.priv.ScheduleManagerPriv</class>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+        <description>定时任务权限</description>
+    </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
         <class>com.ssrs.platform.point.AfterUserAddPoint</class>
