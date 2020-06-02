@@ -7,6 +7,7 @@ import com.ssrs.framework.web.IEnumConverterFactory;
 import com.ssrs.framework.web.ValidatorCollectionImpl;
 import com.ssrs.framework.web.util.JacksonUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -59,7 +60,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    public FilterRegistrationBean corsFilter() {
         CorsConfiguration conf = new CorsConfiguration();
         conf.addAllowedHeader("*");
         conf.addAllowedMethod("*");
@@ -75,7 +76,9 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
         conf.addExposedHeader("X-Frame-Options");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", conf); //  对接口配置跨域设置
-        return new CorsFilter(source);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return bean;
     }
 
 
