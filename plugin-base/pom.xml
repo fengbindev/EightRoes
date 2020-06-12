@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eightroes-dependencies</artifactId>
         <groupId>top.ssrsdev</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.2</version>
         <relativePath>../eightroes-dependencies</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -49,9 +49,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <configuration>
-                    <skipSource>true</skipSource>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <skipSource>true</skipSource>-->
+<!--                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

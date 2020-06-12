@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import java.util.Map;
 
 /**
- * @Description: 分页查询
- * @Author: ssrs
+ * @description: 分页查询
+ * @author: ssrs
  * @CreateDate: 2019/9/22 11:24
  * @UpdateUser: ssrs
  * @UpdateDate: 2019/9/22 11:24
