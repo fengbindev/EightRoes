@@ -1,8 +1,5 @@
 package com.ssrs.platform;
 
-import cn.hutool.core.lang.Validator;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -49,7 +46,7 @@ public class MysqlGenerator {
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
                 // 全局配置
                 new GlobalConfig()
-                        .setOutputDir("D:\\workspace\\EightRoes\\plugin-platform\\src\\main\\java")//输出目录
+                        .setOutputDir("G:\\EightRoes\\EightRoes\\plugin-platform\\src\\main\\java")//输出目录
                         .setFileOverride(false)// 是否覆盖文件
                         .setActiveRecord(false)// 开启 activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
@@ -93,7 +90,7 @@ public class MysqlGenerator {
                         .setDriverName("com.mysql.cj.jdbc.Driver")
                         .setUsername("root")
                         .setPassword("1234")
-                        .setUrl("jdbc:mysql://127.0.0.1:3306/ssrs-sso?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false")
+                        .setUrl("jdbc:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false")
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
@@ -101,7 +98,7 @@ public class MysqlGenerator {
                         .setCapitalMode(false)// 全局大写命名
                         .setTablePrefix("sys_")// 去除前缀
                         .setNaming(NamingStrategy.underline_to_camel)// 表名生成策略
-                        .setInclude("sys_user") // 需要生成的表
+                        .setInclude("sys_schedule") // 需要生成的表
                         // 自动填充字段
                         .setTableFillList(tableFillList)
                         // 【实体】是否生成字段常量（默认 false）
@@ -112,7 +109,7 @@ public class MysqlGenerator {
                         .setEntityLombokModel(true)
                         // Boolean类型字段是否移除is前缀处理
                         .setEntityBooleanColumnRemoveIsPrefix(true)
-                        .setRestControllerStyle(false)
+                        .setRestControllerStyle(true)
                 // .setControllerMappingHyphenStyle(true)
         ).setCfg(
                 // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值

@@ -14,17 +14,23 @@ import com.ssrs.framework.util.CronExpression;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.code.YesOrNo;
+import com.ssrs.platform.model.entity.Schedule;
+import com.ssrs.platform.service.IScheduleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.*;
 
 /**
- * @author ssrs TODO 任务放到缓存中好像没啥用。。。后续直接放到数据库或文件中
+ * @author ssrs
  */
 @RestController
 @RequestMapping("/api/schedule")
 public class ScheduleController extends BaseController {
+
+    @Autowired
+    private IScheduleService scheduleService;
 
     @Priv
     @GetMapping
@@ -90,7 +96,22 @@ public class ScheduleController extends BaseController {
                 CronUtil.remove(systemTask.getExtendItemID());
             }
             SystemTaskCache.set(systemTask);
-        }catch (CronException e){
+            Schedule schedule = scheduleService.getById(id);
+            if (ObjectUtil.isNotNull(schedule)) {
+                schedule.setCronExpression(cronExpression);
+                schedule.setIsUsing(isUsing);
+                scheduleService.updateById(schedule);
+            } else {
+                schedule = new Schedule();
+                schedule.setId(id);
+                schedule.setSourceId(id);
+                schedule.setIsUsing(isUsing);
+                schedule.setTypeCode(SystemTaskManager.ID);
+                schedule.setCronExpression(cronExpression);
+                schedule.setDescription(systemTask.getExtendItemName());
+                scheduleService.save(schedule);
+            }
+        } catch (CronException e) {
             e.printStackTrace();
             return failure("表达式解析异常！");
         }

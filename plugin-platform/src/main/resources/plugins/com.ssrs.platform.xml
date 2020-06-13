@@ -132,6 +132,12 @@
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
         <description>定时任务权限</description>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.task.TestTask1</id>
+        <class>com.ssrs.platform.task.TestTask1</class>
+        <description>测试定时任务1</description>
+        <extend-service>com.ssrs.framework.schedule.SystemTaskService</extend-service>
+    </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
         <class>com.ssrs.platform.point.AfterUserAddPoint</class>

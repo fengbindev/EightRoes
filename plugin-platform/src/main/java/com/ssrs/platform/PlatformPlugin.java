@@ -13,6 +13,8 @@ public class PlatformPlugin extends AbstractPlugin {
         CodeService.init();
         // 加载数据库中的配置项
         PlatformUtil.loadDBConfig();
+        // 加载数据库定时任务
+        PlatformUtil.loadDBSchedule();
     }
 
     @Override

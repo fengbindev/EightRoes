@@ -1,15 +1,26 @@
 package com.ssrs.platform.util;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.cron.CronUtil;
+import cn.hutool.cron.pattern.CronPattern;
+import cn.hutool.cron.task.Task;
 import com.ssrs.framework.Config;
 import com.ssrs.framework.cache.FrameworkCacheManager;
+import com.ssrs.framework.schedule.SystemTask;
+import com.ssrs.framework.schedule.SystemTaskCache;
+import com.ssrs.framework.schedule.SystemTaskManager;
 import com.ssrs.framework.util.SpringUtil;
+import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.extend.item.CodeCacheProvider;
 import com.ssrs.platform.model.entity.Code;
 import com.ssrs.platform.model.entity.Role;
+import com.ssrs.platform.model.entity.Schedule;
 import com.ssrs.platform.service.IConfigService;
+import com.ssrs.platform.service.IScheduleService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -79,5 +90,33 @@ public class PlatformUtil {
             return null;
         }
         return role.getRoleName();
+    }
+
+    /**
+     * 加载数据库定时任务
+     */
+    public static void loadDBSchedule() {
+        IScheduleService scheduleService = SpringUtil.getBean(IScheduleService.class);
+        List<Schedule> scheduleList = scheduleService.list();
+        if (CollUtil.isNotEmpty(scheduleList)) {
+            for (Schedule schedule : scheduleList) {
+                SystemTask systemTask = SystemTaskCache.get(schedule.getSourceId());
+                systemTask.setDisabled(YesOrNo.isYes(schedule.getIsUsing()));
+                systemTask.setCronExpression(schedule.getCronExpression());
+                if (YesOrNo.isYes(schedule.getIsUsing())) {
+                    Task task = CronUtil.getScheduler().getTaskTable().getTask(schedule.getSourceId());
+                    if (ObjectUtil.isEmpty(task)) {
+                        CronUtil.schedule(schedule.getSourceId(), schedule.getCronExpression(), systemTask);
+                    } else {
+                        CronUtil.updatePattern(systemTask.getExtendItemID(), new CronPattern(schedule.getCronExpression()));
+                    }
+                } else {
+                    CronUtil.remove(systemTask.getExtendItemID());
+                }
+                SystemTaskCache.set(systemTask);
+            }
+        }
+
+
     }
 }
