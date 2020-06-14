@@ -12,6 +12,12 @@
         <description>添加用户权限扩展行为</description>
         <extend-point>com.ssrs.framework.point.AddUserPermissionsPoint</extend-point>
     </extend-action>
+    <extend-action>
+        <id>com.ssrs.platform.point.action.afterAllPluginStartedAction</id>
+        <class>com.ssrs.platform.point.action.afterAllPluginStartedAction</class>
+        <description>所有插件加载完成后扩展行为</description>
+        <extend-point>com.ssrs.framework.point.AfterAllPluginStartedPoint</extend-point>
+    </extend-action>
     <extend-service>
         <id>com.ssrs.platform.extend.MenuPrivService</id>
         <class>com.ssrs.platform.extend.MenuPrivService</class>
