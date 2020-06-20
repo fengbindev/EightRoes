@@ -96,12 +96,13 @@ public class PlatformUtil {
      * 加载数据库定时任务
      */
     public static void loadDBSchedule() {
+        SystemTaskManager.getInstance().startAllTask();
         IScheduleService scheduleService = SpringUtil.getBean(IScheduleService.class);
         List<Schedule> scheduleList = scheduleService.list();
         if (CollUtil.isNotEmpty(scheduleList)) {
             for (Schedule schedule : scheduleList) {
                 SystemTask systemTask = SystemTaskCache.get(schedule.getSourceId());
-                systemTask.setDisabled(YesOrNo.isYes(schedule.getIsUsing()));
+                systemTask.setDisabled(YesOrNo.isNo(schedule.getIsUsing()));
                 systemTask.setCronExpression(schedule.getCronExpression());
                 if (YesOrNo.isYes(schedule.getIsUsing())) {
                     Task task = CronUtil.getScheduler().getTaskTable().getTask(schedule.getSourceId());
