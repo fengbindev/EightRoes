@@ -27,7 +27,10 @@ public class MysqlGenerator {
 
 
     public static void main(String[] args) {
-        generator();
+        String path = "G:\\EightRoes\\EightRoes\\plugin-platform\\";
+        String jdbc = "jdbc:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
+        String[] include = new String[]{"sys_schedule"}; // 要生成的表名
+        generator(path, jdbc, include);
     }
 
     /**
@@ -35,7 +38,7 @@ public class MysqlGenerator {
      * MySQL generator
      * </p>
      */
-    public static void generator() {
+    public static void generator(String path, String jdbc, String[] include) {
         // 自定义需要填充的字段
         List<TableFill> tableFillList = new ArrayList<>();
         tableFillList.add(new TableFill("create_user", FieldFill.INSERT));
@@ -46,7 +49,7 @@ public class MysqlGenerator {
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
                 // 全局配置
                 new GlobalConfig()
-                        .setOutputDir("G:\\EightRoes\\EightRoes\\plugin-platform\\src\\main\\java")//输出目录
+                        .setOutputDir(path + "src\\main\\java")//输出目录
                         .setFileOverride(false)// 是否覆盖文件
                         .setActiveRecord(false)// 开启 activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
@@ -90,7 +93,7 @@ public class MysqlGenerator {
                         .setDriverName("com.mysql.cj.jdbc.Driver")
                         .setUsername("root")
                         .setPassword("1234")
-                        .setUrl("jdbc:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false")
+                        .setUrl(jdbc)
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
@@ -98,7 +101,7 @@ public class MysqlGenerator {
                         .setCapitalMode(false)// 全局大写命名
                         .setTablePrefix("sys_")// 去除前缀
                         .setNaming(NamingStrategy.underline_to_camel)// 表名生成策略
-                        .setInclude("sys_schedule") // 需要生成的表
+                        .setInclude(include) // 需要生成的表
                         // 自动填充字段
                         .setTableFillList(tableFillList)
                         // 【实体】是否生成字段常量（默认 false）
@@ -124,7 +127,7 @@ public class MysqlGenerator {
                     // 自定义输出文件目录
                     @Override
                     public String outputFile(TableInfo tableInfo) {
-                        return "D:\\workspace\\EightRoes\\plugin-platform\\src\\main\\resources\\mapper\\" + tableInfo.getEntityName() + "Mapper.xml";
+                        return path + "src\\main\\resources\\mapper\\" + tableInfo.getEntityName() + "Mapper.xml";
                     }
                 }))
         ).setPackageInfo(

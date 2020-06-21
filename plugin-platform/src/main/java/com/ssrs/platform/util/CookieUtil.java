@@ -73,7 +73,7 @@ public class CookieUtil {
     }
 
     public static Cookie getCookie(HttpServletRequest request, String name) {
-        if (StrUtil.isNotEmpty(name)) {
+        if (request.getCookies() != null && StrUtil.isNotEmpty(name)) {
             List<Cookie> tokenCookie = Stream.of(request.getCookies()).filter(ck -> name.equals(ck.getName())).collect(Collectors.toList());
             if (tokenCookie != null && tokenCookie.size() > 0) {
                 return tokenCookie.get(0);
