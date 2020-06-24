@@ -19,13 +19,11 @@ import com.ssrs.platform.service.ICodeService;
 import com.ssrs.platform.util.Page;
 import com.ssrs.platform.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +44,7 @@ public class CodeController extends BaseController {
         IPage<Code> ipage = codeService.page(new Query<Code>().getPage(paramas), Wrappers.<Code>lambdaQuery()
                 .eq(Code::getParentCode, "System")
                 .like(StrUtil.isNotEmpty(searchName), Code::getCodeType, searchName)
+                .or()
                 .like(StrUtil.isNotEmpty(searchName), Code::getCodeName, searchName)
                 .orderByAsc(Code::getCodeOrder, Code::getCodeType, Code::getParentCode));
         Page page = new Page(ipage);
