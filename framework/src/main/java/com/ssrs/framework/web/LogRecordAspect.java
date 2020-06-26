@@ -1,5 +1,6 @@
 package com.ssrs.framework.web;
 
+import com.github.xiaoymin.knife4j.spring.web.Knife4jController;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.exception.NoPrivException;
 import com.ssrs.framework.web.util.LogUtils;
@@ -9,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
+import springfox.documentation.swagger.web.ApiResourceController;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -29,7 +31,7 @@ public class LogRecordAspect {
 
     @Before("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) ")
     public void requestLimit(final JoinPoint joinPoint) {
-        if (joinPoint.getTarget() instanceof BasicErrorController){
+        if (joinPoint.getTarget() instanceof BasicErrorController || joinPoint.getTarget() instanceof ApiResourceController || joinPoint.getTarget() instanceof Knife4jController){
             return;
         }
         try {

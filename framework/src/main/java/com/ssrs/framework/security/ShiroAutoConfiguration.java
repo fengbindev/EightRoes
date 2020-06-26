@@ -75,6 +75,14 @@ public class ShiroAutoConfiguration {
         shiroFilterFactoryBean.setFilters(filters);
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/api/login", "anon");
+        filterMap.put("/api/preview/**", "anon");
+        filterMap.put("/api/authcode", "anon");
+        filterMap.put("/api/api-docs/**", "anon");
+        filterMap.put("/api/api-configuration/**", "anon");
+        filterMap.put("/swagger-resources/configuration/ui", "anon");
+        filterMap.put("/swagger-resources/configuration/security", "anon");
+        filterMap.put("/swagger-resources", "anon");
+        filterMap.put("/v2/api-docs-ext", "anon");
         filterMap.put("/**/**.*", "anon");
         filterMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
