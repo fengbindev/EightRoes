@@ -102,6 +102,9 @@ public class PlatformUtil {
         if (CollUtil.isNotEmpty(scheduleList)) {
             for (Schedule schedule : scheduleList) {
                 SystemTask systemTask = SystemTaskCache.get(schedule.getSourceId());
+                if (ObjectUtil.isNull(systemTask)) {
+                    continue;
+                }
                 systemTask.setDisabled(YesOrNo.isNo(schedule.getIsUsing()));
                 systemTask.setCronExpression(schedule.getCronExpression());
                 if (YesOrNo.isYes(schedule.getIsUsing())) {

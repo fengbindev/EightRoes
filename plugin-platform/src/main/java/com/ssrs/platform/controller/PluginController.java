@@ -11,6 +11,7 @@ import com.ssrs.framework.extend.plugin.PluginManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.priv.PluginManagerPriv;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/api/plugins")
 public class PluginController extends BaseController {
 
-    @Priv
+    @Priv(PluginManagerPriv.MenuID)
     @GetMapping
     public ApiResponses<JSONArray> list() {
         JSONArray plugins = new JSONArray();
@@ -55,7 +56,7 @@ public class PluginController extends BaseController {
         return success(rest);
     }
 
-    @Priv
+    @Priv(PluginManagerPriv.MenuID)
     @GetMapping("/{pluginId:.+}")
     public ApiResponses<JSONObject> get(@PathVariable String pluginId) {
         JSONObject jo = new JSONObject();
@@ -97,7 +98,7 @@ public class PluginController extends BaseController {
             JSONObject jo4 = new JSONObject();
             jo4.set("id", id);
             jo4.set("desc", extendItem.getDescription());
-            ja3.add(jo4);
+            ja4.add(jo4);
         });
         jo.set("extendPoints", ja1);
         jo.set("extendActions", ja2);
