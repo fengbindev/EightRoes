@@ -1,5 +1,6 @@
 package com.ssrs.platform.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.ssrs.framework.extend.ExtendActionConfig;
@@ -29,12 +30,11 @@ public class PluginController extends BaseController {
 
     @Priv(PluginManagerPriv.MenuID)
     @GetMapping
-    public ApiResponses<JSONArray> list() {
+    public ApiResponses<JSONArray> list(String title) {
         JSONArray plugins = new JSONArray();
         ArrayList<PluginConfig> lists = PluginManager.getInstance().getAllPluginConfig();
         for (PluginConfig pc : lists) {
             JSONObject jo = new JSONObject();
-            plugins.add(jo);
             jo.set("key", pc.getID());
             jo.set("title", pc.getName());
             jo.set("status", pc.isEnabled());
@@ -43,6 +43,12 @@ public class PluginController extends BaseController {
             jo.set("provider", pc.getProvider());
             jo.set("author", pc.getAuthor());
             jo.set("description", pc.getDescription());
+            if (StrUtil.isNotEmpty(title) && StrUtil.contains(pc.getName(), title)) {
+                plugins.add(jo);
+            } else if (StrUtil.isEmpty(title)) {
+                plugins.add(jo);
+            }
+
         }
         JSONObject jo = new JSONObject();
         jo.set("key", "0");
