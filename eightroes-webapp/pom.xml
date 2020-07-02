@@ -5,13 +5,13 @@
     <parent>
         <groupId>top.ssrsdev</groupId>
         <artifactId>eightroes-webapp-base</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
         <relativePath>../eightroes-webapp-base</relativePath>
     </parent>
     <groupId>top.ssrsdev</groupId>
     <artifactId>eightroes-webapp</artifactId>
     <packaging>war</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <name>eightroes-webapp</name>
 
     <properties>

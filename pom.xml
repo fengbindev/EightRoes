@@ -11,7 +11,7 @@
     </parent>
     <groupId>top.ssrsdev</groupId>
     <artifactId>eightroes</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
 
 
