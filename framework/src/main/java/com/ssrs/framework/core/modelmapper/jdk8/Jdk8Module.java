@@ -4,13 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.Module;
 
 /**
-* @Description:    Supports the JDK8 data types  with  ModelMapper
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:03
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:03
-* @Version:        1.0
-*/
+ * Supports the JDK8 data types  with  ModelMapper
+ *
+ * @author ssrs
+ */
 public class Jdk8Module implements Module {
 
     @Override

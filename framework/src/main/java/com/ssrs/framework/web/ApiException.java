@@ -2,13 +2,10 @@ package com.ssrs.framework.web;
 
 
 /**
-* @Description:    接口异常
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:37
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:37
-* @Version:        1.0
-*/
+ * 接口异常
+ *
+ * @author ssrs
+ */
 public class ApiException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

@@ -5,12 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 
 /**
- * @Description: P6spy SQL 日志格式化
- * @Author: ssrs
- * @CreateDate: 2019/8/25 12:07
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/25 12:07
- * @Version: 1.0
+ *
+ * <p> P6spy SQL 日志格式化 </p>
+ *
+ * @author ssrs
  */
 public class P6spyLogFormat implements MessageFormattingStrategy {
 

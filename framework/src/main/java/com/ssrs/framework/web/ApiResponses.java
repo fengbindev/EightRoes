@@ -2,11 +2,15 @@ package com.ssrs.framework.web;
 
 import com.ssrs.framework.ResponseData;
 import com.ssrs.framework.web.util.ResponseUtils;
-import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 返回值封装类
+ *
+ * @author ssrs
+ */
 public class ApiResponses<T> implements Serializable, IResponseBodyData {
 
     private static final long serialVersionUID = 1L;

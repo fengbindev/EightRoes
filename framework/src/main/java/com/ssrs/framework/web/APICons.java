@@ -1,12 +1,9 @@
 package com.ssrs.framework.web;
 
 /**
- * @Description: API常量
- * @Author: ssrs
- * @CreateDate: 2019/8/25 11:56
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/25 11:56
- * @Version: 1.0
+ * API常量
+ *
+ * @author ssrs
  */
 public interface APICons {
     String API_REQURL = "API_REQURL";

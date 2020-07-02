@@ -2,6 +2,8 @@ package com.ssrs.framework.extend.plugin;
 
 /**
  * 插件虚拟类，插件类可基础此类
+ *
+ * @author ssrs
  */
 public abstract class AbstractPlugin implements IPlugin {
     private PluginConfig config;

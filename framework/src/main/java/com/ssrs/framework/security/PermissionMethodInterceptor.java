@@ -9,7 +9,7 @@ import org.apache.shiro.authz.aop.AuthorizingAnnotationMethodInterceptor;
 /**
  * 自定义注解的方法拦截器
  *
- * @author BBF
+ * @author ssrs
  */
 public class PermissionMethodInterceptor extends AuthorizingAnnotationMethodInterceptor {
     public PermissionMethodInterceptor() {

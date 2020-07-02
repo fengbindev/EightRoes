@@ -5,6 +5,7 @@ import com.ssrs.platform.FixedCodeType;
 /**
  * 密码字符规范要求类型代码项
  *
+ * @author ssrs
  */
 public class PasswordCharacterSpecification extends FixedCodeType {
 

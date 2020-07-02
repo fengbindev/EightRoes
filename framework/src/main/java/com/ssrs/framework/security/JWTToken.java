@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 /**
  * JWTToken
  *
+ * @author ssrs
  */
 public class JWTToken implements AuthenticationToken {
 

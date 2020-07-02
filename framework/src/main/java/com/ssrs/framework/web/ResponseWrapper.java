@@ -2,8 +2,6 @@ package com.ssrs.framework.web;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import com.ssrs.framework.web.ApiResponses;
-import com.ssrs.framework.web.ErrorCode;
 import com.ssrs.framework.web.util.JacksonUtils;
 import org.springframework.util.MimeTypeUtils;
 
@@ -17,7 +15,7 @@ import java.util.Objects;
 /**
  * response包装类
  *
- * @author Caratacus
+ * @author ssrs
  */
 public class ResponseWrapper extends HttpServletResponseWrapper {
 

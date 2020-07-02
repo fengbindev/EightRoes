@@ -5,6 +5,8 @@ import cn.hutool.json.JSONUtil;
 
 /**
  * 操作结果类
+ *
+ * @author ssrs
  */
 public class OperateReport {
 

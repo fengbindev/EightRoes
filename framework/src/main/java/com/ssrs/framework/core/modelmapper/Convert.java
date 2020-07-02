@@ -3,12 +3,9 @@ package com.ssrs.framework.core.modelmapper;
 import java.io.Serializable;
 
 /**
- * @Description: Bean转换类，用于实体类互转
- * @Author: ssrs
- * @CreateDate: 2019/8/24 16:59
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/24 16:59
- * @Version: 1.0
+ * Bean转换类，用于实体类互转
+ *
+ * @author ssrs
  */
 public class Convert implements Serializable {
 

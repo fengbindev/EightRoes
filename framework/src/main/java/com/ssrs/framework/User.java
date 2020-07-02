@@ -6,6 +6,8 @@ import java.util.Map;
 
 /**
  * 用户数据全局访问类，一个线程内的所有代码都可以直接访问用户数据<br>
+ *
+ * @author ssrs
  */
 public class User {
 

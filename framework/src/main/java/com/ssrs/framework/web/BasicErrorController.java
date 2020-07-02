@@ -1,6 +1,5 @@
 package com.ssrs.framework.web;
 
-import com.ssrs.framework.web.util.RequestUtils;
 import com.ssrs.framework.web.util.ResponseUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import java.io.IOException;
  * 通用错误处理器
  * </p>
  *
- * @author Caratacus
+ * @author ssrs
  */
 @SuppressWarnings({"Annotator", "SyntaxError"})
 @Controller

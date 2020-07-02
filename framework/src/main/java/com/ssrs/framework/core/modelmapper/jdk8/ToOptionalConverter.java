@@ -7,13 +7,10 @@ import org.modelmapper.spi.MappingContext;
 import java.util.Optional;
 
 /**
-* @Description:    Converts  {@link Object} to {@link Optional}
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:04
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:04
-* @Version:        1.0
-*/
+ * Converts  {@link Object} to {@link Optional}
+ *
+ * @author ssrs
+ */
 public class ToOptionalConverter implements ConditionalConverter<Object, Optional<Object>> {
 
     @Override

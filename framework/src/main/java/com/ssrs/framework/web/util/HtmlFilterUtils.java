@@ -8,12 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Description:
- * @Author: ssrs
- * @CreateDate: 2019/9/22 11:04
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/22 11:04
- * @Version: 1.0
+ * @author ssrs
  */
 public final class HtmlFilterUtils {
 

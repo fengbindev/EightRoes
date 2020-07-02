@@ -6,7 +6,7 @@ import org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthor
 /**
  * 自定义注解的AOP拦截器
  *
- * @author BBF
+ * @author ssrs
  */
 public class PermissionAopInterceptor extends AopAllianceAnnotationsAuthorizingMethodInterceptor {
     public PermissionAopInterceptor() {

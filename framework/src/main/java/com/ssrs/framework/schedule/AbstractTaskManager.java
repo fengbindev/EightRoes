@@ -1,6 +1,10 @@
 package com.ssrs.framework.schedule;
 
-
+/**
+ * 定时任务管理器抽象类
+ *
+ * @author ssrs
+ */
 public abstract class AbstractTaskManager {
 
     /**

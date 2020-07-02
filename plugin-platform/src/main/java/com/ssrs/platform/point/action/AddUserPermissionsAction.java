@@ -9,7 +9,11 @@ import com.ssrs.platform.service.IUserService;
 
 import java.util.Set;
 
-
+/**
+ * 添加用户权限扩展行为
+ *
+ * @author ssrs
+ */
 public class AddUserPermissionsAction extends AddUserPermissionsPoint {
     private static final String ID = "com.ssrs.platform.point.action.AddUserPermissionsAction";
 

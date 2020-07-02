@@ -15,6 +15,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 插件管理器
+ *
+ * @author ssrs
  */
 public class PluginManager {
     private static final Log log = LogFactory.get(PluginManager.class);

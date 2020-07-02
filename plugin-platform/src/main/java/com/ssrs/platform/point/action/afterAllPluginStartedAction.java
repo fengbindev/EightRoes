@@ -4,8 +4,9 @@ import com.ssrs.framework.point.AfterAllPluginStartedPoint;
 import com.ssrs.platform.extend.CodeService;
 
 /**
+ * 所有插件加载完成后扩展行为
+ *
  * @author ssrs
- * @description: 所有插件加载完成后扩展行为
  */
 public class afterAllPluginStartedAction extends AfterAllPluginStartedPoint {
     @Override

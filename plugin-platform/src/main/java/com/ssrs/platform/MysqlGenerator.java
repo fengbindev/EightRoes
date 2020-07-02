@@ -16,12 +16,8 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import java.util.*;
 
 /**
- * @Description: 代码生成器
- * @Author: ssrs
- * @CreateDate: 2019/9/7 20:20
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/7 20:20
- * @Version: 1.0
+ * 代码生成器
+ * @author ssrs
  */
 public class MysqlGenerator {
 

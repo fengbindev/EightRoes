@@ -5,13 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import javax.servlet.http.HttpServletRequest;
 
 /**
-* @Description:    获取IP地址类
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:45
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:45
-* @Version:        1.0
-*/
+ * 获取IP地址类
+ *
+ * @author ssrs
+ */
 public abstract class IpUtils {
 
     /**

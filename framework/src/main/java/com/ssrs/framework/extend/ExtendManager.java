@@ -14,6 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 扩展管理器
+ *
+ * @author ssrs
  */
 public class ExtendManager {
     private static final Log log = LogFactory.get();

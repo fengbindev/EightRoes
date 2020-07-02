@@ -4,6 +4,8 @@ import com.ssrs.platform.FixedCodeType;
 
 /**
  * 配置项控件类型
+ *
+ * @author ssrs
  */
 public class ControlType extends FixedCodeType {
     public static final String CODETYPE = "ControlType";

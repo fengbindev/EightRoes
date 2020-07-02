@@ -9,12 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Description: Controller父类
- * @Author: ssrs
- * @CreateDate: 2019/9/22 11:48
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/22 11:48
- * @Version: 1.0
+ * Controller父类
+ *
+ * @author ssrs
  */
 public class BaseController {
 

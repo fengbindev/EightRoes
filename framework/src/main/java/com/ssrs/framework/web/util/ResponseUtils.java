@@ -20,6 +20,11 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 请求响应工具类
+ *
+ * @author ssrs
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseUtils {
 

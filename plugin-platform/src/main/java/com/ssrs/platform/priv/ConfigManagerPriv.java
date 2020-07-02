@@ -1,6 +1,8 @@
 package com.ssrs.platform.priv;
 
 /**
+ * 配置管理菜单权限项
+ *
  * @author ssrs
  */
 public class ConfigManagerPriv extends AbstractMenuPriv {

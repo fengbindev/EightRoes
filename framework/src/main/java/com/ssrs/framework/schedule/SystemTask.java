@@ -5,6 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.cron.task.Task;
 import com.ssrs.framework.extend.IExtendItem;
 
+/**
+ * 系统定时任务抽象类
+ *
+ * @author ssrs
+ */
 public abstract class SystemTask implements IExtendItem, Task {
     private String cronExpression;
     private boolean disabled;

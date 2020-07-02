@@ -20,12 +20,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @Description: shiro的权授权与认证
- * @Author: ssrs
- * @CreateDate: 2019/8/31 12:17
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/31 12:17
- * @Version: 1.0
+ * shiro的权授权与认证
+ *
+ * @author ssrs
  */
 public class JWTRealm extends AuthorizingRealm {
 

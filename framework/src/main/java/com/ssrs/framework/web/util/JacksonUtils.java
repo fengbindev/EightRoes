@@ -29,12 +29,9 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * @Description: Jackson 工具类
- * @Author: ssrs
- * @CreateDate: 2019/8/18 16:51
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/18 16:51
- * @Version: 1.0
+ * Jackson 工具类
+ *
+ * @author ssrs
  */
 public abstract class JacksonUtils {
 

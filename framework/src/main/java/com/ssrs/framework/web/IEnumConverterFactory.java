@@ -11,15 +11,12 @@ import java.util.Objects;
 import java.util.WeakHashMap;
 
 /**
+ * 枚举工厂转换类
  * https://blog.csdn.net/u014527058/article/details/62883573
  * https://www.cnblogs.com/xingele0917/p/3921492.html
-* @Description: 枚举工厂转换类
-* @Author: ssrs
-* @CreateDate: 2019/8/25 14:18
-* @UpdateUser: ssrs
-* @UpdateDate: 2019/8/25 14:18
-* @Version: 1.0
-*/
+ *
+ * @author ssrs
+ */
 public class IEnumConverterFactory implements ConverterFactory<String, IEnum> {
 
     /**

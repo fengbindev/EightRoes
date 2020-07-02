@@ -6,7 +6,9 @@ import com.ssrs.framework.extend.IExtendAction;
 import java.util.Set;
 
 /**
- *  添加用户权限项扩展点
+ * 添加用户权限项扩展点
+ *
+ * @author ssrs
  */
 public abstract class AddUserPermissionsPoint implements IExtendAction {
     public static final String ID = "com.ssrs.framework.point.AddUserPermissionsPoint";

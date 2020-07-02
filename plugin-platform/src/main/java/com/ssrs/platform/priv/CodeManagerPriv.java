@@ -1,9 +1,11 @@
 package com.ssrs.platform.priv;
 
 /**
+ * 代码管理菜单权限项
+ *
  * @author ssrs
  */
-public class CodeManagerPriv extends AbstractMenuPriv{
+public class CodeManagerPriv extends AbstractMenuPriv {
     public static final String MenuID = "CodeManagerPriv";
     public static final String Add = MenuID + ".Add";
     public static final String Edit = MenuID + ".Edit";

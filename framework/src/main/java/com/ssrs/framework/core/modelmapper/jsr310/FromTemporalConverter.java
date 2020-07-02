@@ -16,13 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
-* @Description:    Converts  {@link Temporal} to {@link Object}
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:10
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:10
-* @Version:        1.0
-*/
+ * Converts  {@link Temporal} to {@link Object}
+ * @author ssrs
+ */
 public class FromTemporalConverter implements ConditionalConverter<Temporal, Object> {
 
     private final Jsr310ModuleConfig config;

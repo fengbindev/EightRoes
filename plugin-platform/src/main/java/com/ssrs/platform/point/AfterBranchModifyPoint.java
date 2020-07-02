@@ -5,6 +5,8 @@ import com.ssrs.framework.extend.IExtendAction;
 
 /**
  * 机构修改后的扩展点
+ *
+ * @author ssrs
  */
 public abstract class AfterBranchModifyPoint implements IExtendAction {
     public static final String ID = "com.ssrs.platform.point.AfterBranchModifyPoint";

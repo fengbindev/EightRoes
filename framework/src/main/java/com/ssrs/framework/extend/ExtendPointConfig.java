@@ -8,6 +8,8 @@ import org.w3c.dom.Element;
 
 /**
  * 扩展点类，对应一个扩展点
+ *
+ * @author ssrs
  */
 public class ExtendPointConfig {
     private boolean enable;

@@ -8,13 +8,10 @@ import lombok.NoArgsConstructor;
 import java.time.ZoneId;
 
 /**
-* @Description:    Config for {@link Jsr310Module}
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:05
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:05
-* @Version:        1.0
-*/
+ * Config for {@link Jsr310Module}
+ *
+ * @author ssrs
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

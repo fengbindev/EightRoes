@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * cookie工具类
+ *
+ * @author ssrs
+ */
 public class CookieUtil {
 
     public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, boolean httpOnly,

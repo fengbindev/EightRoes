@@ -6,17 +6,15 @@ import com.p6spy.engine.spy.appender.FormattedLogger;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ *P6spy日志实现
+ *
  * <p>
  * https://blog.csdn.net/z69183787/article/details/43453581
  * @see FormattedLogger
  * <p/>
-* @Description: P6spy日志实现
-* @Author: ssrs
-* @CreateDate: 2019/8/25 12:07
-* @UpdateUser: ssrs
-* @UpdateDate: 2019/8/25 12:07
-* @Version: 1.0
-*/
+ *
+ * @author ssrs
+ */
 @Slf4j
 public class P6spyLogger extends FormattedLogger {
 

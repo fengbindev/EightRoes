@@ -7,12 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Description: MybatisPlus 配置
- * @Author: ssrs
- * @CreateDate: 2019/8/25 10:54
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/25 10:54
- * @Version: 1.0
+ * MybatisPlus 配置
+ *
+ * @author ssrs
  */
 @MapperScan("com.ssrs.*.mapper")
 /** @Import(AutoConfiguredMapperScannerRegistrar.class) **/

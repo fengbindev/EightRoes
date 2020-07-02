@@ -27,6 +27,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 平台工具类
+ *
+ * @author ssrs
+ */
 public class PlatformUtil {
     private static final Object mutex = new Object();
 

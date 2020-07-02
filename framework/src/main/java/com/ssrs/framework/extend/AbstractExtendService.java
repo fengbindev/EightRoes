@@ -7,6 +7,8 @@ import java.util.Map;
 
 /**
  * 扩展服务虚拟类，扩展服务可继承此类
+ *
+ * @author ssrs
  */
 public class AbstractExtendService<T extends IExtendItem> implements IExtendService<T> {
     protected Map<String, T> itemMap = new HashMap<>();

@@ -13,6 +13,8 @@ import java.util.Set;
 
 /**
  * 权限集合。每一个用户会话中都有一个本类的实例。
+ *
+ * @author ssrs
  */
 public class PrivilegeModel implements Serializable {
     private static final long serialVersionUID = 1L;

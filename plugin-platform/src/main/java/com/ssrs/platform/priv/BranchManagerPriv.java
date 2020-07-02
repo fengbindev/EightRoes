@@ -1,6 +1,11 @@
 package com.ssrs.platform.priv;
 
-public class BranchManagerPriv extends AbstractMenuPriv{
+/**
+ * 机构管理菜单权限项
+ *
+ * @author ssrs
+ */
+public class BranchManagerPriv extends AbstractMenuPriv {
     public static final String MenuID = "BranchManagerPriv";
     public static final String Add = MenuID + ".Add";
     public static final String Edit = MenuID + ".Edit";

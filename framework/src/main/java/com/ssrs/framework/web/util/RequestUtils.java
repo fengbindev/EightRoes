@@ -13,13 +13,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
-* @Description:     Request 请求工具类
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:56
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:56
-* @Version:        1.0
-*/
+ * Request 请求工具类
+ *
+ * @author ssrs
+ */
 @SuppressWarnings("ALL")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RequestUtils {

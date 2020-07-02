@@ -8,13 +8,10 @@ import lombok.ToString;
 import java.util.Map;
 
 /**
-* @Description:    请求日志Model
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:37
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:37
-* @Version:        1.0
-*/
+ * 请求日志Model
+ *
+ * @author ssrs
+ */
 @Getter
 @ToString
 @Builder

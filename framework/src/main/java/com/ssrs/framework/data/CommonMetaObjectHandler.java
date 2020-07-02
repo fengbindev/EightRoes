@@ -8,12 +8,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import java.time.LocalDateTime;
 
 /**
- * @Description: mybatis自动填充类
- * @Author: ssrs
- * @CreateDate: 2019/8/25 11:56
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/25 11:56
- * @Version: 1.0
+ * mybatis自动填充类
+ *
+ * @author ssrs
  */
 public class CommonMetaObjectHandler implements MetaObjectHandler {
 

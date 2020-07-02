@@ -16,7 +16,7 @@ import java.util.Set;
  * 拓展SpringValidatorAdapter以便于校验List<T>类型数据
  * {@link org.springframework.validation.beanvalidation.SpringValidatorAdapter
  *
- * @author Caratacus
+ * @author ssrs
  */
 public class ValidatorCollectionImpl implements javax.validation.Validator {
 

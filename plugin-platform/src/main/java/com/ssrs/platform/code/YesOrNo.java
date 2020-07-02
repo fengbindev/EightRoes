@@ -3,7 +3,11 @@ package com.ssrs.platform.code;
 import com.ssrs.platform.FixedCodeType;
 import com.ssrs.platform.util.PlatformUtil;
 
-
+/**
+ * 是或否
+ *
+ * @author ssrs
+ */
 public class YesOrNo extends FixedCodeType {
 	public static final String CODETYPE = "YesOrNo";
 

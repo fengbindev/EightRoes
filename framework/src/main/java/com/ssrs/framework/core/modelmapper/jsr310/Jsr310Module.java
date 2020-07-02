@@ -4,13 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.Module;
 
 /**
-* @Description:    Supports the JSR310 {@code java.time} objects with  ModelMapper
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:05
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:05
-* @Version:        1.0
-*/
+ * Supports the JSR310 {@code java.time} objects with  ModelMapper
+ *
+ * @author ssrs
+ */
 public class Jsr310Module implements Module {
 
     private final Jsr310ModuleConfig config;

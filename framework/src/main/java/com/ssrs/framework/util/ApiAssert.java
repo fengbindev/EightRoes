@@ -14,12 +14,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @Description: 断言封装
- * @Author: ssrs
- * @CreateDate: 2019/8/18 16:39
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/18 16:39
- * @Version: 1.0
+ * 断言封装
+ *
+ * @author ssrs
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiAssert {

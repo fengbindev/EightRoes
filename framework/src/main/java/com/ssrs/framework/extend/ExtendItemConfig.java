@@ -9,6 +9,8 @@ import org.w3c.dom.Element;
 
 /**
  * 扩展项类，对应一个扩展项
+ *
+ * @author ssrs
  */
 public class ExtendItemConfig {
     private boolean enable;

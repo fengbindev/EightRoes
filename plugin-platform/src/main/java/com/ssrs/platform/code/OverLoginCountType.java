@@ -2,7 +2,11 @@ package com.ssrs.platform.code;
 
 
 import com.ssrs.platform.FixedCodeType;
-
+/**
+ * 超过阀值处理方式
+ *
+ * @author ssrs
+ */
 public class OverLoginCountType extends FixedCodeType {
 
 	public static final String CODE_TYPE = "OverLoginCountType";

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 /**
  * 配置项数据类型
+ *
+ * @author ssrs
  */
 public class DataType extends FixedCodeType {
     public static final String CODETYPE = "DataType";

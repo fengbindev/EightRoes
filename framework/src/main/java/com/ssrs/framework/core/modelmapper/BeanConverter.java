@@ -14,12 +14,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @Description: Bean转换工具
- * @Author: ssrs
- * @CreateDate: 2019/8/24 16:57
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/24 16:57
- * @Version: 1.0
+ * Bean转换工具
+ *
+ * @author ssrs
  */
 public class BeanConverter {
 

@@ -9,12 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
- * @Description: Spring Application 工具类
- * @Author: ssrs
- * @CreateDate: 2019/8/18 17:30
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/8/18 17:30
- * @Version: 1.0
+ * Spring Application 工具类
+ *
+ * @author ssrs
  */
 public class ApplicationUtils {
 

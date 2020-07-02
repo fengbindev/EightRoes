@@ -6,7 +6,7 @@ import java.math.BigInteger;
 /**
  * Identicon renderer interface.
  * 
- * @author don
+ * @author ssrs
  * 
  */
 public interface IdenticonRenderer {

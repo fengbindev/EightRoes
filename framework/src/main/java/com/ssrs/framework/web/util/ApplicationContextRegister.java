@@ -6,13 +6,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
-* @Description:    设置spring上下文
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:56
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:56
-* @Version:        1.0
-*/
+ * 设置spring上下文
+ *
+ * @author ssrs
+ */
 @Component
 public class ApplicationContextRegister implements ApplicationContextAware {
 

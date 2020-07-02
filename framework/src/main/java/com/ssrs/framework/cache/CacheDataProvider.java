@@ -5,6 +5,11 @@ import com.ssrs.framework.extend.IExtendItem;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 缓存提供者抽象类
+ *
+ * @author ssrs
+ */
 public abstract class CacheDataProvider implements IExtendItem {
     protected Lock lock = new ReentrantLock();
     protected boolean OnNotFound = false; // 表明当前处于onKeyNotFound,OnTypeNotFound调用期间

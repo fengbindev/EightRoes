@@ -8,6 +8,8 @@ import com.ssrs.platform.code.DataType;
 
 /**
  * 系统管理员的用户名
+ *
+ * @author ssrs
  */
 public class AdminUserName extends FixedConfigItem {
     public static final String ID = "Platform.AdminUserName";

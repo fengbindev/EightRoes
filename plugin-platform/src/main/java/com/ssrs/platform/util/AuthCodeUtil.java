@@ -24,6 +24,7 @@ import java.util.Random;
 /**
  * 验证码公用类
  *
+ * @author ssrs
  */
 public class AuthCodeUtil {
     private static final Log log = LogFactory.get(AuthCodeUtil.class);

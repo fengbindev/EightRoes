@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 系统缓存管理器
+ *
+ * @author ssrs
+ */
 @EnableCaching
 @Component
 public class FrameworkCacheManager {
@@ -81,10 +85,10 @@ public class FrameworkCacheManager {
                     log.warn("Get cache data failed: Provider=" + providerID + ",Type=" + type + ",Key=" + sKey);
                 }
                 valueWrapper = cache.get(sKey);
-                if (valueWrapper == null){
+                if (valueWrapper == null) {
                     return null;
                 }
-                return  valueWrapper.get();
+                return valueWrapper.get();
             } finally {
                 cp.lock.unlock();
             }

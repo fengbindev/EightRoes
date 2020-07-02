@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * knife4j配置
+ *
  * @author ssrs
  */
 @Configuration

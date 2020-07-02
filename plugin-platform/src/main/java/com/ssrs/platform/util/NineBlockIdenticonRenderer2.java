@@ -14,7 +14,7 @@ import java.math.BigInteger;
  * Current implementation uses only the lower 32 bits of identicon code.
  * </p>
  * 
- * @author don
+ * @author ssrs
  * 
  */
 public class NineBlockIdenticonRenderer2 implements IdenticonRenderer {

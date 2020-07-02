@@ -11,6 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * 带有定时器的set
+ *
+ * @author ssrs
+ */
 public class ExpiringCacheSet<E> extends AbstractSet<E> {
 
 	/**

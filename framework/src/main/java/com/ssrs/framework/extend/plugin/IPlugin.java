@@ -1,5 +1,10 @@
 package com.ssrs.framework.extend.plugin;
 
+/**
+ * 插件接口
+ *
+ * @author ssrs
+ */
 public interface IPlugin {
     /**
      * 插件安装

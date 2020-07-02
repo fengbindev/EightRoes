@@ -16,6 +16,8 @@ import java.util.Map;
 
 /**
  * 插件类，对应一个插件
+ *
+ * @author ssrs
  */
 public class PluginConfig {
     private Map<String, ExtendPointConfig> extendPoints = new HashMap<String, ExtendPointConfig>();

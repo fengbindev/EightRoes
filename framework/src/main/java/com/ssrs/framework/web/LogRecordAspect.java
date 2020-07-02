@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 
 /**
  * Controller统一切点日志处理
+ *
+ * @author ssrs
  */
 @Component
 @Aspect
@@ -31,7 +33,7 @@ public class LogRecordAspect {
 
     @Before("(within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)) ")
     public void requestLimit(final JoinPoint joinPoint) {
-        if (joinPoint.getTarget() instanceof BasicErrorController || joinPoint.getTarget() instanceof ApiResourceController || joinPoint.getTarget() instanceof Knife4jController){
+        if (joinPoint.getTarget() instanceof BasicErrorController || joinPoint.getTarget() instanceof ApiResourceController || joinPoint.getTarget() instanceof Knife4jController) {
             return;
         }
         try {
@@ -96,7 +98,7 @@ public class LogRecordAspect {
 
     @AfterReturning(returning = "ret", pointcut = "pointCut()")
     public void doAfterReturning(JoinPoint joinPoint, Object ret) {
-        if (joinPoint.getTarget() instanceof BasicErrorController){
+        if (joinPoint.getTarget() instanceof BasicErrorController) {
             return;
         }
         String pkg = joinPoint.getTarget().getClass().getPackage().getName();

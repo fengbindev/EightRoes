@@ -5,6 +5,8 @@ import com.ssrs.framework.cache.FrameworkCacheManager;
 
 /**
  * 定时任务缓存，当修改定时任务时存入缓存来实现cron表达式更新
+ *
+ * @author ssrs
  */
 public class SystemTaskCache extends CacheDataProvider {
     private static final String ProviderID = "SystemTaskCache";

@@ -1,9 +1,5 @@
 package com.ssrs.framework.security.cache;
 
-/**
- * @author ssrs
- */
-
 import com.ssrs.framework.Config;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -17,6 +13,8 @@ import org.springframework.stereotype.Component;
  * <description>
  * 引入自己定义的CacheManager
  * </description>
+ *
+ * @author ssrs
  */
 @Component
 public class ShiroSpringCacheManager implements CacheManager, Destroyable {

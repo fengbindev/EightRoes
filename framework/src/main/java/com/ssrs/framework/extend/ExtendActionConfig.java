@@ -10,6 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 扩展行为类，对应一个扩展行为
+ *
+ * @author ssrs
  */
 public class ExtendActionConfig {
     private boolean enable;

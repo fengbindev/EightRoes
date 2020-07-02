@@ -1,13 +1,10 @@
 package com.ssrs.framework.web.exception;
 
 /**
-* @Description:    未知枚举 异常
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:29
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:29
-* @Version:        1.0
-*/
+ * 未知枚举 异常
+ *
+ * @author ssrs
+ */
 public class UnknownEnumException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

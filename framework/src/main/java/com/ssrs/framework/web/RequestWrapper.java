@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,16 +17,13 @@ import java.util.Objects;
 
 
 /**
- * @Description: Request包装类
+ * Request包装类
  * <p>
  * 1.预防xss攻击
  * 2.拓展requestbody无限获取(HttpServletRequestWrapper只能获取一次)
  * </p>
- * @Author: ssrs
- * @CreateDate: 2019/9/21 22:17
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/21 22:17
- * @Version: 1.0
+ *
+ * @author ssrs
  */
 public class RequestWrapper extends HttpServletRequestWrapper {
 
@@ -40,7 +36,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     /**
      * 存储 parameterMap Map<String, String[]>
      */
-    private  Map<String, String[]> parameterMap = new HashMap<>();
+    private Map<String, String[]> parameterMap = new HashMap<>();
 
     public RequestWrapper(HttpServletRequest request) {
         super(request);

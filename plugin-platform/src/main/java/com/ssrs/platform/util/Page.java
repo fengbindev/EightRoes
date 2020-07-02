@@ -6,12 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @Description: 分页工具
- * @Author: ssrs
- * @CreateDate: 2019/9/22 11:43
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/22 11:43
- * @Version: 1.0
+ * 分页工具
+ *
+ * @author ssrs
  */
 public class Page implements Serializable {
     private static final long serialVersionUID = 1L;

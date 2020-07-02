@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 定时任务管理器
+ *
+ * @author ssrs
+ */
 public class SystemTaskManager extends AbstractTaskManager {
     public static final String ID = "SYSTEM";
     private static final Log log = LogFactory.get();

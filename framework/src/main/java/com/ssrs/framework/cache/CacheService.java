@@ -2,6 +2,11 @@ package com.ssrs.framework.cache;
 
 import com.ssrs.framework.extend.AbstractExtendService;
 
+/**
+ * 缓存提供者服务
+ *
+ * @author ssrs
+ */
 public class CacheService extends AbstractExtendService<CacheDataProvider> {
     private static CacheService instance = null;
 

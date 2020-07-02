@@ -1,5 +1,10 @@
 package com.ssrs.framework.extend;
 
+/**
+ * 扩展项接口
+ *
+ * @author ssrs
+ */
 public interface IExtendItem {
     /**
      * @return 扩展项ID

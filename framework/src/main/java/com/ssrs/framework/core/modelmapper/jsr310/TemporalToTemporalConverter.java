@@ -7,13 +7,10 @@ import org.modelmapper.spi.MappingContext;
 import java.time.temporal.Temporal;
 
 /**
-* @Description:    Converts  {@link Temporal} to {@link Temporal}
-* @Author:          ssrs
-* @CreateDate:     2019/8/24 17:10
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/24 17:10
-* @Version:        1.0
-*/
+ * Converts  {@link Temporal} to {@link Temporal}
+ *
+ * @author ssrs
+ */
 public class TemporalToTemporalConverter implements ConditionalConverter<Temporal, Temporal> {
 
     @Override

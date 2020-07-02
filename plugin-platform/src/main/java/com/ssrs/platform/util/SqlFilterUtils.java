@@ -5,12 +5,9 @@ import com.ssrs.framework.web.exception.RRException;
 
 
 /**
- * @Description:
- * @Author: ssrs
- * @CreateDate: 2019/9/22 11:28
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/22 11:28
- * @Version: 1.0
+ * SQL注入过滤
+ *
+ * @author ssrs
  */
 public class SqlFilterUtils {
     /**

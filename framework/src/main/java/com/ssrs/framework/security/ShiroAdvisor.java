@@ -8,7 +8,8 @@ import java.lang.reflect.Method;
 
 /**
  * 自定义的Shiro注解拦截器
- * @author BBF
+ *
+ * @author ssrs
  */
 
 public class ShiroAdvisor extends AuthorizationAttributeSourceAdvisor {

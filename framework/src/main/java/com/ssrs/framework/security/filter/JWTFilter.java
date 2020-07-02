@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+/**
+ * @author ssrs
+ */
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     private PathMatcher pathMatcher;

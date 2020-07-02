@@ -5,6 +5,8 @@ import com.ssrs.framework.extend.IExtendAction;
 
 /**
  * 角色添加后的扩展点
+ *
+ * @author ssrs
  */
 public abstract class AfterRoleAddPoint implements IExtendAction {
     public static final String ID = "com.ssrs.platform.point.AfterRoleAddPoint";

@@ -1,12 +1,9 @@
 package com.ssrs.platform.util;
 
 /**
- * @Description:
- * @Author: ssrs
- * @CreateDate: 2019/9/22 11:26
- * @UpdateUser: ssrs
- * @UpdateDate: 2019/9/22 11:26
- * @Version: 1.0
+ * 分页常量
+ *
+ * @author ssrs
  */
 public class PageConstant {
     /**

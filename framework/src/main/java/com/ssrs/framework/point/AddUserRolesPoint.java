@@ -5,7 +5,11 @@ import com.ssrs.framework.extend.IExtendAction;
 
 import java.util.Set;
 
-
+/**
+ *添加用户角色扩展点
+ *
+ * @author ssrs
+ */
 public abstract class AddUserRolesPoint implements IExtendAction {
     public static final String ID = "com.ssrs.framework.point.AddUserRolesPoint";
 

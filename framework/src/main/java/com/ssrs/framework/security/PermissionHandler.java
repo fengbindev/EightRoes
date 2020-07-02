@@ -22,6 +22,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * 自定义权限处理器
+ *
+ * @author ssrs
  */
 public class PermissionHandler extends AuthorizingAnnotationHandler {
 

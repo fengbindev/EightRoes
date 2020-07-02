@@ -15,6 +15,11 @@ import com.ssrs.platform.service.ICodeService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 代码项扩展服务
+ *
+ * @author ssrs
+ */
 public class CodeService extends AbstractExtendService<FixedCodeType> {
     private static final Log log = LogFactory.get();
 
@@ -23,7 +28,7 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
     }
 
     /**
-     *  将各插件注册的Code持久化到数据库中 代码项如果数据库中以存在则不持久化
+     * 将各插件注册的Code持久化到数据库中 代码项如果数据库中以存在则不持久化
      */
     public static void init() {
         ArrayList<String> tmpList = new ArrayList<String>();
@@ -67,7 +72,7 @@ public class CodeService extends AbstractExtendService<FixedCodeType> {
                 }
             }
         }
-        if (ObjectUtil.isNotEmpty(saveCodeList)){
+        if (ObjectUtil.isNotEmpty(saveCodeList)) {
             boolean b = codeService.saveBatch(saveCodeList);
             if (!b) {
                 log.error("代码项code初始化失败！");

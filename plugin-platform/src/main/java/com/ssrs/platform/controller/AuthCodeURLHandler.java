@@ -24,6 +24,8 @@ import java.util.Arrays;
 
 /**
  * 显示验证码图片的URL
+ *
+ * @author ssrs
  */
 @Controller
 public class AuthCodeURLHandler {

@@ -1,6 +1,8 @@
 package com.ssrs.framework.cache;
 
 /**
+ * 配置缓存提供者
+ *
  * @author ssrs
  */
 public class ConfigCacheProvider extends CacheDataProvider {

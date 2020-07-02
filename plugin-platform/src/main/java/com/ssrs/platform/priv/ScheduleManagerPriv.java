@@ -2,6 +2,8 @@ package com.ssrs.platform.priv;
 
 /**
  * 定时任务权限
+ *
+ * @author ssrs
  */
 public class ScheduleManagerPriv extends AbstractMenuPriv {
 

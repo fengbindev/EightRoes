@@ -10,6 +10,8 @@ import com.ssrs.platform.service.ICodeService;
 
 /**
  * 代码项缓存提供者
+ *
+ * @author ssrs
  */
 public class CodeCacheProvider extends CacheDataProvider {
     public static final String ProviderID = "code";

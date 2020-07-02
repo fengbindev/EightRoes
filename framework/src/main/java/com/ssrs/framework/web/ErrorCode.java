@@ -3,13 +3,10 @@ package com.ssrs.framework.web;
 import lombok.*;
 
 /**
-* @Description:    错误信息Model
-* @Author:          ssrs
-* @CreateDate:     2019/8/18 16:36
-* @UpdateUser:     ssrs
-* @UpdateDate:     2019/8/18 16:36
-* @Version:        1.0
-*/
+ * 错误信息Model
+ *
+ * @author ssrs
+ */
 @Getter
 @ToString
 @Builder

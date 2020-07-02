@@ -14,6 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 扩展服务类，对应一个扩展服务
+ *
+ * @author ssrs
  */
 public class ExtendServiceConfig {
     private static final Log log = LogFactory.get();

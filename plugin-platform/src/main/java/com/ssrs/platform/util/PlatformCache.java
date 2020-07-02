@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * 平台相关的缓存项，包括用户、角色、用户角色关联 <br>
+ *
+ * @author ssrs
  */
 public class PlatformCache extends CacheDataProvider {
     public static final String ProviderID = "Platform";

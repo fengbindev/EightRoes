@@ -1,5 +1,10 @@
 package com.ssrs.platform.priv;
 
+/**
+ * 角色管理菜单权限项
+ *
+ * @author ssrs
+ */
 public class RoleManagerPriv extends AbstractMenuPriv {
     public static final String MenuID = "RoleManagerPriv";
     public static final String Add = MenuID + ".Add";
