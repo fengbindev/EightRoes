@@ -31,7 +31,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController extends BaseController {
-    private static Set<String> wrongList = new ExpiringCacheSet<String>("AuthController");
+    private static Set<String> wrongList = new ExpiringCacheSet<String>("AuthController", ExpiringCacheSet.DEFAULT_TIME_TO_LIVE, ExpiringCacheSet.DEFAULT_EXPIRATION_INTERVAL, true);
     @Autowired
     private IUserService userService;
 
