@@ -36,6 +36,12 @@
         <description>代码项扩展服务</description>
         <item-class>com.ssrs.platform.FixedCodeType</item-class>
     </extend-service>
+    <extend-service>
+        <id>com.ssrs.platform.extend.LogTypeService</id>
+        <class>com.ssrs.platform.extend.LogTypeService</class>
+        <description>日志类型扩展服务</description>
+        <item-class>com.ssrs.platform.extend.ILogType</item-class>
+    </extend-service>
     <extend-item>
         <id>com.ssrs.platform.extend.item.CodeCacheProvider</id>
         <class>com.ssrs.platform.extend.item.CodeCacheProvider</class>
@@ -143,6 +149,24 @@
         <class>com.ssrs.platform.priv.PluginManagerPriv</class>
         <description>插件管理权限项</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.extend.item.OperateLog</id>
+        <class>com.ssrs.platform.extend.item.OperateLog</class>
+        <description>用户操作日志</description>
+        <extend-service>com.ssrs.platform.extend.LogTypeService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.extend.item.UserLoginLog</id>
+        <class>com.ssrs.platform.extend.item.UserLoginLog</class>
+        <description>用户登陆日志</description>
+        <extend-service>com.ssrs.platform.extend.LogTypeService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.extend.item.UserMenuLog</id>
+        <class>com.ssrs.platform.extend.item.UserMenuLog</class>
+        <description>用户菜单操作日志</description>
+        <extend-service>com.ssrs.platform.extend.LogTypeService</extend-service>
     </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
