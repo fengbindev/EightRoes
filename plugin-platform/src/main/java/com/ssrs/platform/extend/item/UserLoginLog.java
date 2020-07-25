@@ -1,8 +1,6 @@
 package com.ssrs.platform.extend.item;
 
-import com.ssrs.platform.MenuManager;
 import com.ssrs.platform.extend.ILogType;
-import com.ssrs.platform.model.Menu;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +16,7 @@ public class UserLoginLog implements ILogType {
     public static final String SUBTYPE_LOGIN = "login"; // 登陆
 
     private Map<String, String> map;
+    public static final String LOGIN = "User Login";
 
     @Override
     public String getExtendItemID() {
@@ -33,7 +32,7 @@ public class UserLoginLog implements ILogType {
     public Map<String, String> getSubTypes() {
         if (map == null) {
             map = new HashMap<>();
-            map.put("User Login", "用户登陆");
+            map.put(LOGIN, "用户登陆");
         }
         return map;
     }

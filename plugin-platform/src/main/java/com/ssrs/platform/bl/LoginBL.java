@@ -14,6 +14,7 @@ import com.ssrs.platform.code.OverLoginCountType;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.controller.AuthCodeURLHandler;
+import com.ssrs.platform.extend.item.UserLoginLog;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.service.IUserService;
 import com.ssrs.platform.util.LoginContext;
@@ -294,6 +295,7 @@ public class LoginBL {
         user.setLastLoginIp(Current.getRequest().getClientIP());
         user.setLastLoginTime(LocalDateTime.now());
         userService.updateById(user);
-        // TODO 记录用户登录日志
+        // 记录用户登录日志
+        LogBL.addUserLog(UserLoginLog.ID, UserLoginLog.SUBTYPE_LOGIN, UserLoginLog.LOGIN);
     }
 }
