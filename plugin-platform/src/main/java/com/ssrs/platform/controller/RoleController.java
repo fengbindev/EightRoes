@@ -14,7 +14,9 @@ import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.PrivBL;
+import com.ssrs.platform.extend.item.OperateLog;
 import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.UserRole;
@@ -95,7 +97,7 @@ public class RoleController extends BaseController {
     @Priv(RoleManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> create(@Validated(RoleParm.Create.class)  RoleParm roleParm) {
+    public ApiResponses<String> create(@Validated(RoleParm.Create.class) RoleParm roleParm) {
         Role role = roleParm.convert(Role.class);
         Role exitRole = roleService.getById(role.getRoleCode());
         if (exitRole != null) {
@@ -109,13 +111,14 @@ public class RoleController extends BaseController {
         // 缓存角色信息
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色添加后的扩展点
-         ExtendManager.invoke(AfterRoleAddPoint.ID, new Object[] { role, priv });
+        ExtendManager.invoke(AfterRoleAddPoint.ID, new Object[]{role, priv});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加角色：" + roleParm.getRoleName(), "添加成功", null);
         return success("添加成功");
     }
 
     @Priv(RoleManagerPriv.Edit)
     @PutMapping("/{roleCode}")
-    public ApiResponses<String> update(@PathVariable String roleCode, @Validated(RoleParm.Update.class)  RoleParm roleParm) {
+    public ApiResponses<String> update(@PathVariable String roleCode, @Validated(RoleParm.Update.class) RoleParm roleParm) {
         Role role = roleParm.convert(Role.class);
         Role exitRole = roleService.getById(roleCode);
         if (exitRole == null) {
@@ -124,7 +127,8 @@ public class RoleController extends BaseController {
         roleService.updateById(role);
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色修改后的扩展点
-         ExtendManager.invoke(AfterRoleModifyPoint.ID, new Object[] { role , PrivBL.getRolePriv(role.getRoleCode())});
+        ExtendManager.invoke(AfterRoleModifyPoint.ID, new Object[]{role, PrivBL.getRolePriv(role.getRoleCode())});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改角色：" + roleParm.getRoleName(), "修改成功", null);
         return success("修改成功");
     }
 
@@ -143,7 +147,8 @@ public class RoleController extends BaseController {
         // 删除缓存
         PlatformCache.removeRole(role.getRoleCode());
         // 删除角色后的扩展点
-        ExtendManager.invoke(AfterRoleDeletePoint.ID, new Object[] { role });
+        ExtendManager.invoke(AfterRoleDeletePoint.ID, new Object[]{role});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, "删除角色：" + role.getRoleName(), "删除成功", null);
         return success("删除成功");
     }
 

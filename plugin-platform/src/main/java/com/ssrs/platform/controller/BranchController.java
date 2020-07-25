@@ -2,6 +2,7 @@ package com.ssrs.platform.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.map.MapUtil;
@@ -16,8 +17,10 @@ import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.code.YesOrNo;
+import com.ssrs.platform.extend.item.OperateLog;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
@@ -38,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -99,7 +103,7 @@ public class BranchController extends BaseController {
     @Priv(BranchManagerPriv.Add)
     @PostMapping
     @Transactional(rollbackFor = Exception.class)
-    public ApiResponses<String> create(@Validated  BranchParm branchParm) {
+    public ApiResponses<String> create(@Validated BranchParm branchParm) {
         Branch branch = branchParm.convert(Branch.class);
         OperateReport operateReport = branchService.isNameOrBranchCodeExists(branch.getName(), branch.getBranchCode(), null);
         if (!operateReport.isSuccess()) {
@@ -123,6 +127,7 @@ public class BranchController extends BaseController {
         }
         branchService.save(branch);
         ExtendManager.invoke(AfterBranchAddPoint.ID, new Object[]{branch});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加机构：" + branchParm.getName(), "添加成功", null);
         return success("保存成功");
     }
 
@@ -143,6 +148,7 @@ public class BranchController extends BaseController {
         branchService.updateById(branch);
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Branch, branch.getBranchInnercode(), branch);
         ExtendManager.invoke(AfterBranchModifyPoint.ID, new Object[]{branch});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改机构：" + branchParm.getName(), "修改成功", null);
         return success("修改成功");
     }
 
@@ -151,6 +157,7 @@ public class BranchController extends BaseController {
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable String ids) {
         String[] idArr = ids.split(",");
+        List<String> nameList = new ArrayList<>();
         for (String innerCode : idArr) {
             PrivBL.assertBranch(innerCode);
             int count1 = userService.count(Wrappers.<User>lambdaQuery().eq(User::getBranchInnercode, innerCode));
@@ -159,6 +166,7 @@ public class BranchController extends BaseController {
                 return failure("不能删除拥有角色和用户的机构，请先删除机构下的角色和用户！");
             }
             Branch branch = branchService.getById(innerCode);
+            nameList.add(branch.getName());
             if (ObjectUtil.isNotNull(branch)) {
                 if ("0000".equals(branch.getParentInnercode())) {
                     return failure("删除失败：不能删除顶级机构！");
@@ -172,6 +180,7 @@ public class BranchController extends BaseController {
         for (String innercode : idArr) {
             FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_Branch, innercode);
         }
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改机构：" + CollUtil.join(nameList, ","), "修改成功", null);
         return success("删除成功");
     }
 
