@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户登陆日志
+ * 用户菜单操作日志
  *
  * @author ssrs
  */

@@ -18,10 +18,12 @@ import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
+import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.LoginBL;
 import com.ssrs.platform.bl.PrivBL;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
+import com.ssrs.platform.extend.item.OperateLog;
 import com.ssrs.platform.model.entity.Branch;
 import com.ssrs.platform.model.entity.Role;
 import com.ssrs.platform.model.entity.User;
@@ -41,7 +43,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -147,10 +153,12 @@ public class UserController extends BaseController {
         }
         OperateReport operateReport = userService.addUser(userParm);
         if (!operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加用户：" + userParm.getUserName(), "添加失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户添加完成后的扩展点
         ExtendManager.invoke(AfterUserAddPoint.ID, new Object[]{operateReport.getData()});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加用户：" + userParm.getUserName(), "添加成功", null);
         return success("添加成功");
     }
 
@@ -160,10 +168,12 @@ public class UserController extends BaseController {
     public ApiResponses<String> update(@PathVariable("username") String username, UserParm userParm) {
         OperateReport operateReport = userService.saveUser(userParm);
         if (!operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改用户：" + username, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户修改完成后的扩展点
         ExtendManager.invoke(AfterUserModifyPoint.ID, new Object[]{operateReport.getData()});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改用户：" + username, "修改成功", null);
         return success("保存成功");
     }
 
@@ -171,12 +181,18 @@ public class UserController extends BaseController {
     @DeleteMapping("/{ids}")
     @Transactional(rollbackFor = Exception.class)
     public ApiResponses<String> delete(@PathVariable("ids") String ids) {
+        List<User> userList = userService.list(new LambdaQueryWrapper<User>().select(User::getUserName).in(User::getUserName, ids));
         OperateReport operateReport = userService.deleteUser(ids);
+        List<String> userNameList = userList.stream().map(User::getUserName).collect(Collectors.toList());
+        StringBuilder message = new StringBuilder();
+        message.append("删除用户 ").append(CollUtil.join(userNameList, ","));
         if (!operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, message.toString(), "删除失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户删除完成后的扩展点
         ExtendManager.invoke(AfterUserDeletePoint.ID, new Object[]{operateReport.getData()});
+        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, message.toString(), "删除成功", null);
         return success("删除成功");
     }
 
@@ -205,15 +221,19 @@ public class UserController extends BaseController {
 
     /**
      * 登录页修改密码
+     *
      * @return
      */
     @Priv(login = false)
     @PutMapping("/changeloginpassword")
     public ApiResponses<String> changeLoginPassword() {
         OperateReport operateReport = changePassword(true);
+        String message = Current.getRequest().getStr("userName") + "修改密码";
         if (operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改成功", null);
             return success("修改成功");
         } else {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
 
@@ -221,15 +241,19 @@ public class UserController extends BaseController {
 
     /**
      * 用户管理页修改用户密码
+     *
      * @return
      */
     @Priv(UserManagerPriv.ChangePassword)
     @PutMapping("/password")
     public ApiResponses<String> modifyPassword() {
         OperateReport operateReport = changePassword(false);
+        String message = Current.getRequest().getStr("userName") + "修改密码";
         if (operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改成功", null);
             return success("修改成功");
         } else {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
     }
@@ -293,9 +317,11 @@ public class UserController extends BaseController {
     public ApiResponses<String> disable(@PathVariable String id) {
         Current.getRequest().set("userNames", id);
         OperateReport operateReport = setUserStatus(false);
-        if (operateReport.isSuccess()){
+        if (operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.DISABLE, "禁用用户：" + id, "禁用成功", null);
             return success(operateReport.getMessage());
         } else {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.DISABLE, "禁用用户：" + id, "禁用失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
     }
@@ -305,9 +331,11 @@ public class UserController extends BaseController {
     public ApiResponses<String> enable(@PathVariable String id) {
         Current.getRequest().set("userNames", id);
         OperateReport operateReport = setUserStatus(true);
-        if (operateReport.isSuccess()){
+        if (operateReport.isSuccess()) {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.ENABLE, "启用用户：" + id, "禁用成功", null);
             return success(operateReport.getMessage());
         } else {
+            LogBL.addOperateLog(OperateLog.ID, OperateLog.ENABLE, "启用用户：" + id, "启用失败", null);
             return failure(operateReport.getMessage());
         }
     }
@@ -320,7 +348,7 @@ public class UserController extends BaseController {
     private OperateReport setUserStatus(boolean status) {
         OperateReport operateReport = new OperateReport(true);
         String statusStr = status ? YesOrNo.Yes : YesOrNo.No;
-        String userNames =  Current.getRequest().getStr("userNames");
+        String userNames = Current.getRequest().getStr("userNames");
         List<User> userList = userService.list(Wrappers.<User>lambdaQuery().in(User::getUserName, userNames.split(",")));
         for (User user : userList) {
             // 判断用户如果是自己则不能设置启用停用

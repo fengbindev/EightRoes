@@ -46,24 +46,23 @@ public class LogBL {
      * 保存系统操作日志
      *
      * @param type
-     * @param subType
      * @param operateType
      * @param logMessage
      * @param result
      * @param message
      */
-    public static void addOperateLog(String type, String subType, String operateType, String logMessage, String result, String message) {
+    public static void addOperateLog(String type, String operateType, String logMessage, String result, String message) {
         OperateLog operateLog = new OperateLog();
         operateLog.setUserName(User.getUserName() == null ? "-" : User.getUserName());
         operateLog.setIp(Current.getRequest() == null ? "-" : Current.getRequest().getClientIP());
         operateLog.setLogMessage(logMessage);
         operateLog.setLogType(type);
-        operateLog.setSubType(subType);
+//        operateLog.setSubType(subType);
         operateLog.setOperateType(operateType);
         Map<String, Object> requestData = new HashMap<>(Current.getRequest());
         if (requestData.containsKey("password")) {
             requestData.put("password", "******");
-            requestData.remove("repeatpassword");
+            requestData.remove("confirmPassword");
         }
         String requestBody = JSONUtil.toJsonStr(requestData);
         operateLog.setDetailMessage(requestBody == null ? null : (requestBody.length() > 4000 ? requestBody.substring(0, 4000) : requestBody));
