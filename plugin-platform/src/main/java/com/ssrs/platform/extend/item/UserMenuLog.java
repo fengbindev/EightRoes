@@ -42,8 +42,8 @@ public class UserMenuLog implements ILogType {
     }
 
     @Override
-    public void decodeMessage(String msg) {
-
+    public String decodeMessage(String msg) {
+        return msg;
     }
 
 }

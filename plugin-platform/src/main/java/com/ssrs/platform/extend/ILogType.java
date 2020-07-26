@@ -18,5 +18,5 @@ public interface ILogType extends IExtendItem {
     /**
      * 将Message解析为可读的信息
      */
-    public void decodeMessage(String msg);
+    public String decodeMessage(String msg);
 }

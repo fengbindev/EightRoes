@@ -1,5 +1,6 @@
 package com.ssrs.platform.extend.item;
 
+import cn.hutool.core.util.StrUtil;
 import com.ssrs.platform.extend.ILogType;
 
 import java.util.HashMap;
@@ -38,8 +39,11 @@ public class UserLoginLog implements ILogType {
     }
 
     @Override
-    public void decodeMessage(String msg) {
-
+    public String decodeMessage(String msg) {
+        if (StrUtil.equals(LOGIN, msg)) {
+            return "用户登陆";
+        }
+        return msg;
     }
 
 }
