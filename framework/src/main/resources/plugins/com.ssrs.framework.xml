@@ -22,6 +22,11 @@
 		<class>com.ssrs.framework.point.AddUserRolesPoint</class>
 		<description>添加用户角色扩展点</description>
 	</extend-point>
+	<extend-point>
+		<id>com.ssrs.framework.point.ConsoleSqlLogPoint</id>
+		<class>com.ssrs.framework.point.ConsoleSqlLogPoint</class>
+		<description>sql日志打印扩展点</description>
+	</extend-point>
 	<extend-service>
 		<id>com.ssrs.framework.cache.CacheService</id>
 		<class>com.ssrs.framework.cache.CacheService</class>

@@ -1,19 +1,21 @@
 package com.ssrs.framework.data.p6spy;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.FormattedLogger;
+import com.ssrs.framework.extend.ExtendManager;
+import com.ssrs.framework.point.AfterAllPluginStartedPoint;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- *P6spy日志实现
+ * P6spy日志实现
  *
  * <p>
  * https://blog.csdn.net/z69183787/article/details/43453581
- * @see FormattedLogger
- * <p/>
  *
  * @author ssrs
+ * @see FormattedLogger
+ * <p/>
  */
 @Slf4j
 public class P6spyLogger extends FormattedLogger {
@@ -34,9 +36,10 @@ public class P6spyLogger extends FormattedLogger {
         final String msg = strategy.formatMessage(connectionId, now, elapsed,
                 category.toString(), prepared, sql, url);
 
-        if (StringUtils.isEmpty(msg)) {
+        if (StrUtil.isEmpty(msg)) {
             return;
         }
+        ExtendManager.invoke(AfterAllPluginStartedPoint.ID, new Object[]{connectionId, now, elapsed, prepared, sql, url, msg});
         if (Category.ERROR.equals(category)) {
             log.error(msg);
         } else if (Category.WARN.equals(category)) {
