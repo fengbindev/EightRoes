@@ -5,6 +5,7 @@ import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.FormattedLogger;
 import com.ssrs.framework.extend.ExtendManager;
 import com.ssrs.framework.point.AfterAllPluginStartedPoint;
+import com.ssrs.framework.point.ConsoleSqlLogPoint;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,7 +40,7 @@ public class P6spyLogger extends FormattedLogger {
         if (StrUtil.isEmpty(msg)) {
             return;
         }
-        ExtendManager.invoke(AfterAllPluginStartedPoint.ID, new Object[]{connectionId, now, elapsed, prepared, sql, url, msg});
+        ExtendManager.invoke(ConsoleSqlLogPoint.ID, new Object[]{connectionId, now, elapsed, prepared, sql, url, msg});
         if (Category.ERROR.equals(category)) {
             log.error(msg);
         } else if (Category.WARN.equals(category)) {

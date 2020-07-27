@@ -19,6 +19,12 @@
         <description>所有插件加载完成后扩展行为</description>
         <extend-point>com.ssrs.framework.point.AfterAllPluginStartedPoint</extend-point>
     </extend-action>
+    <extend-action>
+        <description>打印sql日志扩展行为</description>
+        <id>com.ssrs.platform.point.action.ConsoleSqlLogAction</id>
+        <class>com.ssrs.platform.point.action.ConsoleSqlLogAction</class>
+        <extend-point>com.ssrs.framework.point.ConsoleSqlLogPoint</extend-point>
+    </extend-action>
     <extend-service>
         <id>com.ssrs.platform.extend.MenuPrivService</id>
         <class>com.ssrs.platform.extend.MenuPrivService</class>
