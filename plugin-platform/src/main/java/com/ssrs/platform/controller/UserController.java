@@ -21,6 +21,7 @@ import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.LoginBL;
 import com.ssrs.platform.bl.PrivBL;
+import com.ssrs.platform.code.OperateLogType;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
 import com.ssrs.platform.extend.item.OperateLog;
@@ -153,12 +154,12 @@ public class UserController extends BaseController {
         }
         OperateReport operateReport = userService.addUser(userParm);
         if (!operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加用户：" + userParm.getUserName(), "添加失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加用户：" + userParm.getUserName(), "添加失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户添加完成后的扩展点
         ExtendManager.invoke(AfterUserAddPoint.ID, new Object[]{operateReport.getData()});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加用户：" + userParm.getUserName(), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加用户：" + userParm.getUserName(), "添加成功", null);
         return success("添加成功");
     }
 
@@ -168,12 +169,12 @@ public class UserController extends BaseController {
     public ApiResponses<String> update(@PathVariable("username") String username, UserParm userParm) {
         OperateReport operateReport = userService.saveUser(userParm);
         if (!operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改用户：" + username, "修改失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改用户：" + username, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户修改完成后的扩展点
         ExtendManager.invoke(AfterUserModifyPoint.ID, new Object[]{operateReport.getData()});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改用户：" + username, "修改成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改用户：" + username, "修改成功", null);
         return success("保存成功");
     }
 
@@ -187,12 +188,12 @@ public class UserController extends BaseController {
         StringBuilder message = new StringBuilder();
         message.append("删除用户 ").append(CollUtil.join(userNameList, ","));
         if (!operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, message.toString(), "删除失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.DELETE, message.toString(), "删除失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
         // 用户删除完成后的扩展点
         ExtendManager.invoke(AfterUserDeletePoint.ID, new Object[]{operateReport.getData()});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, message.toString(), "删除成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.DELETE, message.toString(), "删除成功", null);
         return success("删除成功");
     }
 
@@ -230,10 +231,10 @@ public class UserController extends BaseController {
         OperateReport operateReport = changePassword(true);
         String message = Current.getRequest().getStr("userName") + "修改密码";
         if (operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改成功", null);
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, message, "修改成功", null);
             return success("修改成功");
         } else {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, message, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
 
@@ -250,10 +251,10 @@ public class UserController extends BaseController {
         OperateReport operateReport = changePassword(false);
         String message = Current.getRequest().getStr("userName") + "修改密码";
         if (operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改成功", null);
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, message, "修改成功", null);
             return success("修改成功");
         } else {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, message, "修改失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, message, "修改失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
     }
@@ -318,10 +319,10 @@ public class UserController extends BaseController {
         Current.getRequest().set("userNames", id);
         OperateReport operateReport = setUserStatus(false);
         if (operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.DISABLE, "禁用用户：" + id, "禁用成功", null);
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.DISABLE, "禁用用户：" + id, "禁用成功", null);
             return success(operateReport.getMessage());
         } else {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.DISABLE, "禁用用户：" + id, "禁用失败", operateReport.getMessage());
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.DISABLE, "禁用用户：" + id, "禁用失败", operateReport.getMessage());
             return failure(operateReport.getMessage());
         }
     }
@@ -332,10 +333,10 @@ public class UserController extends BaseController {
         Current.getRequest().set("userNames", id);
         OperateReport operateReport = setUserStatus(true);
         if (operateReport.isSuccess()) {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.ENABLE, "启用用户：" + id, "禁用成功", null);
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.ENABLE, "启用用户：" + id, "禁用成功", null);
             return success(operateReport.getMessage());
         } else {
-            LogBL.addOperateLog(OperateLog.ID, OperateLog.ENABLE, "启用用户：" + id, "启用失败", null);
+            LogBL.addOperateLog(OperateLog.ID, OperateLogType.ENABLE, "启用用户：" + id, "启用失败", null);
             return failure(operateReport.getMessage());
         }
     }

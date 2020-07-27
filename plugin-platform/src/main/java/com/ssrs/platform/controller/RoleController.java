@@ -16,6 +16,7 @@ import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.PrivBL;
+import com.ssrs.platform.code.OperateLogType;
 import com.ssrs.platform.extend.item.OperateLog;
 import com.ssrs.platform.model.entity.Privilege;
 import com.ssrs.platform.model.entity.Role;
@@ -112,7 +113,7 @@ public class RoleController extends BaseController {
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色添加后的扩展点
         ExtendManager.invoke(AfterRoleAddPoint.ID, new Object[]{role, priv});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加角色：" + roleParm.getRoleName(), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加角色：" + roleParm.getRoleName(), "添加成功", null);
         return success("添加成功");
     }
 
@@ -128,7 +129,7 @@ public class RoleController extends BaseController {
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Role, role.getRoleCode(), role);
         // 角色修改后的扩展点
         ExtendManager.invoke(AfterRoleModifyPoint.ID, new Object[]{role, PrivBL.getRolePriv(role.getRoleCode())});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改角色：" + roleParm.getRoleName(), "修改成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改角色：" + roleParm.getRoleName(), "修改成功", null);
         return success("修改成功");
     }
 
@@ -148,7 +149,7 @@ public class RoleController extends BaseController {
         PlatformCache.removeRole(role.getRoleCode());
         // 删除角色后的扩展点
         ExtendManager.invoke(AfterRoleDeletePoint.ID, new Object[]{role});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, "删除角色：" + role.getRoleName(), "删除成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.DELETE, "删除角色：" + role.getRoleName(), "删除成功", null);
         return success("删除成功");
     }
 

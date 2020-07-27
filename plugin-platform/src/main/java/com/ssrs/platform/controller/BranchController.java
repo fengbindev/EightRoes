@@ -19,6 +19,7 @@ import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.bl.LogBL;
 import com.ssrs.platform.bl.PrivBL;
+import com.ssrs.platform.code.OperateLogType;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.extend.item.OperateLog;
 import com.ssrs.platform.model.entity.Branch;
@@ -127,7 +128,7 @@ public class BranchController extends BaseController {
         }
         branchService.save(branch);
         ExtendManager.invoke(AfterBranchAddPoint.ID, new Object[]{branch});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加机构：" + branchParm.getName(), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加机构：" + branchParm.getName(), "添加成功", null);
         return success("保存成功");
     }
 
@@ -148,7 +149,7 @@ public class BranchController extends BaseController {
         branchService.updateById(branch);
         FrameworkCacheManager.set(PlatformCache.ProviderID, PlatformCache.Type_Branch, branch.getBranchInnercode(), branch);
         ExtendManager.invoke(AfterBranchModifyPoint.ID, new Object[]{branch});
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改机构：" + branchParm.getName(), "修改成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改机构：" + branchParm.getName(), "修改成功", null);
         return success("修改成功");
     }
 
@@ -180,7 +181,7 @@ public class BranchController extends BaseController {
         for (String innercode : idArr) {
             FrameworkCacheManager.remove(PlatformCache.ProviderID, PlatformCache.Type_Branch, innercode);
         }
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改机构：" + CollUtil.join(nameList, ","), "修改成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改机构：" + CollUtil.join(nameList, ","), "修改成功", null);
         return success("删除成功");
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
     <id>com.ssrs.platform.PlatformPlugin</id>
+    <name>基础平台</name>
     <class>com.ssrs.platform.PlatformPlugin</class>
     <author>ssrs</author>
     <provider>ssrs</provider>
@@ -151,6 +152,12 @@
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
+        <id>com.ssrs.platform.code.OperateLogType</id>
+        <class>com.ssrs.platform.code.OperateLogType</class>
+        <description>操作日志类型</description>
+        <extend-service>com.ssrs.platform.extend.CodeService</extend-service>
+    </extend-item>
+    <extend-item>
         <id>com.ssrs.platform.extend.item.OperateLog</id>
         <class>com.ssrs.platform.extend.item.OperateLog</class>
         <description>用户操作日志</description>
@@ -218,5 +225,4 @@
         <class>com.ssrs.platform.point.ApplicationPrivsExtendPoint</class>
         <description>获取当前登录用户权限后的扩展点</description>
     </extend-point>
-    <name>基础平台</name>
 </plugin>

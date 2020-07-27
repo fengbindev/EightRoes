@@ -12,6 +12,7 @@ import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.FixedCodeType;
 import com.ssrs.platform.bl.LogBL;
+import com.ssrs.platform.code.OperateLogType;
 import com.ssrs.platform.extend.CodeService;
 import com.ssrs.platform.extend.item.CodeCacheProvider;
 import com.ssrs.platform.extend.item.OperateLog;
@@ -84,7 +85,7 @@ public class CodeController extends BaseController {
         code.setCodeOrder(System.currentTimeMillis());
         codeService.save(code);
         CodeCacheProvider.setCode(code); // 更新缓存
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加代码项：" + JSONUtil.toJsonStr(code), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加代码项：" + JSONUtil.toJsonStr(code), "添加成功", null);
         return success("保存成功");
     }
 
@@ -101,7 +102,7 @@ public class CodeController extends BaseController {
         oldCode.setUpdateUser(User.getUserName());
         codeService.update(oldCode, Wrappers.<Code>lambdaUpdate().eq(Code::getCodeType, codeType).eq(Code::getParentCode, "System").eq(Code::getCodeValue, "System"));
         CodeCacheProvider.setCode(oldCode); // 更新缓存
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "修改代码项：" + JSONUtil.toJsonStr(oldCode), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "修改代码项：" + JSONUtil.toJsonStr(oldCode), "添加成功", null);
         return success("修改成功");
     }
 
@@ -132,7 +133,7 @@ public class CodeController extends BaseController {
         code.setCodeOrder(System.currentTimeMillis());
         codeService.save(code);
         CodeCacheProvider.setCode(code); // 更新缓存
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.ADD, "添加代码项item：" + JSONUtil.toJsonStr(code), "添加成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.ADD, "添加代码项item：" + JSONUtil.toJsonStr(code), "添加成功", null);
         return success("保存成功");
     }
 
@@ -148,7 +149,7 @@ public class CodeController extends BaseController {
         oldCode.setUpdateUser(User.getUserName());
         codeService.update(oldCode, Wrappers.<Code>lambdaUpdate().eq(Code::getCodeType, parentCode).eq(Code::getParentCode, parentCode).eq(Code::getCodeValue, oldValue));
         CodeCacheProvider.setCode(oldCode); // 更新缓存
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.EDIT, "添加代码项item：" + JSONUtil.toJsonStr(oldCode), "修改成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.EDIT, "添加代码项item：" + JSONUtil.toJsonStr(oldCode), "修改成功", null);
         return success("修改成功");
     }
 
@@ -166,7 +167,7 @@ public class CodeController extends BaseController {
         for (String codeType : codeTypes) {
             CodeCacheProvider.removeCode(codeType);
         }
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, "删除代码项：" + codes, "删除成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.DELETE, "删除代码项：" + codes, "删除成功", null);
         return success("删除成功");
     }
 
@@ -182,7 +183,7 @@ public class CodeController extends BaseController {
         }
         codeService.remove(Wrappers.<Code>lambdaQuery().eq(Code::getCodeType, codeType).in(Code::getCodeValue, codeValues).ne(Code::getParentCode, "System"));
         CodeCacheProvider.removeCode(codeType);
-        LogBL.addOperateLog(OperateLog.ID, OperateLog.DELETE, "删除代码项item：" + items, "删除成功", null);
+        LogBL.addOperateLog(OperateLog.ID, OperateLogType.DELETE, "删除代码项item：" + items, "删除成功", null);
         return success("删除成功");
     }
 }
