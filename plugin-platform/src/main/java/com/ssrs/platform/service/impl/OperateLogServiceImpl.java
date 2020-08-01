@@ -38,7 +38,7 @@ public class OperateLogServiceImpl extends ServiceImpl<OperateLogMapper, Operate
     @Override
     public Page getLogByType(String type, Map<String, Object> params) {
         ILogType logType = LogTypeService.getInstance().get(type);
-        IPage<OperateLog> page = page(new Query<OperateLog>().getPage(params), new LambdaQueryWrapper<OperateLog>()
+        IPage<OperateLog> page = page(new Query<OperateLog>().getPage(params, "id", false), new LambdaQueryWrapper<OperateLog>()
                 .eq(OperateLog::getLogType, type)
                 .eq(ObjectUtil.isNotEmpty(params.get("subType")), OperateLog::getSubType, params.get("subType"))
                 .eq(ObjectUtil.isNotEmpty(params.get("operateType")), OperateLog::getOperateType, params.get("operateType"))

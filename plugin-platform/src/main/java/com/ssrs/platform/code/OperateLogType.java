@@ -18,6 +18,7 @@ public class OperateLogType extends FixedCodeType {
     public static final String CHANGEPASSWORD = "ChangePassword";
     public static final String IMPORTDB = "ImportDB";
     public static final String EXPORTDB = "ExportDB";
+    public static final String EXECUTESQL = "ExecuteSQL";
 
     public OperateLogType() {
         super(CODETYPE, "日志操作类型", true, false);
@@ -29,5 +30,6 @@ public class OperateLogType extends FixedCodeType {
         addFixedItem(CHANGEPASSWORD, "修改密码", null);
         addFixedItem(IMPORTDB, "导入", null);
         addFixedItem(EXPORTDB, "导出", null);
+        addFixedItem(EXECUTESQL, "SQL执行", null);
     }
 }

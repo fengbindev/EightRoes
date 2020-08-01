@@ -23,9 +23,9 @@ public class MysqlGenerator {
 
 
     public static void main(String[] args) {
-        String path = "G:\\EightRoes\\EightRoes\\plugin-platform\\";
+        String path = "E:\\idea-workspace\\EightRoes\\plugin-platform\\";
         String jdbc = "jdbc:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
-        String[] include = new String[]{"sys_schedule"}; // 要生成的表名
+        String[] include = new String[]{"sys_operate_log"}; // 要生成的表名
         generator(path, jdbc, include);
     }
 
@@ -88,7 +88,7 @@ public class MysqlGenerator {
                         })
                         .setDriverName("com.mysql.cj.jdbc.Driver")
                         .setUsername("root")
-                        .setPassword("1234")
+                        .setPassword("123456")
                         .setUrl(jdbc)
         ).setStrategy(
                 // 策略配置

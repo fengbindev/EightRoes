@@ -5,6 +5,7 @@ import com.ssrs.framework.security.annotation.Priv;
 import com.ssrs.framework.web.ApiResponses;
 import com.ssrs.framework.web.BaseController;
 import com.ssrs.platform.extend.item.OperateLog;
+import com.ssrs.platform.extend.item.SqlLog;
 import com.ssrs.platform.extend.item.UserLoginLog;
 import com.ssrs.platform.service.IOperateLogService;
 import com.ssrs.platform.util.Page;
@@ -42,6 +43,13 @@ public class LogController extends BaseController {
     @GetMapping("/useroperatelog")
     public ApiResponses<Page>  getUserOperateLog(@RequestParam Map<String, Object> params) {
         Page page  = operateLogService.getLogByType(OperateLog.ID, params);
+        return success(page);
+    }
+
+    @Priv
+    @GetMapping("/sqllog")
+    public ApiResponses<Page>  getSqlLog(@RequestParam Map<String, Object> params) {
+        Page page  = operateLogService.getLogByType(SqlLog.ID, params);
         return success(page);
     }
 

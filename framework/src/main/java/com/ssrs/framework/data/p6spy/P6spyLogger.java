@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.FormattedLogger;
 import com.ssrs.framework.extend.ExtendManager;
-import com.ssrs.framework.point.AfterAllPluginStartedPoint;
 import com.ssrs.framework.point.ConsoleSqlLogPoint;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +35,7 @@ public class P6spyLogger extends FormattedLogger {
                        Category category, String prepared, String sql, String url) {
         final String msg = strategy.formatMessage(connectionId, now, elapsed,
                 category.toString(), prepared, sql, url);
-
-        if (StrUtil.isEmpty(msg)) {
+        if (StrUtil.isEmpty(msg) || StrUtil.contains(prepared, "sys_operate_log")) {
             return;
         }
         ExtendManager.invoke(ConsoleSqlLogPoint.ID, new Object[]{connectionId, now, elapsed, prepared, sql, url, msg});

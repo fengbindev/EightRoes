@@ -1,7 +1,11 @@
 package com.ssrs.platform.point.action;
 
+import cn.hutool.core.util.StrUtil;
 import com.ssrs.framework.point.ConsoleSqlLogPoint;
 import com.ssrs.framework.util.SpringUtil;
+import com.ssrs.platform.bl.LogBL;
+import com.ssrs.platform.code.OperateLogType;
+import com.ssrs.platform.extend.item.SqlLog;
 import com.ssrs.platform.service.IOperateLogService;
 
 /**
@@ -17,7 +21,9 @@ public class ConsoleSqlLogAction extends ConsoleSqlLogPoint {
 
     @Override
     public void execute(Integer connectionId, String now, Long elapsed, String prepared, String sql, String url, String msg) {
-        System.out.println("打印sql日志" + msg);
+        if (!StrUtil.contains(prepared, "sys_operate_log")) {
+            LogBL.addSqlLog(SqlLog.ID, OperateLogType.EXECUTESQL, msg, elapsed + "ms", prepared);
+        }
     }
 
     @Override

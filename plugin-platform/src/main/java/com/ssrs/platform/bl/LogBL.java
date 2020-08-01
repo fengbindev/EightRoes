@@ -43,6 +43,35 @@ public class LogBL {
     }
 
     /**
+     * 保存登陆日志
+     *
+     * @param type
+     * @param operateType
+     * @param logMessage
+     * @param result
+     * @param message
+     */
+    public static void addSqlLog(String type, String operateType, String logMessage, String result, String message) {
+        OperateLog operateLog = new OperateLog();
+        operateLog.setUserName(User.getUserName() == null ? "-" : User.getUserName());
+        operateLog.setIp(Current.getRequest() == null ? "-" : Current.getRequest().getClientIP());
+        operateLog.setLogMessage(logMessage);
+        operateLog.setLogType(type);
+//        operateLog.setSubType(subType);
+        operateLog.setOperateType(operateType);
+        operateLog.setResult(result);
+        operateLog.setMessage(message);
+        if (lock.tryLock()) {
+            try {
+                LogTheadPool.getInstance().addTask(new OperateLogTask(operateLog));
+            } finally {
+                lock.unlock();
+            }
+
+        }
+    }
+
+    /**
      * 保存系统操作日志
      *
      * @param type
@@ -51,7 +80,8 @@ public class LogBL {
      * @param result
      * @param message
      */
-    public static void addOperateLog(String type, String operateType, String logMessage, String result, String message) {
+    public static void addOperateLog(String type, String operateType, String logMessage, String result, String
+            message) {
         OperateLog operateLog = new OperateLog();
         operateLog.setUserName(User.getUserName() == null ? "-" : User.getUserName());
         operateLog.setIp(Current.getRequest() == null ? "-" : Current.getRequest().getClientIP());
