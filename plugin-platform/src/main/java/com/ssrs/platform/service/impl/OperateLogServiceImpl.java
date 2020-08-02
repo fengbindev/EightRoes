@@ -46,8 +46,7 @@ public class OperateLogServiceImpl extends ServiceImpl<OperateLogMapper, Operate
                 .like(ObjectUtil.isNotEmpty(params.get("ip")), OperateLog::getIp, params.get("ip"))
                 .like(ObjectUtil.isNotEmpty(params.get("message")), OperateLog::getIp, params.get("message"))
                 .ge(ObjectUtil.isNotEmpty(params.get("startTime")), OperateLog::getCreateTime, params.get("startTime"))
-                .le(ObjectUtil.isNotEmpty(params.get("endTime")), OperateLog::getCreateTime, params.get("endTime"))
-                .orderByAsc(OperateLog::getCreateTime));
+                .le(ObjectUtil.isNotEmpty(params.get("endTime")), OperateLog::getCreateTime, params.get("endTime")));
         List<OperateLog> records = page.getRecords().stream().peek(log -> {
             log.setMemo(logType.decodeMessage(log.getLogMessage()));
         }).collect(Collectors.toList());
