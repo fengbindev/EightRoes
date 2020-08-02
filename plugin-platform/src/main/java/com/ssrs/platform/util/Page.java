@@ -60,6 +60,9 @@ public class Page implements Serializable {
         this.totalPage = (int) page.getPages();
     }
 
+    public Page() {
+    }
+
     public int getTotalCount() {
         return totalCount;
     }
