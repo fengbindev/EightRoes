@@ -187,6 +187,36 @@
         <description>SQL日志</description>
         <extend-service>com.ssrs.platform.extend.LogTypeService</extend-service>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.SystemLogPriv</id>
+        <class>com.ssrs.platform.priv.SystemLogPriv</class>
+        <description>系统日志权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.UserLoginLogPriv</id>
+        <class>com.ssrs.platform.priv.UserLoginLogPriv</class>
+        <description>登录日志权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.UserOperateLogPriv</id>
+        <class>com.ssrs.platform.priv.UserOperateLogPriv</class>
+        <description>操作日志权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.SqlLogPriv</id>
+        <class>com.ssrs.platform.priv.SqlLogPriv</class>
+        <description>SQL日志权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.platform.priv.DownloadLogPriv</id>
+        <class>com.ssrs.platform.priv.DownloadLogPriv</class>
+        <description>日志下载权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
     <extend-point>
         <id>com.ssrs.platform.point.AfterUserAddPoint</id>
         <class>com.ssrs.platform.point.AfterUserAddPoint</class>
