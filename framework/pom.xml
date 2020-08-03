@@ -5,7 +5,7 @@
     <groupId>top.ssrsdev</groupId>
     <artifactId>framework</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>framework</name>
     <description>Framework 1.x based on SpringBoot 2.2.4</description>
 
