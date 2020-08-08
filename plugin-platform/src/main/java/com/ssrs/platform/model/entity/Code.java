@@ -34,13 +34,11 @@ public class Code implements Serializable {
     /**
      * 代码父类
      */
-    @TableId(type = IdType.INPUT)
     private String parentCode;
 
     /**
      * 代码值
      */
-    @TableId(type = IdType.INPUT)
     private String codeValue;
 
     /**
