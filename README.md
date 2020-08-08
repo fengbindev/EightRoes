@@ -28,7 +28,7 @@ EightRoes 的开发机制是基于插件的可插拔的松耦合体系。在软�
 |        | 后端源码                                                                     | 前端源码                                                                                   |
 | ------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Gitee  | [https://gitee.com/quella01/EightRoes](https://gitee.com/quella01/EightRoes) | [https://gitee.com/quella01/EightRoes-Client](https://gitee.com/quella01/EightRoes-Client) |
-
+| Github  | [https://github.com/fengbindev/EightRoes](https://github.com/fengbindev/EightRoes) | [https://github.com/fengbindev/EightRoes-Client](https://github.com/fengbindev/EightRoes-Client) |
 ### 反馈交流
 
 

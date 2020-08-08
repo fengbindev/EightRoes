@@ -1,4 +1,4 @@
-package com.ssrs.platform.controller;
+package com.ssrs.platform.controller.handler;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;

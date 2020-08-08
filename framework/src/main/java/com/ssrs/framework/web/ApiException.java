@@ -1,6 +1,8 @@
 package com.ssrs.framework.web;
 
 
+import cn.hutool.core.convert.Convert;
+
 /**
  * 接口异常
  *
@@ -24,6 +26,18 @@ public class ApiException extends RuntimeException {
         super(errorCode.getError());
         this.errorCode = errorCode;
 
+    }
+
+    public ApiException(int httpCode, String message) {
+        super(message);
+        ErrorCode errorCode = new ErrorCode(Convert.toStr(httpCode), httpCode, message);
+        this.errorCode = errorCode;
+    }
+
+    public ApiException(String error, int httpCode, String message) {
+        super(message);
+        ErrorCode errorCode = new ErrorCode(message, httpCode, message);
+        this.errorCode = errorCode;
     }
 
     public ErrorCode getErrorCode() {

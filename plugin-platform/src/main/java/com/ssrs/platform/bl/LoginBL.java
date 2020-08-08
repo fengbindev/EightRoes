@@ -13,7 +13,7 @@ import com.ssrs.framework.cache.FrameworkCacheManager;
 import com.ssrs.platform.code.OverLoginCountType;
 import com.ssrs.platform.code.YesOrNo;
 import com.ssrs.platform.config.AdminUserName;
-import com.ssrs.platform.controller.AuthCodeURLHandler;
+import com.ssrs.platform.controller.handler.AuthCodeURLHandler;
 import com.ssrs.platform.extend.item.UserLoginLog;
 import com.ssrs.platform.model.entity.User;
 import com.ssrs.platform.service.IUserService;
