@@ -62,7 +62,7 @@ public class CodeController extends BaseController {
             if (fct != null) {
                 codeModel.setAllowAddItem(fct.allowAddItem());
             } else {
-                codeModel.setAllowAddItem(false);
+                codeModel.setAllowAddItem(true);
             }
             codeModelList.add(codeModel);
         }
