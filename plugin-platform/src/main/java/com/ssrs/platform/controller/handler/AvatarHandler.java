@@ -42,7 +42,7 @@ public class AvatarHandler {
         mimeMap.put("png", "image/png");
     }
 
-    @Priv
+    @Priv(login = false)
     @GetMapping("/api/avatar/{userName}")
     public void handle(HttpServletRequest request, HttpServletResponse response, @PathVariable String userName)
             throws IOException, ServletException {
