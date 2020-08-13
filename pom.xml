@@ -23,15 +23,6 @@
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
     </properties>
 
-    <modules>
-        <module>framework</module>
-        <module>eightroes-webapp</module>
-        <module>eightroes-dependencies</module>
-        <module>eightroes-webapp-base</module>
-        <module>plugin-base</module>
-        <module>plugin-platform</module>
-    </modules>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -84,6 +75,20 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>framework</module>
+                <module>eightroes-webapp</module>
+                <module>eightroes-dependencies</module>
+                <module>eightroes-webapp-base</module>
+                <module>plugin-base</module>
+                <module>plugin-platform</module>
+            </modules>
+        </profile>
         <profile>
             <id>release</id>
             <distributionManagement>
