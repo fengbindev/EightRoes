@@ -87,6 +87,8 @@
                 <module>eightroes-webapp-base</module>
                 <module>plugin-base</module>
                 <module>plugin-platform</module>
+<!--                <module>plugin-elasticsearch</module>-->
+                <module>plugin-words</module>
             </modules>
         </profile>
         <profile>

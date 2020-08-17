@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.word.WordPlugin</id>
+    <class>com.ssrs.word.WordPlugin</class>
+    <name>plugin-words</name>
+    <author>yaohong</author>
+    <provider>yaohong</provider>
+    <version>1.0</version>
+    <description>plugin-words</description>
+
+</plugin>

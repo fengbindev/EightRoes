@@ -12,14 +12,13 @@
     <artifactId>plugin-words</artifactId>
     <dependencies>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.docx4j</groupId>
             <artifactId>docx4j</artifactId>
             <version>6.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>top.ssrsdev</groupId>
+            <artifactId>plugin-platform</artifactId>
         </dependency>
     </dependencies>
 
