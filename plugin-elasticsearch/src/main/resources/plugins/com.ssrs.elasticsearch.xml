@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.elasticsearch.ElasticsearchPlugin</id>
+    <class>com.ssrs.elasticsearch.ElasticsearchPlugin</class>
+    <name>plugin-elasticsearch</name>
+    <author>ssrs</author>
+    <provider>ssrs</provider>
+    <version>1.0</version>
+    <description>plugin-elasticsearch</description>
+
+</plugin>
