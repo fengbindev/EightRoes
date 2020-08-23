@@ -1,19 +1,16 @@
 package com.ssrs.elasticsearch.config;
 
-/**
- * @author ssrs
- */
 
 import cn.hutool.core.util.StrUtil;
 import com.ssrs.framework.Config;
 import com.ssrs.platform.FixedConfigItem;
 import com.ssrs.platform.code.ControlType;
 import com.ssrs.platform.code.DataType;
-import freemarker.template.utility.StringUtil;
 
 /**
  * 用于给ES提供同义词或词典远程更新的地址，本地开发可以不配置。
  * 建议给“ES客户端根URL”配置单独的内网地址。
+ *
  * @author ssrs
  */
 public class EsClientHostConfig extends FixedConfigItem {

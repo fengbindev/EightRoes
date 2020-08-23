@@ -74,4 +74,28 @@
         <description>分词命中比率(1-100)</description>
         <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.priv.FieldWeightManagerPriv</id>
+        <class>com.ssrs.elasticsearch.priv.FieldWeightManagerPriv</class>
+        <description>字段权重权限项</description>
+        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.priv.IndicesLibraryManagerPriv</id>
+        <class>com.ssrs.elasticsearch.priv.IndicesLibraryManagerPriv</class>
+        <description>索引删除权限项</description>
+        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.priv.IndicesManagerPriv</id>
+        <class>com.ssrs.elasticsearch.priv.IndicesManagerPriv</class>
+        <description>索引重建权限项</description>
+        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</id>
+        <class>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</class>
+        <description>词典管理权限项</description>
+        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+    </extend-item>
 </plugin>

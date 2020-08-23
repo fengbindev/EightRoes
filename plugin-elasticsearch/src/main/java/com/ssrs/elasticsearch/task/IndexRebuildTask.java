@@ -19,10 +19,12 @@ public class IndexRebuildTask extends SystemTask {
 
     public static final String ID = "com.ssrs.elasticsearch.task.IndexRebuildTask";
 
+    @Override
     public String getExtendItemID() {
         return ID;
     }
 
+    @Override
     public String getExtendItemName() {
         return "索引库定时重建";
     }

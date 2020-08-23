@@ -59,7 +59,7 @@ public class IndexBuildTask extends SystemTask {
 		} else {
 			date = new Date(Long.parseLong(FileUtil.readString(file, StandardCharsets.UTF_8).trim()));
 		}
-		FileUtil.writeUtf8String(new Date().getTime() + "", file);
+		FileUtil.writeUtf8String(System.currentTimeMillis() + "", file);
 		return date;
 	}
 
