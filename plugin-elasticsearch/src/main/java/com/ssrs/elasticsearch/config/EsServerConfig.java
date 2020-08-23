@@ -16,7 +16,7 @@ public class EsServerConfig extends FixedConfigItem {
     public static final String ID = "com.ssrs.elasticsearch.config.EsServerConfig";
 
     public EsServerConfig() {
-        super(ID, DataType.ShortText, ControlType.Text, "ElasticSearch服务端地址");
+        super(ID, DataType.ShortText, ControlType.Text, "ES服务端地址");
     }
 
     public static String getValue() {

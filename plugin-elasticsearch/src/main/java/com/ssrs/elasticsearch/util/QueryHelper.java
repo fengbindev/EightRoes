@@ -1,16 +1,21 @@
 package com.ssrs.elasticsearch.util;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.ssrs.elasticsearch.model.entity.FieldWeight;
 import com.ssrs.elasticsearch.search.query.BoolQueryBuilder;
 import com.ssrs.elasticsearch.search.query.QueryBuilders;
+import com.ssrs.elasticsearch.service.IFieldWeightService;
+import com.ssrs.framework.util.SpringUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -44,12 +49,13 @@ public class QueryHelper {
             return;
         }
         synchronized (fieldWeights) {
-//            DataTable fieldWeightDT = new Q("select field, weight from ZPFieldWeight").executeDataTable();
-//            fieldWeights = new Mapx<>();
-//            for (DataRow dr : fieldWeightDT) {
-//                fieldWeights.put(dr.getString("field"), dr.getString("weight"));
-//            }
-//            lastUpdateTime = System.currentTimeMillis();
+            IFieldWeightService fieldWeightService = SpringUtil.getBean(IFieldWeightService.class);
+            List<FieldWeight> fieldWeights = fieldWeightService.list();
+            QueryHelper.fieldWeights = new HashMap<>();
+            for (FieldWeight fieldWeight : fieldWeights) {
+                QueryHelper.fieldWeights.put(fieldWeight.getField(), Convert.toStr(fieldWeight.getWeight()));
+            }
+            lastUpdateTime = System.currentTimeMillis();
         }
     }
 
