@@ -10,12 +10,13 @@ import java.util.Map;
  * @author ssrs
  */
 public class AnalyzerType {
-    public static final String CODETYPE = "AnalyzerType";
     public final static String HANLP = "hanlp";                   // 默认分词
     public final static String HANLP_INDEX = "hanlp_index";       // 索引分词
     public final static String HANLP_STANDARD = "hanlp_standard"; // 标准分词
     public final static String HANLP_N_SHORT = "hanlp_n_short";   // N-最短路分词
     public final static String HANLP_DIJKSTRA = "hanlp_dijkstra"; // 最短路分词
+
+    public final static String CONFIG = "config";
 
     private AnalyzerType() {
     }
