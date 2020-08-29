@@ -25,7 +25,7 @@ public class MysqlGenerator {
     public static void main(String[] args) {
         String path = "G:\\EightRoes\\EightRoes\\plugin-elasticsearch\\";
         String jdbc = "jdbc:mysql://127.0.0.1:3306/eight-roes?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false";
-        String[] include = new String[]{"sys_field_weight"}; // 要生成的表名
+        String[] include = new String[]{"sys_dictionary"}; // 要生成的表名
         generator(path, jdbc, include);
     }
 

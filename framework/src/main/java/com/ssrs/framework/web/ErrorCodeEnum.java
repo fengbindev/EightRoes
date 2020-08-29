@@ -3,6 +3,7 @@ package com.ssrs.framework.web;
 
 
 import com.ssrs.framework.web.exception.UnknownEnumException;
+import lombok.AllArgsConstructor;
 
 import javax.servlet.http.HttpServletResponse;
 

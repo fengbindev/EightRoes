@@ -28,6 +28,12 @@ public class ApiException extends RuntimeException {
 
     }
 
+    public ApiException(String message) {
+        super(message);
+        ErrorCode errorCode = new ErrorCode(null, 500, message);
+        this.errorCode = errorCode;
+    }
+
     public ApiException(int httpCode, String message) {
         super(message);
         ErrorCode errorCode = new ErrorCode(Convert.toStr(httpCode), httpCode, message);
