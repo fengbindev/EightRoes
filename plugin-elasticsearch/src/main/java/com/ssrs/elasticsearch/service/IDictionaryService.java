@@ -4,6 +4,8 @@ import com.ssrs.elasticsearch.model.entity.Dictionary;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ssrs.elasticsearch.model.form.NewWordAddForm;
 import com.ssrs.elasticsearch.model.form.NewWordEditForm;
+import com.ssrs.elasticsearch.model.form.StopWordAddForm;
+import com.ssrs.elasticsearch.model.form.StopWordEditForm;
 
 /**
  * <p>
@@ -22,4 +24,10 @@ public interface IDictionaryService extends IService<Dictionary> {
     void editNewWord(long id, NewWordEditForm newWordEditForm);
 
     void deleteNewWord(String ids);
+
+    void saveStopWord(StopWordAddForm stopWordAddForm);
+
+    void editStopWord(long id, StopWordEditForm stopWordEditForm);
+
+    void deleteStopWord(String ids);
 }

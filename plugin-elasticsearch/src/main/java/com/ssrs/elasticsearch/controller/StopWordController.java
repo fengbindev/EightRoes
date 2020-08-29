@@ -1,14 +1,13 @@
 package com.ssrs.elasticsearch.controller;
 
-
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ssrs.elasticsearch.code.WordStatus;
 import com.ssrs.elasticsearch.model.entity.Dictionary;
-import com.ssrs.elasticsearch.model.form.NewWordAddForm;
-import com.ssrs.elasticsearch.model.form.NewWordEditForm;
-import com.ssrs.elasticsearch.model.form.NewWordPageForm;
+import com.ssrs.elasticsearch.model.form.StopWordAddForm;
+import com.ssrs.elasticsearch.model.form.StopWordEditForm;
+import com.ssrs.elasticsearch.model.form.StopWordPageForm;
 import com.ssrs.elasticsearch.priv.SearchWordManagerPriv;
 import com.ssrs.elasticsearch.service.IDictionaryService;
 import com.ssrs.framework.security.annotation.Priv;
@@ -21,16 +20,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 前端控制器
- * </p>
- *
  * @author ssrs
- * @since 2020-08-29
  */
 @RestController
-@RequestMapping("/api/new-word")
-public class NewWordController extends BaseController {
+@RequestMapping("/api/stop-word")
+public class StopWordController extends BaseController {
     @Autowired
     private IDictionaryService dictionaryService;
 
@@ -42,32 +36,32 @@ public class NewWordController extends BaseController {
 
     @Priv
     @GetMapping
-    public ApiResponses<Page> list(@Validated NewWordPageForm newWordPageForm) {
-        IPage<Dictionary> iPage = dictionaryService.page(new Query<Dictionary>().getPage(newWordPageForm), new LambdaQueryWrapper<Dictionary>()
-                .eq(Dictionary::getType, WordStatus.TYPE_NEW)
-                .like(StrUtil.isNotEmpty(newWordPageForm.getWord()), Dictionary::getRootWord, newWordPageForm.getWord())
+    public ApiResponses<Page> list(@Validated StopWordPageForm stopWordPageForm) {
+        IPage<Dictionary> iPage = dictionaryService.page(new Query<Dictionary>().getPage(stopWordPageForm), new LambdaQueryWrapper<Dictionary>()
+                .eq(Dictionary::getType, WordStatus.TYPE_STOP)
+                .like(StrUtil.isNotEmpty(stopWordPageForm.getWord()), Dictionary::getRootWord, stopWordPageForm.getWord())
                 .orderByDesc(Dictionary::getCreateTime));
         return success(new Page(iPage));
     }
 
-    @Priv(SearchWordManagerPriv.NEW_WORD_ADD)
+    @Priv(SearchWordManagerPriv.STOP_WORD_ADD)
     @PostMapping
-    public ApiResponses<String> add(@Validated NewWordAddForm newWordAddForm) {
-        dictionaryService.saveNewWord(newWordAddForm);
+    public ApiResponses<String> add(@Validated StopWordAddForm stopWordAddForm) {
+        dictionaryService.saveStopWord(stopWordAddForm);
         return success("保存成功");
     }
 
-    @Priv(SearchWordManagerPriv.NEW_WORD_EDIT)
+    @Priv(SearchWordManagerPriv.STOP_WORD_EDIT)
     @PutMapping("/{id}")
-    public ApiResponses<String> update(@PathVariable("id") long id, @Validated NewWordEditForm newWordEditForm) {
-        dictionaryService.editNewWord(id, newWordEditForm);
+    public ApiResponses<String> update(@PathVariable("id") long id, @Validated StopWordEditForm stopWordEditForm) {
+        dictionaryService.editStopWord(id, stopWordEditForm);
         return success("修改成功");
     }
 
-    @Priv(SearchWordManagerPriv.NEW_WORD_DEL)
+    @Priv(SearchWordManagerPriv.STOP_WORD_DEL)
     @DeleteMapping("/{ids}")
     public ApiResponses<String> delete(@PathVariable("ids") String ids) {
-        dictionaryService.deleteNewWord(ids);
+        dictionaryService.deleteStopWord(ids);
         return success("删除成功");
     }
 }

@@ -9,6 +9,8 @@ import com.ssrs.elasticsearch.mapper.DictionaryMapper;
 import com.ssrs.elasticsearch.model.entity.Dictionary;
 import com.ssrs.elasticsearch.model.form.NewWordAddForm;
 import com.ssrs.elasticsearch.model.form.NewWordEditForm;
+import com.ssrs.elasticsearch.model.form.StopWordAddForm;
+import com.ssrs.elasticsearch.model.form.StopWordEditForm;
 import com.ssrs.elasticsearch.service.IDictionaryService;
 import com.ssrs.framework.web.ApiException;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,40 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteNewWord(String ids) {
+        List<String> delIds = StrUtil.split(ids, ',');
+        List<Dictionary> dictionaries = listByIds(delIds);
+        if (CollUtil.isEmpty(dictionaries)) {
+            throw new ApiException("待删除的记录不存在");
+        }
+        removeByIds(dictionaries);
+    }
+
+    @Override
+    public void saveStopWord(StopWordAddForm stopWordAddForm) {
+        int count = count(new LambdaQueryWrapper<Dictionary>().eq(Dictionary::getRootWord, stopWordAddForm.getWord()));
+        if (count > 0) {
+            throw new ApiException("已存在的停用词！");
+        }
+        Dictionary dictionary = new Dictionary();
+        dictionary.setRootWord(stopWordAddForm.getWord());
+        dictionary.setType(WordStatus.TYPE_STOP);
+        save(dictionary);
+    }
+
+    @Override
+    public void editStopWord(long id, StopWordEditForm stopWordEditForm) {
+        Dictionary dictionary = getById(id);
+        int count = count(new LambdaQueryWrapper<Dictionary>().eq(Dictionary::getRootWord, stopWordEditForm.getWord()));
+        if (!dictionary.getRootWord().equals(stopWordEditForm.getWord()) && count > 0) {
+            throw new ApiException("已存在的停用词！");
+        }
+        dictionary.setRootWord(stopWordEditForm.getWord());
+        dictionary.setType(WordStatus.TYPE_STOP);
+        updateById(dictionary);
+    }
+
+    @Override
+    public void deleteStopWord(String ids) {
         List<String> delIds = StrUtil.split(ids, ',');
         List<Dictionary> dictionaries = listByIds(delIds);
         if (CollUtil.isEmpty(dictionaries)) {
