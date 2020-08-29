@@ -40,15 +40,6 @@ public class IndexService extends AbstractExtendService<IIndex> {
         return map;
     }
 
-    public static Map<String, String> getTypeIDMap() {
-        Map<String, String> map = new HashMap<String, String>();
-        List<IIndex> indexList = IndexService.getInstance().getAll();
-        for (IIndex index : indexList) {
-            map.put(index.getExtendItemID(), index.getTypeName());
-        }
-        return map;
-    }
-
     /**
      * 获取以逗号(,)分割的所有类型字符串
      *
