@@ -4,7 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ssrs.framework.web.swaggermodel.PageForm;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,6 +17,19 @@ import java.util.Map;
 public class Query<T> {
 
     public IPage<T> getPage(Map<String, Object> params) {
+        return this.getPage(params, null, false);
+    }
+
+    public IPage<T> getPage(PageForm pageForm) {
+        Map<String, Object> params = new HashMap<>();
+        params.put(PageConstant.PAGENO, pageForm.getPageNo());
+        params.put(PageConstant.PAGESIZE, pageForm.getPageSize());
+        if (StrUtil.isNotEmpty(pageForm.getSidx())) {
+            params.put(PageConstant.ORDER_FIELD, pageForm.getSidx());
+        }
+        if (StrUtil.isNotEmpty(pageForm.getOrder())) {
+            params.put(PageConstant.ORDER, pageForm.getOrder());
+        }
         return this.getPage(params, null, false);
     }
 
@@ -58,7 +73,7 @@ public class Query<T> {
             return page;
         }
 
-        //默认排序
+        //默认字段排序
         if (isAsc) {
             page.addOrder(OrderItem.asc(defaultOrderField));
         } else {

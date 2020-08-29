@@ -1,17 +1,27 @@
 package com.ssrs.elasticsearch.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ssrs.elasticsearch.code.FieldWeightStatus;
 import com.ssrs.elasticsearch.mapper.FieldWeightMapper;
 import com.ssrs.elasticsearch.model.entity.FieldWeight;
+import com.ssrs.elasticsearch.model.form.FieldWeightPageForm;
+import com.ssrs.elasticsearch.model.vo.FieldWeightVo;
 import com.ssrs.elasticsearch.service.IFieldWeightService;
 import com.ssrs.elasticsearch.util.ClassUtil;
+import com.ssrs.platform.util.Page;
+import com.ssrs.platform.util.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,7 +40,7 @@ public class FieldWeightServiceImpl extends ServiceImpl<FieldWeightMapper, Field
      * 初始化FieldWeight表
      */
     @Transactional(rollbackFor = Exception.class)
-    public synchronized void  initFWTable() {
+    public synchronized void initFWTable() {
         List<FieldWeight> fieldWeights = list();
         List<String> fieldList = ClassUtil.getFieldListByAnnotation(PACKAGE_NAME, annotationClass);
         ArrayList<String> existingFields = new ArrayList<>();
@@ -53,5 +63,29 @@ public class FieldWeightServiceImpl extends ServiceImpl<FieldWeightMapper, Field
             fieldWeight.setStatus(FieldWeightStatus.ENABLED);
             save(fieldWeight);
         }
+    }
+
+    @Override
+    public Page pageList(FieldWeightPageForm fieldWeightPageForm) {
+        this.initFWTable();
+        IPage<FieldWeight> iPage = page(new Query<FieldWeight>().getPage(fieldWeightPageForm), new LambdaQueryWrapper<FieldWeight>()
+                .like(StrUtil.isNotEmpty(fieldWeightPageForm.getField()), FieldWeight::getField, fieldWeightPageForm.getField())
+                .orderByDesc(FieldWeight::getId));
+        return new Page(iPage);
+    }
+
+    @Override
+    public FieldWeightVo init(long id) {
+        FieldWeight fieldWeight = getById(id);
+        return BeanUtil.toBean(fieldWeight, FieldWeightVo.class);
+    }
+
+    @Override
+    public void saveWeight(long id, Map<String, Object> params) {
+        Integer weight = Convert.toInt(params.get("weight"));
+        FieldWeight fieldWeight = new FieldWeight();
+        fieldWeight.setId(id);
+        fieldWeight.setWeight(weight);
+        updateById(fieldWeight);
     }
 }
