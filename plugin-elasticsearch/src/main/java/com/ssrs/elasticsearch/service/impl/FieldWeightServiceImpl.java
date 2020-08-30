@@ -33,7 +33,7 @@ import java.util.Map;
  */
 @Service
 public class FieldWeightServiceImpl extends ServiceImpl<FieldWeightMapper, FieldWeight> implements IFieldWeightService {
-    private static final String PACKAGE_NAME = "com.zving.essearch.entity";
+    private static final String PACKAGE_NAME = "com.ssrs.elasticsearch.entity";
     private static final Class<com.ssrs.elasticsearch.annotation.FieldWeight> annotationClass = com.ssrs.elasticsearch.annotation.FieldWeight.class;
 
     /**

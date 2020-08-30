@@ -89,7 +89,14 @@ public class ConfigController extends BaseController {
                 config.set("controlType", fc.getControlType());
                 config.set("value", Config.getValue(fc.getExtendItemID()));
                 if (fc.getOptions() != null && fc.getOptions().size() > 0) {
-                    config.set("options", fc.getOptions());
+                    JSONArray optionJa = new JSONArray();
+                    fc.getOptions().forEach((key, value)->{
+                        JSONObject optionJo = new JSONObject();
+                        optionJo.set("key", key);
+                        optionJo.set("value", value);
+                        optionJa.add(optionJo);
+                    });
+                    config.set("options", optionJa);
                 }
             }
         }

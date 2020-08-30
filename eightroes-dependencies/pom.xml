@@ -25,6 +25,11 @@
                 <artifactId>plugin-platform</artifactId>
                 <version>1.0.4</version>
             </dependency>
+            <dependency>
+                <groupId>top.ssrsdev</groupId>
+                <artifactId>plugin-elasticsearch</artifactId>
+                <version>1.0.4</version>
+            </dependency>
             <!-- third party -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>

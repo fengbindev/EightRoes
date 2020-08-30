@@ -2,100 +2,94 @@
 <plugin>
     <id>com.ssrs.elasticsearch.ElasticsearchPlugin</id>
     <class>com.ssrs.elasticsearch.ElasticsearchPlugin</class>
-    <name>plugin-elasticsearch</name>
+    <name>检索插件</name>
     <author>ssrs</author>
     <provider>ssrs</provider>
     <version>1.0</version>
     <description>plugin-elasticsearch</description>
 
     <extend-service>
-        <id>com.ssrs.elasticsearch.service.IIndex</id>
-        <class>com.ssrs.elasticsearch.service.IIndex</class>
+        <id>com.ssrs.elasticsearch.service.IndexService</id>
+        <class>com.ssrs.elasticsearch.service.IndexService</class>
         <description>索引服务</description>
         <item-class>com.ssrs.elasticsearch.service.IIndex</item-class>
     </extend-service>
     <extend-item>
-        <id>com.ssrs.elasticsearch.service.IndexService</id>
-        <class>com.ssrs.elasticsearch.service.IndexService</class>
-        <extend-service>com.ssrs.elasticsearch.service.IIndex</extend-service>
-        <description>索引创建服务</description>
-    </extend-item>
-    <extend-item>
         <id>com.ssrs.elasticsearch.config.EsIndexNameConfig</id>
         <class>com.ssrs.elasticsearch.config.EsIndexNameConfig</class>
         <description>ES索引名称</description>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.EsClientHostConfig</id>
         <class>com.ssrs.elasticsearch.config.EsClientHostConfig</class>
         <description>ES客户端根URL</description>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.EsServerConfig</id>
         <class>com.ssrs.elasticsearch.config.EsServerConfig</class>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
         <description>ES服务端地址</description>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.AnalyzerConfig</id>
         <class>com.ssrs.elasticsearch.config.AnalyzerConfig</class>
         <description>分词器</description>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.MaxResultWindowConfig</id>
         <class>com.ssrs.elasticsearch.config.MaxResultWindowConfig</class>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
         <description>最大搜索结果数量</description>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.NumberOfReplicasConfig</id>
         <class>com.ssrs.elasticsearch.config.NumberOfReplicasConfig</class>
         <description>索引副本数量</description>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.NumberOfShardsConfig</id>
         <class>com.ssrs.elasticsearch.config.NumberOfShardsConfig</class>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
         <description>索引分片数量</description>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.SynonymSwitchConfig</id>
         <class>com.ssrs.elasticsearch.config.SynonymSwitchConfig</class>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
         <description>是否开启同义词</description>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.config.WordsHitRatioConfig</id>
         <class>com.ssrs.elasticsearch.config.WordsHitRatioConfig</class>
         <description>分词命中比率(1-100)</description>
-        <extend-service>com.ssrs.platform.FixedConfigItem</extend-service>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.FieldWeightManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.FieldWeightManagerPriv</class>
         <description>字段权重权限项</description>
-        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.IndicesLibraryManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.IndicesLibraryManagerPriv</class>
         <description>索引删除权限项</description>
-        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.IndicesManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.IndicesManagerPriv</class>
         <description>索引重建权限项</description>
-        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</class>
         <description>词典管理权限项</description>
-        <extend-service>com.ssrs.platform.priv.AbstractMenuPriv</extend-service>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
 </plugin>

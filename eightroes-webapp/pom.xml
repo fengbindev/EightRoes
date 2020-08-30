@@ -33,6 +33,10 @@
             <artifactId>plugin-platform</artifactId>
         </dependency>
         <dependency>
+            <groupId>top.ssrsdev</groupId>
+            <artifactId>plugin-elasticsearch</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
