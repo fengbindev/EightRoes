@@ -8,7 +8,7 @@
     <version>1.0</version>
     <description>plugin-words</description>
     <required>
-        <plugin version="1.0.4">com.ssrs.platform</plugin>
+        <plugin version="1.0.4">com.ssrs.platform.PlatformPlugin</plugin>
     </required>
 
 </plugin>
