@@ -49,7 +49,7 @@ public class IndexRebuildTask extends SystemTask {
         System.out.println("name2:" + name2);
         if (!name1.equals(name2)) {
             if (IndexService.delete(alias)) {
-                log.info("~~~~~~~删除旧的索引库进来了~~~~~~~");
+                log.info("~~~~~~~删除旧的索引库~~~~~~~");
                 File file = new File(AppDataPath.getValue() + "essearch/es_index.time");
                 file.delete();
             }

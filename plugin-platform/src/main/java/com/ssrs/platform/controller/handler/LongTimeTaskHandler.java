@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 集群模式下，这两个接口要单独配置Nginx反向代理，只能代理到某一个应用服务，不能配置负载均衡！！！
+ *
  * @author ssrs
  */
 @RestController
