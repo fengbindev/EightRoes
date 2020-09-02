@@ -170,8 +170,11 @@ public class PluginConfig {
         List<Element> required = XmlUtil.getElements(root, "required");
         if (CollUtil.isNotEmpty(required)) {
             for (Element element : required) {
-                String key = XmlUtil.elementText(element, "plugin");
-                requiredPlugins.put(key, element.getAttribute("version"));
+                List<Element> plugin = XmlUtil.getElements(element, "plugin");
+                for (Element element1 : plugin) {
+                    String key = XmlUtil.elementText(element, "plugin");
+                    requiredPlugins.put(key, element1.getAttribute("version"));
+                }
             }
         }
 

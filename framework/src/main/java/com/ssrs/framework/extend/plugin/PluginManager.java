@@ -93,10 +93,10 @@ public class PluginManager {
     private void sort(List<PluginConfig> result, PluginConfig pc) {
         if (this.getPluginConfig(result, pc.getID()) == null) {
             this.configList.remove(pc);
-            Iterator var3 = pc.getRequiredPlugins().keySet().iterator();
+            Iterator iterator = pc.getRequiredPlugins().keySet().iterator();
 
-            while(var3.hasNext()) {
-                String pluginID = (String)var3.next();
+            while(iterator.hasNext()) {
+                String pluginID = (String)iterator.next();
                 PluginConfig c = this.getPluginConfig(this.configList, pluginID);
                 if (c != null) {
                     this.sort(result, c);
