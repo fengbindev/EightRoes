@@ -7,5 +7,8 @@
     <provider>yaohong</provider>
     <version>1.0</version>
     <description>plugin-words</description>
+    <required>
+        <plugin version="1.0.4">com.ssrs.platform</plugin>
+    </required>
 
 </plugin>

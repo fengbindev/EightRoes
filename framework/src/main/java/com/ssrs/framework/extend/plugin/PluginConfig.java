@@ -26,6 +26,7 @@ public class PluginConfig {
     private Map<String, String> requiredExtendServices = new HashMap<String, String>();
     private Map<String, ExtendActionConfig> extendActions = new HashMap<String, ExtendActionConfig>();
     private Map<String, ExtendItemConfig> extendItems = new HashMap<String, ExtendItemConfig>();
+    private Map<String, String> requiredPlugins = new HashMap<String, String>();
     private String ID;
     private String Name;
     private String ClassName;
@@ -132,6 +133,14 @@ public class PluginConfig {
         this.description = description;
     }
 
+    public Map<String, String> getRequiredPlugins() {
+        return requiredPlugins;
+    }
+
+    public void setRequiredPlugins(Map<String, String> requiredPlugins) {
+        this.requiredPlugins = requiredPlugins;
+    }
+
     public void parse(String xml) throws PluginException {
         enabled = true;// 默认开启
 
@@ -155,6 +164,15 @@ public class PluginConfig {
         }
         if (StrUtil.isEmpty(version)) {
             throw new PluginException("version is empty!");
+        }
+
+        // 插件依赖
+        List<Element> required = XmlUtil.getElements(root, "required");
+        if (CollUtil.isNotEmpty(required)) {
+            for (Element element : required) {
+                String key = XmlUtil.elementText(element, "plugin");
+                requiredPlugins.put(key, element.getAttribute("version"));
+            }
         }
 
         // 扩展点

@@ -74,18 +74,39 @@ public class PluginManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (PluginConfig pc : map.values()) {
-            sort(configList, pc);
+
+        configList.addAll(map.values());
+
+        ArrayList<PluginConfig> tempEachList = new ArrayList(this.configList);
+        ArrayList<PluginConfig> result = new ArrayList();
+        Iterator iterator1 = tempEachList.iterator();
+
+        while (iterator1.hasNext()) {
+            PluginConfig pc = (PluginConfig) iterator1.next();
+            this.sort(result, pc);
         }
+
+        this.configList = new ArrayList<>(result);
     }
 
 
     private void sort(List<PluginConfig> result, PluginConfig pc) {
-        if (getPluginConfig(result, pc.getID()) != null) {
-            return;
-        }
-        if (getPluginConfig(result, pc.getID()) == null) {
-            result.add(pc);
+        if (this.getPluginConfig(result, pc.getID()) == null) {
+            this.configList.remove(pc);
+            Iterator var3 = pc.getRequiredPlugins().keySet().iterator();
+
+            while(var3.hasNext()) {
+                String pluginID = (String)var3.next();
+                PluginConfig c = this.getPluginConfig(this.configList, pluginID);
+                if (c != null) {
+                    this.sort(result, c);
+                }
+            }
+
+            if (this.getPluginConfig(result, pc.getID()) == null) {
+                result.add(pc);
+            }
+
         }
     }
 

@@ -7,6 +7,9 @@
     <provider>ssrs</provider>
     <version>1.0</version>
     <description>plugin-elasticsearch</description>
+    <required>
+        <plugin version="1.0.4">com.ssrs.platform</plugin>
+    </required>
 
     <extend-service>
         <id>com.ssrs.elasticsearch.service.IndexService</id>
