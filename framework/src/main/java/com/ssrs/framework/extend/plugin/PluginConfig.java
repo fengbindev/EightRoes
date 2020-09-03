@@ -1,6 +1,7 @@
 package com.ssrs.framework.extend.plugin;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import com.ssrs.framework.extend.ExtendActionConfig;
@@ -167,16 +168,18 @@ public class PluginConfig {
         }
 
         // 插件依赖
-        List<Element> required = XmlUtil.getElements(root, "required");
-        if (CollUtil.isNotEmpty(required)) {
-            for (Element element : required) {
-                List<Element> plugin = XmlUtil.getElements(element, "plugin");
-                for (Element element1 : plugin) {
-                    String key = XmlUtil.elementText(element, "plugin");
-                    requiredPlugins.put(key, element1.getAttribute("version"));
+        Element requireds = XmlUtil.getElement(root, "requireds");
+        if (ObjectUtil.isNotNull(requireds)) {
+            List<Element> required = XmlUtil.getElements(requireds, "required");
+            if (CollUtil.isNotEmpty(required)) {
+                for (Element element : required) {
+                    String plugin = XmlUtil.elementText(root, "plugin");
+                    String version = XmlUtil.elementText(root, "version");
+                    requiredPlugins.put(plugin, version);
                 }
             }
         }
+
 
         // 扩展点
         List<Element> extendPoint = XmlUtil.getElements(root, "extend-point");

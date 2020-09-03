@@ -7,9 +7,13 @@
     <provider>ssrs</provider>
     <version>1.0</version>
     <description>PlatformPlugin</description>
-    <required>
-        <plugin version="1.0.4">com.ssrs.framework.FrameworkPlugin</plugin>
-    </required>
+    <requireds>
+        <required>
+            <plugin>com.ssrs.framework.FrameworkPlugin</plugin>
+            <version>1.0.4</version>
+        </required>
+    </requireds>
+
     <extend-action>
         <id>com.ssrs.platform.point.action.AddUserPermissionsAction</id>
         <class>com.ssrs.platform.point.action.AddUserPermissionsAction</class>
