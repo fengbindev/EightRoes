@@ -1,5 +1,6 @@
 package com.ssrs.elasticsearch.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import com.google.gson.Gson;
 import com.ssrs.elasticsearch.code.HttpMethod;
@@ -47,6 +48,9 @@ public class IndexService extends AbstractExtendService<IIndex> {
      */
     public static String getAllType() {
         Set<String> set = IndexService.getTypeMap().keySet();
+        if (CollUtil.isEmpty(set)) {
+            return "";
+        }
         StringBuffer buffer = new StringBuffer();
         for (String type : set) {
             buffer.append(",");

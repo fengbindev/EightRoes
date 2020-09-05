@@ -89,13 +89,19 @@
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.IndicesManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.IndicesManagerPriv</class>
-        <description>索引重建权限项</description>
+        <description>索引管理权限项</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
     <extend-item>
         <id>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</id>
         <class>com.ssrs.elasticsearch.priv.SearchWordManagerPriv</class>
         <description>词典管理权限项</description>
+        <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.priv.IndicesPriv</id>
+        <class>com.ssrs.elasticsearch.priv.IndicesPriv</class>
+        <description>检索管理权限项</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
 </plugin>

@@ -109,11 +109,6 @@ public class IndicesController extends BaseController {
         Page page = new Page();
         List<IndexListVo> data = new ArrayList<>();
         String searchKey = indexPageForm.getSearchKey();
-        try {
-            searchKey = URLDecoder.decode(searchKey, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
-        }
         Map<String, String> typeMap = IndexService.getTypeMap();
         int pageIndex = indexPageForm.getPageNo();
         int pageSize = indexPageForm.getPageSize();
@@ -137,6 +132,9 @@ public class IndicesController extends BaseController {
         Map<String, Object> result = null;
         if (StrUtil.isEmpty(type) || "all".equals(type)) {
             type = IndexService.getAllType();
+        }
+        if (StrUtil.isEmpty(type)) {
+            return success(page);
         }
         try {
             result = new SearchService().doSourceSearch(IIndex.getIndexId(), type, searcher.toString());
@@ -250,9 +248,10 @@ public class IndicesController extends BaseController {
      */
     @Priv(IndicesManagerPriv.INDEX_RELEASE_LOCK)
     @GetMapping("/releaseIndexLock")
-    public void releaseIndexLock() {
+    public ApiResponses<String> releaseIndexLock() {
         IndexRebuildTask.rebuildAllLock = false;
         IndexTypeLock.unlockAll();
+        return success("索引锁释放成功");
     }
 
     /**
