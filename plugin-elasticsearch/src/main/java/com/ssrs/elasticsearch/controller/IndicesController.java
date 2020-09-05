@@ -121,7 +121,7 @@ public class IndicesController extends BaseController {
         searcher.highlight(new Searcher.Highlight()
                 .addField(new Searcher.Field("title"))
                 .addField(new Searcher.Field("summary").setFragmentSize(40).setNumberOfFragments(4))); // 高亮
-        searcher.addSort(new Searcher.Sort("ID", OrderType.ASC));
+        searcher.addSort(new Searcher.Sort("id", OrderType.ASC));
         QueryBuilder qb = new BoolQueryBuilder().should(QueryBuilders.matchAll());
         if (StrUtil.isNotEmpty(searchKey)) {
             qb = new BoolQueryBuilder()
