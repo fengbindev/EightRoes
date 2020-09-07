@@ -16,7 +16,7 @@ import java.util.Date;
 public class BasicDoc {
 
     @Index(type = EsDataType.LONG, stored = true)
-    private Long ID;
+    private Long id;
 
     // 标题
     @FieldWeight
