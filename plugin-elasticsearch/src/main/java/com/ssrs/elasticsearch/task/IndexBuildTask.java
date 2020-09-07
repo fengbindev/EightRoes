@@ -65,6 +65,6 @@ public class IndexBuildTask extends SystemTask {
 
 	@Override
 	public String getDefaultCronExpression() {
-		return "* */3 * * * *";
+		return "* 0/3 * * * ?";
 	}
 }
