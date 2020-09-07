@@ -29,7 +29,6 @@ public class SystemTaskManager extends AbstractTaskManager {
     @Override
     public void startAllTask() {
         if (startFlag) {
-            log.warn("The system task service has begun!");
             return;
         }
         lock.lock();
@@ -51,7 +50,7 @@ public class SystemTaskManager extends AbstractTaskManager {
     @Override
     public void stopAllTask() {
         if (!startFlag) {
-            log.warn("The system task service not yet begun!");
+            log.warn("The system task service not yet begin!");
             return;
         }
         lock.lock();
