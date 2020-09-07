@@ -104,4 +104,16 @@
         <description>检索管理权限项</description>
         <extend-service>com.ssrs.platform.extend.MenuPrivService</extend-service>
     </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.task.IndexBuildTask</id>
+        <class>com.ssrs.elasticsearch.task.IndexBuildTask</class>
+        <description>索引自动创建定时任务</description>
+        <extend-service>com.ssrs.framework.schedule.SystemTaskService</extend-service>
+    </extend-item>
+    <extend-item>
+        <id>com.ssrs.elasticsearch.task.IndexRebuildTask</id>
+        <class>com.ssrs.elasticsearch.task.IndexRebuildTask</class>
+        <description>索引库定时重建定时任务</description>
+        <extend-service>com.ssrs.framework.schedule.SystemTaskService</extend-service>
+    </extend-item>
 </plugin>
