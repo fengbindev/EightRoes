@@ -64,6 +64,6 @@ public class IndexRebuildTask extends SystemTask {
 
     @Override
     public String getDefaultCronExpression() {
-        return "0 22 * * *";
+        return "0 0 22 * * *";
     }
 }
