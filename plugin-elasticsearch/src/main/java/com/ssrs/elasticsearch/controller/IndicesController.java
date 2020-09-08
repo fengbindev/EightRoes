@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
 import com.ssrs.elasticsearch.code.HttpMethod;
 import com.ssrs.elasticsearch.code.OrderType;
+import com.ssrs.elasticsearch.config.EsServerConfig;
 import com.ssrs.elasticsearch.model.form.IndexPageForm;
 import com.ssrs.elasticsearch.model.vo.IndexList2Vo;
 import com.ssrs.elasticsearch.model.vo.IndexListVo;
@@ -265,6 +266,9 @@ public class IndicesController extends BaseController {
     public ApiResponses<Page> indexList() {
         Page page = new Page();
         List<IndexList2Vo> list2VoList = new ArrayList<>();
+        if (StrUtil.isEmpty(EsServerConfig.getValue())) {
+            return success(page);
+        }
         RestClient client = new ClientService().getClient();
         HttpEntity entity = null;
         Response indexResponse = null;
