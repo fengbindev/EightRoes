@@ -15,6 +15,7 @@ public class AnalyzerType {
     public final static String HANLP_STANDARD = "hanlp_standard"; // 标准分词
     public final static String HANLP_N_SHORT = "hanlp_n_short";   // N-最短路分词
     public final static String HANLP_DIJKSTRA = "hanlp_dijkstra"; // 最短路分词
+    public final static String IK = "ik_smart"; // IK分词
 
     public final static String CONFIG = "config";
 
@@ -28,6 +29,7 @@ public class AnalyzerType {
         map.put(HANLP_STANDARD, "标准分词");
         map.put(HANLP_N_SHORT, "N-最短路分词");
         map.put(HANLP_DIJKSTRA, "最短路分词");
+        map.put(IK, "IK分词");
     }
 
     public static Map<String, String> getMap() {

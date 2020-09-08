@@ -11,4 +11,5 @@ public class IndexList2Vo {
     private String alias;
     private String numberOfShards;
     private String numberOfReplicas;
+    private String creationDate;
 }

@@ -1,6 +1,7 @@
 package com.ssrs.elasticsearch.controller;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
@@ -261,7 +262,8 @@ public class IndicesController extends BaseController {
     @SuppressWarnings("unchecked")
     @Priv
     @GetMapping("/indexList")
-    public ApiResponses<List<IndexList2Vo>> indexList() {
+    public ApiResponses<Page> indexList() {
+        Page page = new Page();
         List<IndexList2Vo> list2VoList = new ArrayList<>();
         RestClient client = new ClientService().getClient();
         HttpEntity entity = null;
@@ -274,7 +276,8 @@ public class IndicesController extends BaseController {
         } catch (IOException e) {
             log.error("索引库不存在");
             e.printStackTrace();
-            return success(list2VoList);
+            page.setData(list2VoList);
+            return success(page);
         }
         if (entity != null) {
             try {
@@ -299,21 +302,24 @@ public class IndicesController extends BaseController {
                             .get("settings")).get("index");
                     Object numberOfShards = indexMap.get("number_of_shards");
                     Object numberOfReplicas = indexMap.get("number_of_replicas");
+                    Object creationDate = indexMap.get("creation_date");
                     IndexList2Vo indexList2Vo = new IndexList2Vo();
                     indexList2Vo.setIndicesName(indicesName);
                     indexList2Vo.setAlias(aliasBuffer.toString());
                     indexList2Vo.setNumberOfShards(Convert.toStr(numberOfShards));
                     indexList2Vo.setNumberOfReplicas(Convert.toStr(numberOfReplicas));
-
+                    indexList2Vo.setCreationDate(DateUtil.date(Convert.toLong(creationDate)).toString());
                     list2VoList.add(indexList2Vo);
                 }
             } catch (UnsupportedOperationException | IOException e) {
                 log.error("索引库查询错误");
                 e.printStackTrace();
-                return success(list2VoList);
+                page.setData(list2VoList);
+                return success(page);
             }
         }
-        return success(list2VoList);
+        page.setData(list2VoList);
+        return success(page);
     }
 
     /**
