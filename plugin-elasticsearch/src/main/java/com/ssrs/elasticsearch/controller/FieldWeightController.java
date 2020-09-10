@@ -1,8 +1,6 @@
 package com.ssrs.elasticsearch.controller;
 
 
-import cn.hutool.core.convert.Convert;
-import com.ssrs.elasticsearch.model.entity.FieldWeight;
 import com.ssrs.elasticsearch.model.form.FieldWeightPageForm;
 import com.ssrs.elasticsearch.model.vo.FieldWeightVo;
 import com.ssrs.elasticsearch.priv.FieldWeightManagerPriv;
