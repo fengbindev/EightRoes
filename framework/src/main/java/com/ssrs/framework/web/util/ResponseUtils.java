@@ -7,6 +7,7 @@ import cn.hutool.log.LogFactory;
 import com.ssrs.framework.web.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -68,8 +69,14 @@ public class ResponseUtils {
      * @return
      */
     public static FaileResponses.FaileResponsesBuilder exceptionMsg(FaileResponses.FaileResponsesBuilder failedResponseBuilder, Exception exception) {
-        if (exception instanceof MethodArgumentNotValidException) {
-            StringBuilder builder = new StringBuilder("校验失败:");
+        if (exception instanceof BindException) {
+            StringBuilder builder = new StringBuilder("参数校验失败:");
+            String defaultMessage = ((BindException) exception).getBindingResult().getFieldError().getDefaultMessage();
+            builder.append(defaultMessage);
+            failedResponseBuilder.message(builder.toString());
+            return failedResponseBuilder;
+        } else if (exception instanceof MethodArgumentNotValidException) {
+            StringBuilder builder = new StringBuilder("参数校验失败:");
             List<ObjectError> allErrors = ((MethodArgumentNotValidException) exception).getBindingResult().getAllErrors();
             allErrors.stream().findFirst().ifPresent(error -> {
                 builder.append(((FieldError) error).getField()).append("字段规则为").append(error.getDefaultMessage());
