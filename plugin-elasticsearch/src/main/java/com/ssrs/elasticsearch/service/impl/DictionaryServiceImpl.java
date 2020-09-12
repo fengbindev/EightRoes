@@ -66,7 +66,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
         if (CollUtil.isEmpty(dictionaries)) {
             throw new ApiException("待删除的记录不存在");
         }
-        removeByIds(dictionaries);
+        removeByIds(delIds);
     }
 
     @Override
@@ -100,6 +100,6 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
         if (CollUtil.isEmpty(dictionaries)) {
             throw new ApiException("待删除的记录不存在");
         }
-        removeByIds(dictionaries);
+        removeByIds(delIds);
     }
 }

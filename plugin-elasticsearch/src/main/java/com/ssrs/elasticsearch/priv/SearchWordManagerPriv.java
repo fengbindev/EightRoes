@@ -23,14 +23,14 @@ public class SearchWordManagerPriv extends AbstractMenuPriv {
     public static final String STOP_WORD_SYNC = MenuID + ".StopWordSync";   // 生成停用词词典按钮
 
     public SearchWordManagerPriv() {
-        super(MenuID, "词典管理", null);
+        super(MenuID, "检索词管理", null);
         addItem(NEW_WORD_ADD, "新词添加");
         addItem(NEW_WORD_EDIT, "新词修改");
         addItem(NEW_WORD_DEL, "新词删除");
-        addItem(NEW_WORD_SYNC, "生成新词词典");
+//        addItem(NEW_WORD_SYNC, "生成新词词典");
         addItem(STOP_WORD_ADD, "停用词添加");
         addItem(STOP_WORD_EDIT, "停用词修改");
         addItem(STOP_WORD_DEL, "停用词删除");
-        addItem(STOP_WORD_SYNC, "生成停用词词典");
+//        addItem(STOP_WORD_SYNC, "生成停用词词典");
     }
 }
