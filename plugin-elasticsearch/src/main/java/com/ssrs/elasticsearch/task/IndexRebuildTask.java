@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 文档字段有改动时执行此定时任务可以修改ES文档字段
+ * 默认禁用此定时任务，如果文档结构没有经常改动，不需要定时执行，手动执行即可
+ * @author ssrs
+ */
 @Slf4j
 public class IndexRebuildTask extends SystemTask {
 
@@ -65,5 +70,13 @@ public class IndexRebuildTask extends SystemTask {
     @Override
     public String getDefaultCronExpression() {
         return "0 0 22 * * ?";
+    }
+
+    /**
+     * 默认禁用此定时任务，如果文档结构没有经常改动，不需要定时执行，手动执行即可
+     * @return
+     */
+    public boolean isDisabled() {
+        return true;
     }
 }
