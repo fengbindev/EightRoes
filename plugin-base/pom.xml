@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eightroes-dependencies</artifactId>
         <groupId>top.ssrsdev</groupId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
         <relativePath>../eightroes-dependencies</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
