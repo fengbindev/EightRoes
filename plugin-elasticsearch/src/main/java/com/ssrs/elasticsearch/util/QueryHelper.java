@@ -68,7 +68,7 @@ public class QueryHelper {
     }
 
 
-    private static void findCodeName(JSONArray codes, JSONArray relas) {
+    public static void findCodeName(JSONArray codes, JSONArray relas) {
         if (codes.size() == 0 || relas.size() == 0) {
             return;
         }
