@@ -5,6 +5,7 @@
         <artifactId>plugin-base</artifactId>
         <groupId>top.ssrsdev</groupId>
         <version>1.0.5</version>
+        <relativePath>../plugin-base</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
