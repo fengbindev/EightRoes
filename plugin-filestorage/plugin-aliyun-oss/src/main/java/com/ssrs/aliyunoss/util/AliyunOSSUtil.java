@@ -1,6 +1,7 @@
 package com.ssrs.aliyunoss.util;
 
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.StrUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
@@ -8,6 +9,8 @@ import com.ssrs.aliyunoss.config.OssAccessKeyId;
 import com.ssrs.aliyunoss.config.OssAccessKeySecret;
 import com.ssrs.aliyunoss.config.OssBucketName;
 import com.ssrs.aliyunoss.config.OssEndpoint;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URL;
@@ -16,15 +19,23 @@ import java.util.List;
 import java.util.Properties;
 
 /**
+ * <p>
+ * oranName ： 代表用户传过来未经处理的文件名 例如/img/a.jpg
+ * objectName : 代表去掉前面/ 加上uuid后的文件名 如img/330ddd7feb6d456f8ee97092d7675c90a.jgp
+ * getRealName(objectName) : 指的是存放在OSS中的全路径
+ * <b>注意：在上传，下载和删除的时候注意路径的编码，如果路径已经编码，用 URLUtil.decode() 解码</b>
+ * <p>
+ *
  * @author ssrs
  */
-public class AliOSSUtil {
+@Slf4j
+public class AliyunOSSUtil {
 
 
     /**
      * 私有化构造
      */
-    private AliOSSUtil() {
+    private AliyunOSSUtil() {
 
     }
 
@@ -39,6 +50,9 @@ public class AliOSSUtil {
         int cutPoint = OssEndpoint.getValue().lastIndexOf('/') + 1;
         //http头
         String head = OssEndpoint.getValue().substring(0, cutPoint);
+        if (StrUtil.isEmpty(head)) {
+            head = "https://";
+        }
         //服务器地址信息
         String tail = OssEndpoint.getValue().substring(cutPoint);
         //返回结果
@@ -88,7 +102,11 @@ public class AliOSSUtil {
      */
     private static void printUploadSuccessInfo(String fileURL) {
         //上传成功
-        System.out.println("upload success， path = " + getRealName(fileURL));
+        if (StrUtil.startWith(fileURL, "http://") || StrUtil.startWith(fileURL, "https://")) {
+            log.info("upload success， path = " + fileURL);
+        } else {
+            log.info("upload success， path = " + getRealName(fileURL));
+        }
     }
 
     /**
@@ -97,10 +115,13 @@ public class AliOSSUtil {
      * @param fileURL 文件URL
      */
     private static void printDeleteSuccessInfo(String fileURL) {
-        //上传成功
-        System.out.println("delete success， path = " + getRealName(fileURL));
+        //删除成功
+        if (StrUtil.startWith(fileURL, "http://") || StrUtil.startWith(fileURL, "https://")) {
+            log.info("delete success， path = " + fileURL);
+        } else {
+            log.info("delete success， path = " + getRealName(fileURL));
+        }
     }
-
 
     /**
      * 获取一个随机的文件名
@@ -270,6 +291,33 @@ public class AliOSSUtil {
      * 上传文件流
      *
      * @param oranFileName 上传到服务器上的文件路径和名称
+     * @param inputStream  文件流 未关闭，需要调用者自行关闭
+     */
+    public static String uploadFileInputSteam(String oranFileName, InputStream inputStream) {
+
+        // <yourObjectName>上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+        String objectName = getRandomImageName(oranFileName);
+
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(OssEndpoint.getValue(), OssAccessKeyId.getValue(), OssAccessKeySecret.getValue());
+
+        // 上传Byte数组。
+        ossClient.putObject(OssBucketName.getValue(), objectName, inputStream);
+
+        //上传成功 打印文件存储地址
+        printUploadSuccessInfo(objectName);
+
+        // 关闭OSSClient。
+        ossClient.shutdown();
+
+        //返回文件在服务器上的全路径+名称
+        return getRealName(objectName);
+    }
+
+    /**
+     * 上传文件流
+     *
+     * @param oranFileName 上传到服务器上的文件路径和名称
      * @param file         来自本地的文件或者文件流
      */
     public static String uploadFileInputSteam(String oranFileName, File file) {
@@ -286,9 +334,71 @@ public class AliOSSUtil {
             ossClient.putObject(OssBucketName.getValue(), objectName, inputStream);
         } catch (Exception ex) {
             ex.printStackTrace();
+        } finally {
+
         }
         //上传成功 打印文件存储地址
         printUploadSuccessInfo(objectName);
+
+        // 关闭OSSClient。
+        ossClient.shutdown();
+
+        //返回文件在服务器上的全路径+名称
+        return getRealName(objectName);
+    }
+
+
+    /**
+     * MultipartFile2File
+     *
+     * @param multipartFile
+     * @return
+     */
+    private static File transferToFile(MultipartFile multipartFile) {
+        //选择用缓冲区来实现这个转换即使用java 创建的临时文件 使用 MultipartFile.transferto()方法 。
+        File file = null;
+        try {
+            //获取文件名
+            String originalFilename = multipartFile.getOriginalFilename();
+            //获取最后一个"."的位置
+            int cutPoint = originalFilename.lastIndexOf(".");
+            //获取文件名
+            String prefix = originalFilename.substring(0, cutPoint);
+            //获取后缀名
+            String suffix = originalFilename.substring(cutPoint + 1);
+            //创建临时文件
+            file = File.createTempFile(prefix, suffix);
+            //multipartFile2file
+            multipartFile.transferTo(file);
+            //删除临时文件
+            file.deleteOnExit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /**
+     * 上传文件流
+     *
+     * @param oranFileName 上传到服务器上的文件路径和名称
+     * @param file         来自本地的文件或者文件流
+     */
+    public static String uploadFileInputSteam(String oranFileName, MultipartFile file) {
+
+        // <yourObjectName>上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg
+        String objectName = getRandomImageName(oranFileName);
+
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(OssEndpoint.getValue(), OssAccessKeyId.getValue(), OssAccessKeySecret.getValue());
+
+        // 上传文件流
+        try (InputStream inputStream = file.getInputStream()) {
+            //上传到OSS
+            ossClient.putObject(OssBucketName.getValue(), objectName, inputStream);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         // 关闭OSSClient。
         ossClient.shutdown();
@@ -435,7 +545,7 @@ public class AliOSSUtil {
 
 
     /**
-     * 以流的方式读取一个文件 并打印
+     * 以流的方式读取一个文件
      *
      * @param fileURL 文件的url
      */
@@ -449,9 +559,6 @@ public class AliOSSUtil {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(OssBucketName.getValue(), objectName);
 
-        // 读取文件内容。
-        System.out.println("Object content:");
-
         StringBuffer sb = new StringBuffer();
         //使用try(){}..关闭资源
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(ossObject.getObjectContent()));) {
@@ -460,7 +567,6 @@ public class AliOSSUtil {
                 String line = reader.readLine();
                 if (line == null) break;
                 sb.append(line);
-                System.out.println("\n" + line);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -473,7 +579,7 @@ public class AliOSSUtil {
     }
 
     /**
-     * 以流的方式读取一个云端properties文件的key对应的value 并打印
+     * 以流的方式读取一个云端properties文件的key对应的value
      *
      * @param fileName 文件的url
      */
@@ -493,8 +599,6 @@ public class AliOSSUtil {
         // ossObject包含文件所在的存储空间名称、文件名称、文件元信息以及一个输入流。
         OSSObject ossObject = ossClient.getObject(OssBucketName.getValue(), objectName);
 
-        // 读取文件内容。
-        System.out.println("Object content:");
 
         //获取一个Properties对象
         Properties properties = new Properties();
