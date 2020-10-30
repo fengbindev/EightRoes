@@ -89,6 +89,7 @@
                 <module>plugin-platform</module>
                 <module>plugin-elasticsearch</module>
                 <module>plugin-words</module>
+                <module>plugin-filestorage</module>
             </modules>
         </profile>
         <profile>

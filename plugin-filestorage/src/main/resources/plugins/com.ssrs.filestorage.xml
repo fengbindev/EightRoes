@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.filestorage.FilestoragePlugin</id>
+    <class>com.ssrs.filestorage.FilestoragePlugin</class>
+    <name>plugin-filestorage</name>
+    <author>ssrs</author>
+    <provider>ssrs</provider>
+    <version>1.0</version>
+    <description>plugin-filestorage</description>
+
+</plugin>

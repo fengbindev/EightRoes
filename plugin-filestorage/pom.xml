@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>plugin-base</artifactId>
+        <groupId>top.ssrsdev</groupId>
+        <version>1.0.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>plugin-filestorage</artifactId>
+    <packaging>pom</packaging>
+    <name>plugin-filestorage</name>
+    <modules>
+        <module>plugin-aliyun-oss</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>top.ssrsdev</groupId>
+            <artifactId>plugin-platform</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

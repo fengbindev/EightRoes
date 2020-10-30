@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.aliyunoss.AliyunOssPlugin</id>
+    <class>om.ssrs.aliyunoss.AliyunOssPlugin</class>
+    <name>plugin-aliyun-oss</name>
+    <author>ssrs</author>
+    <provider>ssrs</provider>
+    <version>1.0</version>
+    <description>plugin-aliyun-oss</description>
+
+    <requireds>
+        <required>
+            <plugin>com.ssrs.platform.PlatformPlugin</plugin>
+            <version>1.0.5</version>
+        </required>
+    </requireds>
+
+    <extend-item>
+        <id>com.ssrs.aliyunoss.config.OssAccessKeyId</id>
+        <class>com.ssrs.aliyunoss.config.OssAccessKeyId</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>阿里云OSS AccessKey</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.aliyunoss.config.OssAccessKeySecret</id>
+        <class>com.ssrs.aliyunoss.config.OssAccessKeySecret</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>阿里云OSS AccessKeySecret</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.aliyunoss.config.OssBucketName</id>
+        <class>com.ssrs.aliyunoss.config.OssBucketName</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>阿里云OSS BucketName</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.aliyunoss.config.OssEndpoint</id>
+        <class>com.ssrs.aliyunoss.config.OssEndpoint</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>阿里云OSS Endpoint</description>
+    </extend-item>
+
+</plugin>
