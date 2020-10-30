@@ -382,7 +382,7 @@ public class AliyunOSSUtil {
      * 上传文件流
      *
      * @param oranFileName 上传到服务器上的文件路径和名称
-     * @param file         来自本地的文件或者文件流
+     * @param file         上传文件或者文件流
      */
     public static String uploadFileInputSteam(String oranFileName, MultipartFile file) {
 
