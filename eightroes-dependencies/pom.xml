@@ -30,6 +30,17 @@
                 <artifactId>plugin-elasticsearch</artifactId>
                 <version>1.0.5</version>
             </dependency>
+            <dependency>
+                <groupId>top.ssrsdev</groupId>
+                <artifactId>plugin-filestorage</artifactId>
+                <version>1.0.5</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>top.ssrsdev</groupId>
+                <artifactId>plugin-aliyun-oss</artifactId>
+                <version>1.0.5</version>
+            </dependency>
             <!-- third party -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
