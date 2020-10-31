@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
     <id>com.ssrs.aliyunoss.AliyunOssPlugin</id>
-    <class>om.ssrs.aliyunoss.AliyunOssPlugin</class>
-    <name>plugin-aliyun-oss</name>
+    <class>com.ssrs.aliyunoss.AliyunOssPlugin</class>
+    <name>阿里云OSS</name>
     <author>ssrs</author>
     <provider>ssrs</provider>
     <version>1.0</version>

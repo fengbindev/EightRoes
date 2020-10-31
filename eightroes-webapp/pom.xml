@@ -37,6 +37,11 @@
             <artifactId>plugin-elasticsearch</artifactId>
         </dependency>
         <dependency>
+            <groupId>top.ssrsdev</groupId>
+            <artifactId>plugin-filestorage</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
