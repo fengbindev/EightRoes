@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.qiniuyun.QiniuyunPlugin</id>
+    <class>com.ssrs.qiniuyun.QiniuyunPlugin</class>
+    <name>七牛云存储</name>
+    <author>ssrs</author>
+    <provider>ssrs</provider>
+    <version>1.0</version>
+    <description>plugin-qiniuyun</description>
+
+    <requireds>
+        <required>
+            <plugin>com.ssrs.platform.PlatformPlugin</plugin>
+            <version>1.0.5</version>
+        </required>
+    </requireds>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuAccessKey</id>
+        <class>com.ssrs.qiniuyun.config.QiniuAccessKey</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云 AccessKey</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuSecretKey</id>
+        <class>com.ssrs.qiniuyun.config.QiniuSecretKey</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云 SecretKey</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuRegion</id>
+        <class>com.ssrs.qiniuyun.config.QiniuRegion</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云区域</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuPublicBucket</id>
+        <class>com.ssrs.qiniuyun.config.QiniuPublicBucket</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云公有Bucket</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuPrivateBucket</id>
+        <class>com.ssrs.qiniuyun.config.QiniuPrivateBucket</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云私有Bucket</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuPublicURL</id>
+        <class>com.ssrs.qiniuyun.config.QiniuPublicURL</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云公有访问地址</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuPriviteURL</id>
+        <class>com.ssrs.qiniuyun.config.QiniuPriviteURL</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛云私有访问地址</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.qiniuyun.config.QiniuCallbackURL</id>
+        <class>com.ssrs.qiniuyun.config.QiniuCallbackURL</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>七牛回调地址</description>
+    </extend-item>
+
+</plugin>
