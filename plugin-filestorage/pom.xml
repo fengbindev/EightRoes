@@ -30,12 +30,10 @@
         <dependency>
             <groupId>top.ssrsdev</groupId>
             <artifactId>plugin-aliyun-oss</artifactId>
-            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>top.ssrsdev</groupId>
             <artifactId>plugin-qiniuyun</artifactId>
-            <version>1.0.5</version>
         </dependency>
     </dependencies>
 
