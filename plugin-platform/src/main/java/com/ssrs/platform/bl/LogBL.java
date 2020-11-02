@@ -94,6 +94,9 @@ public class LogBL {
             requestData.put("password", "******");
             requestData.remove("confirmPassword");
         }
+        if (requestData.containsKey("confirmPassword")) {
+            requestData.put("confirmPassword", "******");
+        }
         String requestBody = JSONUtil.toJsonStr(requestData);
         operateLog.setDetailMessage(requestBody == null ? null : (requestBody.length() > 4000 ? requestBody.substring(0, 4000) : requestBody));
         String url = Current.getRequest().getURL();
