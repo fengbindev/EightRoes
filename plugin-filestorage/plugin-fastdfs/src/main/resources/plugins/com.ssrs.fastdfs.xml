@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <id>com.ssrs.fastdfs.FastdfsPlugin</id>
+    <class>com.ssrs.fastdfs.FastdfsPlugin</class>
+    <name>fastdfs插件</name>
+    <author>ssrs</author>
+    <provider>ssrs</provider>
+    <version>1.0</version>
+    <description>plugin-fastdfs</description>
+
+    <requireds>
+        <required>
+            <plugin>com.ssrs.platform.PlatformPlugin</plugin>
+            <version>1.0.5</version>
+        </required>
+    </requireds>
+
+    <extend-item>
+        <id>com.ssrs.fastdfs.config.FdfsClientConf</id>
+        <class>com.ssrs.fastdfs.config.FdfsClientConf</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>FastDFS配置文件路径</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.fastdfs.config.FdfsUrlConf</id>
+        <class>com.ssrs.fastdfs.config.FdfsUrlConf</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>FastDFS文件访问路径</description>
+    </extend-item>
+
+    <extend-item>
+        <id>com.ssrs.fastdfs.config.FdfsGroupNameConf</id>
+        <class>com.ssrs.fastdfs.config.FdfsGroupNameConf</class>
+        <extend-service>com.ssrs.platform.extend.ConfigService</extend-service>
+        <description>FastDFS默认组名</description>
+    </extend-item>
+
+</plugin>

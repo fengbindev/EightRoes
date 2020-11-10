@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <artifactId>plugin-base</artifactId>
         <groupId>top.ssrsdev</groupId>
         <version>1.0.5</version>
-        <relativePath>../plugin-base</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>plugin-filestorage</artifactId>
-    <packaging>pom</packaging>
-    <name>plugin-filestorage</name>
-    <modules>
-        <module>plugin-aliyun-oss</module>
-        <module>plugin-qiniuyun</module>
-        <module>plugin-fastdfs</module>
-    </modules>
+    <artifactId>plugin-fastdfs</artifactId>
+    <name>plugin-fastdfs</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,17 +22,11 @@
             <groupId>top.ssrsdev</groupId>
             <artifactId>plugin-platform</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.csource/fastdfs-client-java -->
         <dependency>
-            <groupId>top.ssrsdev</groupId>
-            <artifactId>plugin-aliyun-oss</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.ssrsdev</groupId>
-            <artifactId>plugin-qiniuyun</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>top.ssrsdev</groupId>
-            <artifactId>plugin-fastdfs</artifactId>
+            <groupId>in.clouthink.repack</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <version>1.29.4</version>
         </dependency>
     </dependencies>
 
